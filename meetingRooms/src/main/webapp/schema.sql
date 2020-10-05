@@ -1,5 +1,20 @@
 connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=admin'; 
 
+// log table
+
+DROP TABLE LOG
+CREATE TABLE LOG (
+
+	user_id varchar (50),
+	
+	last_login_time timestamp,
+	
+	user_file_path varchar (500) default null,
+	
+	foreign key (user_id) references USERS (user_id)
+);
+
+
 // user table
 
 DROP TABLE USERS;
@@ -54,7 +69,13 @@ CREATE TABLE MEETING_ROOM (
 	
 	seating_capacity int default 0,
 	
-	per_hour_cost int default 0
+	per_hour_cost int default 0,
+	
+	total_meetings_conducted int default 0,
+	
+	created_by varchar (50),
+	
+	foreign key (created_by) references USERS (user_id)
 );
 
 
