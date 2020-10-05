@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
+import com.meetingRooms.entity.User;
 
 /**
  * Interface for service layer for Organize Meeting feature
@@ -17,4 +18,5 @@ import com.meetingRooms.entity.MeetingRoom;
 public interface OrganizeMeetingServiceInterface {
 
 	public ArrayList<MeetingRoom> filterRoomsService (Meeting meeting);
+	public ArrayList<User> searchUserService (User user);
 }

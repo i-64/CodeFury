@@ -53,7 +53,7 @@ public class ConnectionManager {
 	/**
 	 * @throws SQLException
 	 */
-	public static void close () throws SQLException {
+	public static void close () {
 		
 		try {
 			con.close();
@@ -61,7 +61,8 @@ public class ConnectionManager {
 		catch (SQLException e) {
 			
 			// TODO log error to error.log
-			throw e;
+			e.printStackTrace();
+			// throw e;
 		}
 	}
 }

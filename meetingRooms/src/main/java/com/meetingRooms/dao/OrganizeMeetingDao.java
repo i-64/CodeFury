@@ -5,13 +5,15 @@ package com.meetingRooms.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
+import com.meetingRooms.entity.User;
 import com.meetingRooms.utility.ConnectionManager;
-import com.meetingRooms.utility.OrganizeMeetingDaoFactory;
 
 /**
  * Data Access layer for Organize Meeting feature
@@ -42,11 +44,58 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 		}
 		catch (SQLException | ClassNotFoundException e) {
+			
 			// TODO log exception to error.log
 			e.printStackTrace();
 		}
+		finally {
+			ConnectionManager.close();
+		}
 		
 		return meetingRoomsList;
+	}
+
+	/**
+	 * search users with the role-member by name in the database
+	 * 
+	 * @param the user object containing search criteria
+	 * @return list of users based on the criteria
+	 */
+	@Override
+	public ArrayList<User> searchUserDao(User user) {
+		
+		ArrayList<User> users = new ArrayList<>();
+		Connection con = null;
+		try {
+			con = ConnectionManager.getConnection();
+
+			PreparedStatement statement = con.prepareStatement("select * from USERS where role=?");
+			statement.setString(1, "member");
+			ResultSet rs = statement.executeQuery();
+			
+			while (rs.next()) {
+				
+				if (rs.getString(3).contains(user.getName())) {
+					
+					User currUser = new User();
+					currUser.setUserId(rs.getString(1));
+					currUser.setName(rs.getString(3));
+					users.add(currUser);
+				}
+			}
+			
+			return users;
+		}
+		catch (SQLException | ClassNotFoundException e) {
+			
+			// TODO log exception to error.log
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close();
+		}
+		
+		return null;
 	}
 	
 }
