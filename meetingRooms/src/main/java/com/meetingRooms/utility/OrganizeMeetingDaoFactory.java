@@ -18,7 +18,7 @@ public class OrganizeMeetingDaoFactory {
 	
 	public static OrganizeMeetingDaoInterface createObject () {
 		
-		return (new OrganizeMeetingDao());
+		return (OrganizeMeetingDaoInterface) (new OrganizeMeetingDao());
 	}
 
 }
