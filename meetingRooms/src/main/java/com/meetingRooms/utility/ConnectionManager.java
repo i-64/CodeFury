@@ -31,7 +31,7 @@ public class ConnectionManager {
 	 * @return Connection
 	 * @throws Exception
 	 */
-	public static Connection getConnection () throws Exception {
+	public static Connection getConnection () throws SQLException, ClassNotFoundException {
 		
 		try {
 			
