@@ -41,8 +41,8 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 			// start build query
 			// exclude overlapping meeting rooms
-			String queryString = "(select unique_name from meeting_room except (select meeting_room_id from meeting where (((start_time>=? and end_time<=?) or (start_time<=? and end_time>=?) or (start_time>=? and endtime_<=?)) and meeting_date=?))) INTERSECT ";
-			
+		//	String queryString = "(select unique_name from meeting_room except (select meeting_room_id from meeting where (((start_time>=? and end_time<=?) or (start_time<=? and end_time>=?) or (start_time>=? and end_time<=?)) and meeting_date=?))) INTERSECT ";
+			String queryString = " (  select unique_name from meeting_room except (select meeting_room_id from meeting where (   ((start_time<=? and end_time>=?) or (start_time<=? and start_time>=?)) and meeting_date=?)) ) INTERSECT ";
 			
 			// fetch mandatory amenities for this meeting type
 			String str = "select mandatory_amenities from meeting_types where id=?";
@@ -66,14 +66,28 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				
 				// complete the query
 				String finalQuery = "select * from meeting_room where unique_name in (" + queryString + ")";
+				
+				
 				PreparedStatement ps = con.prepareStatement(finalQuery);
-				ps.setString(1, meeting.getEndTime());
-				ps.setString(2, meeting.getEndTime());
-				ps.setString(3, meeting.getStartTime());
+				
+//System.out.println(meeting.getStartTime()+ "  " + meeting.getEndTime() + "  " + meeting.getMeetingDate()  );
+				ps.setString(1, meeting.getStartTime());
+				ps.setString(2, meeting.getStartTime());
+				ps.setString(3, meeting.getEndTime());
 				ps.setString(4, meeting.getStartTime());
-				ps.setString(5, meeting.getStartTime());
-				ps.setString(6, meeting.getEndTime());
-				ps.setString(7, meeting.getMeetingDate());
+				ps.setString(5, meeting.getMeetingDate());
+				
+				
+//				ps.setString(1, meeting.getEndTime());
+//				ps.setString(2, meeting.getEndTime());
+//				ps.setString(3, meeting.getStartTime());
+//				ps.setString(4, meeting.getStartTime());
+//				ps.setString(5, meeting.getStartTime());
+//				ps.setString(6, meeting.getEndTime());
+//				ps.setString(7, meeting.getMeetingDate());
+				
+				
+//				System.out.println(finalQuery + "            " + ps.toString());
 				ResultSet availableRooms = ps.executeQuery();
 				
 				while (availableRooms.next()) {

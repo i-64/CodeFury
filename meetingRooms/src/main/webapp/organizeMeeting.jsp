@@ -16,7 +16,7 @@
         function filterRooms() {
             
             var startTime = document.getElementById("startTime").value;
-            var duration = document.getElementById("duration").value;
+            var endTime = document.getElementById("endTime").value;
             var meetingType = document.getElementById("meetingType").value;
             var meetingDate = document.getElementById("meetingDate").value;
 
@@ -26,7 +26,7 @@
         	x.open(	"GET",
                 	"filterMeetingRooms.jsp"+
                 	"?startTime=" + startTime  + 
-                	"&duration=" + duration + 
+                	"&endTime=" + endTime + 
                 	"&meetingType=" + meetingType + 
                 	"&meetingDate=" + meetingDate
                 	,true
@@ -41,6 +41,7 @@
         	x.onreadystatechange=function(){
         		if(x.readyState==4){
         			var vv=x.responseText;	
+        			console.log(vv);
         		}
         	}
 
@@ -82,7 +83,7 @@
 
             <div class='flex-item'>
                 <div class='title'> Select end time </div>
-                <input class='content' type="time" id='duration'>
+                <input class='content' type="time" id='endTime'>
             </div>
         </div>
         <button onclick="filterRooms()" id='filterbtn'>Filter Rooms</button>
