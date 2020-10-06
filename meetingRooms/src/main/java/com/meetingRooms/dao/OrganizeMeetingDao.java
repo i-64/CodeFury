@@ -39,49 +39,59 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		try {
 			con = ConnectionManager.getConnection();
 			
-			String queryString = "select unique_name from meeting_room except (select meeting_room_id from meeting where (((start_time>=? and end_time<=?) or (start_time<=? and end_time>=?) or (start_time>=? and endtime_<=?)) and meeting_date=?)) INTERSECT ";
-
-			PreparedStatement ps = con.prepareStatement(queryString);
-			ResultSet busy = ps.executeQuery();
+			// start build query
+			// exclude overlapping meeting rooms
+			String queryString = "(select unique_name from meeting_room except (select meeting_room_id from meeting where (((start_time>=? and end_time<=?) or (start_time<=? and end_time>=?) or (start_time>=? and endtime_<=?)) and meeting_date=?))) INTERSECT ";
 			
-			// ========================================
 			
+			// fetch mandatory amenities for this meeting type
 			String str = "select mandatory_amenities from meeting_types where id=?";
 			PreparedStatement ps1 = con.prepareStatement(str);
 			ps1.setInt(1, meetingType.getMeetingTypeId());
-			
 			ResultSet rs = ps1.executeQuery();
+			
 			
 			if (rs.next()) {
 				
-				
-				
-				String[] test = rs.getString(1).split(",");
-				for (int i = 0; i < test.length; i++) {
+				// intersect rooms with rooms containing the amenity required
+				String[] amenity_ids = rs.getString(1).split(",");
+				for (int i = 0; i < amenity_ids.length; i++) {
 					
-					if (i < test.length - 1)
-						queryString = queryString + "select meeting_room_id from ROOM_AMENITIES where amenity_id=" + test[i] + " INTERSECT ";
+					if (i < amenity_ids.length - 1)
+						queryString = queryString + "select meeting_room_id from ROOM_AMENITIES where amenity_id=" + amenity_ids[i] + " INTERSECT ";
 					else
-						queryString = queryString + "select meeting_room_id from ROOM_AMENITIES where amenity_id=" + test[i];
+						queryString = queryString + "select meeting_room_id from ROOM_AMENITIES where amenity_id=" + amenity_ids[i];
 				}
+				
+				
+				// complete the query
+				String finalQuery = "select * from meeting_room where unique_name in (" + queryString + ")";
+				PreparedStatement ps = con.prepareStatement(finalQuery);
+				ps.setString(1, meeting.getEndTime());
+				ps.setString(2, meeting.getEndTime());
+				ps.setString(3, meeting.getStartTime());
+				ps.setString(4, meeting.getStartTime());
+				ps.setString(5, meeting.getStartTime());
+				ps.setString(6, meeting.getEndTime());
+				ps.setString(7, meeting.getMeetingDate());
+				ResultSet availableRooms = ps.executeQuery();
+				
+				while (availableRooms.next()) {
+					
+					MeetingRoom room = new MeetingRoom();
+					room.setRoomName(availableRooms.getString(1));
+					room.setCostPerHour(availableRooms.getInt(3));
+					room.setSeatingCapacity(availableRooms.getInt(2));
+					meetingRoomsList.add(room);
+				}
+				
+				return meetingRoomsList;
 			}
 			else {
 				// TODO handle this case
+				// TODO throw
+				System.out.println("Invalid Meeting Type");
 			}
-			
-			String finalQuery = "select * from meeting_room INNER JOIN " + queryString;
-			
-			// ========================================
-			
-			ArrayList<String> availableRooms = new ArrayList<>();
-			
-			while (busy.next()) {
-				
-				availableRooms.add(busy.getString(1));
-			}
-			
-			// TODO query
-			// TODO resultset -> arraylist
 			
 		}
 		catch (SQLException | ClassNotFoundException e) {
@@ -138,6 +148,37 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		}
 		
 		return null;
+	}
+
+
+	/**
+	 * save meeting to the database confirming the meeting booking
+	 * 
+	 * @param meeting details to save
+	 * @param members to invite to meeting
+	 * @return if meeting saved or not
+	 */
+	@Override
+	public boolean saveMeetingDao(Meeting meeting, ArrayList<User> members) {
+		
+		Connection con = null;
+		try {
+			con = ConnectionManager.getConnection();
+
+			
+			PreparedStatement statement = con.prepareStatement("insert into MEETING ");
+			statement.setString(1, "member");
+			return (statement.executeUpdate() == 1);
+		}
+		catch (SQLException | ClassNotFoundException e) {
+			
+			// TODO log exception to error.log
+			e.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close();
+		}
+		return false;
 	}
 	
 }
