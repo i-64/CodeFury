@@ -20,4 +20,5 @@ public interface OrganizeMeetingServiceInterface {
 
 	public ArrayList<MeetingRoom> filterRoomsService (Meeting meeting, MeetingType meetinType);
 	public ArrayList<User> searchUserService (User user);
+	public boolean saveMeetingService (Meeting meeting, ArrayList<User> members);
 }

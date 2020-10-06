@@ -12,10 +12,26 @@ package com.meetingRooms.entity;
  */
 public class Meeting {
 
-	private int id, duration;
+	
+	private int id, duration, meetingTypeId;
 	private String title, organizedBy, meetingType, meetingRoomId;
 	private String meetingDate, startTime, endTime;
 	
+
+	/**
+	 * @return the meetingTypeId
+	 */
+	public int getMeetingTypeId() {
+		return meetingTypeId;
+	}
+
+	/**
+	 * @param meetingTypeId the meetingTypeId to set
+	 */
+	public void setMeetingTypeId(int meetingTypeId) {
+		this.meetingTypeId = meetingTypeId;
+	}
+
 	/**
 	 * @return the id
 	 */

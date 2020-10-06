@@ -39,9 +39,10 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		try {
 			con = ConnectionManager.getConnection();
 			
-			// start build query
-			// exclude overlapping meeting rooms
-		//	String queryString = "(select unique_name from meeting_room except (select meeting_room_id from meeting where (((start_time>=? and end_time<=?) or (start_time<=? and end_time>=?) or (start_time>=? and end_time<=?)) and meeting_date=?))) INTERSECT ";
+			/*
+			 *  start build query
+			 *  exclude overlapping meeting rooms
+			 */
 			String queryString = " (  select unique_name from meeting_room except (select meeting_room_id from meeting where (   ((start_time<=? and end_time>=?) or (start_time<=? and start_time>=?)) and meeting_date=?)) ) INTERSECT ";
 			
 			// fetch mandatory amenities for this meeting type
@@ -69,8 +70,6 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				
 				
 				PreparedStatement ps = con.prepareStatement(finalQuery);
-				
-//System.out.println(meeting.getStartTime()+ "  " + meeting.getEndTime() + "  " + meeting.getMeetingDate()  );
 				ps.setString(1, meeting.getStartTime());
 				ps.setString(2, meeting.getStartTime());
 				ps.setString(3, meeting.getEndTime());
@@ -78,16 +77,6 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				ps.setString(5, meeting.getMeetingDate());
 				
 				
-//				ps.setString(1, meeting.getEndTime());
-//				ps.setString(2, meeting.getEndTime());
-//				ps.setString(3, meeting.getStartTime());
-//				ps.setString(4, meeting.getStartTime());
-//				ps.setString(5, meeting.getStartTime());
-//				ps.setString(6, meeting.getEndTime());
-//				ps.setString(7, meeting.getMeetingDate());
-				
-				
-//				System.out.println(finalQuery + "            " + ps.toString());
 				ResultSet availableRooms = ps.executeQuery();
 				
 				while (availableRooms.next()) {
@@ -169,7 +158,7 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 	 * save meeting to the database confirming the meeting booking
 	 * 
 	 * @param meeting details to save
-	 * @param members to invite to meeting
+	 * @param list of members to invite to meeting
 	 * @return if meeting saved or not
 	 */
 	@Override
@@ -177,12 +166,43 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		
 		Connection con = null;
 		try {
+			
 			con = ConnectionManager.getConnection();
 
+			PreparedStatement statement = con.prepareStatement("insert into MEETING (title, organized_by, meeting_date, start_time, end_time, meeting_room_id, meeting_type_id) values (?,?,?,?,?,?,?)");
+			statement.setString(1, meeting.getTitle());
+			statement.setString(2, meeting.getOrganizedBy());
+			statement.setString(3, meeting.getMeetingDate());
+			statement.setString(4, meeting.getStartTime());
+			statement.setString(5, meeting.getEndTime());
+			statement.setString(6, meeting.getMeetingRoomId());
+			statement.setInt(7, meeting.getMeetingTypeId());
 			
-			PreparedStatement statement = con.prepareStatement("insert into MEETING ");
-			statement.setString(1, "member");
-			return (statement.executeUpdate() == 1);
+			if (statement.executeUpdate() == 1) {
+				
+				PreparedStatement ps = con.prepareStatement("select MAX (id) from MEETING");
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()) {
+					
+					int meetingId = rs.getInt(1);
+					
+					for (User user: members) {
+						
+						PreparedStatement psAttendees = con.prepareStatement("insert into ATTENDEES values (?, ?)");
+						ps.setInt(1, meetingId);
+						ps.setString(2, user.getUserId());
+						ps.execute();
+					}
+					
+					return true;
+				}
+				else {
+					// TODO throw
+				}
+			}
+			else {
+				// TODO throw and log
+			}
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			
