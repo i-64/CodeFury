@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Create Room</title>
+<script>
+
+	function validateForm()             ///Fuction to validate meeting Room and seating Capacity field
+	{
+		var roomname = document.forms["myForm"]["mname"].value;
+		var capacity = document.forms["myForm"]["scapacity"].value;
+		if (roomname == "" || roomname == null) {
+			alert("Meeting Room Name must be filled out");
+			return false;
+		}
+
+		if (capacity == "" || capacity == null) {
+			alert("Seating Capacity must be filled out");
+			return false;
+		}
+       
+		//Check if Atleast 2 CheckBoxes are selected 
+		var checkboxs = document.getElementsByClassName("cb");
+		var okay = false;
+		var count = 0;
+		for (var i = 0, l = checkboxs.length; i < l; i++) {
+			if (checkboxs[i].checked) {
+
+				count++;
+			}
+		}
+
+		if (count > 1) {
+			okay = true;
+		}
+
+		if (!okay) {
+
+			alert("Please add atleast two ammenties in your room");
+			return false;
+		}
+
+	}
+</script>
+</head>
+<body>
+
+<form name="myForm" action="AdminCreateRoom.jsp" method="get" onsubmit="return validateForm()">
+  <label >Meeting Name : </label><br>
+  	<input type="text" id="mname" name=mname value="meetingroom1" required pattern="^[a-zA-Z][a-zA-Z0-9]{1,20}$" title="Name should be combination of alphabets and numbers"><br>
+  <label >Seating Capacity : </label><br>
+  	<input type="text" id="scapacity" name=scapacity value="5" required pattern="[0-9]{1,3}" title="Numeric Data only"><br><br>
+  
+  <input type="checkbox" id="projector" name=projector value="Projector" class="cb">
+  	<label for="projector">Projector</label><br>
+  
+  <input type="checkbox" id="WiFiConnection" name=WiFiConnection value="WiFi Connection" class="cb">
+  	<label for="WiFiConnection">WiFi Connection</label><br>
+  
+  <input type="checkbox" id="Conferencecallfacility" name=Conferencecallfacility value="Conference Call Facility" class="cb">
+  	<label for="Conferencecallfacility">Conference call facility</label><br>
+  
+  <input type="checkbox" id="Whiteboard" name=Whiteboard value="White Board" class="cb">
+  	<label for="Whiteboard">White board</label><br>
+  
+  <input type="checkbox" id="Waterdispenser" name=Waterdispenser value="Water Dispenser" class="cb">
+  	<label for="Waterdispenser">Water dispenser</label><br>
+  
+  <input type="checkbox" id="TV" name=TV value="TV" class="cb">
+  	<label for="TV">TV</label><br>
+  
+  <input type="checkbox" id="Coffeemachine" name=Coffeemachine value="Coffee Machine" class="cb">
+  	<label for="Coffeemachine">Coffee machine</label><br>
+
+  <input type="submit" value="Save">
+  <input class="button" type="button" onclick="window.location.replace('http://localhost:8080/meetingRooms/AdminHomePage.jsp')" value="Cancel" />
+  
+</form> 
+</body>
+</html>

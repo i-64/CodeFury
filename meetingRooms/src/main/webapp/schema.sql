@@ -2,7 +2,7 @@ connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=a
 
 // log table
 
-DROP TABLE LOG
+DROP TABLE LOG;
 CREATE TABLE LOG (
 
 	user_id varchar (50),
