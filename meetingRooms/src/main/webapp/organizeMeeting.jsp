@@ -62,10 +62,10 @@
         <div class='item-container'>
             <div class='title'> Select meeting type</div>
             <select class='content width100' id='meetingType'>
-                <option> Classroom Training</option>
-                <option>Online Training</option>
-                <option>Conference call</option>
-                <option>Business</option>
+                <option value='1000'> Classroom Training</option>
+                <option value='1001'>Online Training</option>
+                <option value='1002'>Conference call</option>
+                <option value='1003'>Business</option>
             </select>
         </div>
 
@@ -76,13 +76,13 @@
 
         <div class='flex-row item-container'>
             <div class='flex-item'>
-                <div class='title'> Select booking time</div>
+                <div class='title'> Select start time</div>
                 <input class='content' type="time" id='startTime'>
             </div>
 
             <div class='flex-item'>
-                <div class='title'> Duration ( in mins ) </div>
-                <input class='content' type="number" id='duration'>
+                <div class='title'> Select end time </div>
+                <input class='content' type="time" id='duration'>
             </div>
         </div>
         <button onclick="filterRooms()" id='filterbtn'>Filter Rooms</button>
