@@ -5,7 +5,31 @@
 <%@ page isELIgnored="false" %>
     
 <!DOCTYPE html>
+<%
+		// check for existing session
 
+	if ( session.getAttribute ( "role" ) == null ) {
+		
+		request.getRequestDispatcher("login.jsp").forward ( request, response );	
+	
+	} else { // session exists
+		
+		if ( session.getAttribute ( "role" ).toString().equals ( "member" ) ) {
+			
+			//Do nothing
+			
+		} else if ( session.getAttribute ( "role" ).toString().equals ( "admin" ) ) {
+			
+			request.getRequestDispatcher("AdminHomePage.jsp").forward ( request, response );
+			
+		} else {
+			
+			request.getRequestDispatcher("ManagerHomePage.jsp").forward ( request, response );
+		}
+	}
+
+%>
+    
 <html>
 
 <head>
@@ -26,7 +50,7 @@
 	<script src="javaScript/bootstrap_v4.5.2.js"></script>
 	<script src="javaScript/jQuery_v3.5.1.js"></script>
 	
-	<title> Login </title>
+	<title> Member Home Page  </title>
 
 </head>
 
@@ -42,27 +66,31 @@
 	    	
 	    	<div class="navbar-header">
 	    	
-	      		<a class="navbar-brand" href="index.jsp"> <img src="images/logo/hsbc-logo-dark_navbar.png"  style=" height:20px; width:110px;"/> </a>
+	      		<a class="navbar-brand" href="member.jsp"> <img src="images/logo/hsbc-logo-dark_navbar.png"  style=" height:20px; width:110px;"/> </a>
 	      		
 	    	</div>
 	    	
 	    	<ul class="nav navbar-nav">
 	      	
-	      		<li> <a href="index.jsp"> Home </a> </li>
+	      		<li class="active"> <a href="member.jsp"> Home </a> </li>
 	      	
-	      		<li> <a href="#"> Import Users </a> </li>
 	      		
-	      		<li class="active"> <a href="login.jsp"> Login </a> </li>	      		
+	      		<li > <a href="Logout"> Logout </a> </li>	      		
 	      		
 	    	</ul>
 	    	
 	  	</div>
 
 	</nav>
-
+</div>
 <!-- NAVBAR -->
 
-<%@page import="java.util.*,com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory"%>
+<div class="row"> <br> <br> <br> </div>
+
+${member_message}
+
+
+<%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory"%>
 <%
 /**
  * 
@@ -76,12 +104,70 @@ String str_userId=request.getParameter("user_id"); // get user id from session
  loginServiceInterface lsi = loginUserServiceFactory.createObject();  //factory to creste object
  loginUserEntity user= new loginUserEntity();
  user.setUser_id(str_userId); //user details set in object
-List<Meeting> meetingList = lsi.loadMeeting(user); //loads meeting details, returns list to be displayed
+ 
+ //memberschedule retrieved from controller-service-dao
+ MemberScheduleControllerInterface memberSchedule= new MemberScheduleController();
+ List<Meeting> meetingList = memberSchedule.loadMeeting(user); 
+ Meeting obj =new Meeting();
+ 
 
 
 %>
+<div class="container">
+
+  <h2> Your Meeting Schedule </h2>
+          
+  <table class="table table-striped table-hover">
+  
+    <thead>
+    
+      <tr>
+      
+        <th> Meeting Room Id</th>
+        <th> Title </th>
+        <th> Meeting Date </th>
+        <th> Start Time </th>
+        <th> Duration </th>
+        <th> Organized By </th>
+        <th> Meeting Type </th>
+        
+      </tr>
+      
+    </thead>
+    
+    <tbody>
+    
+<%		
+		for(Meeting meetingObject:meetingList) { //each obj out of list
+
+%>
+			<tr>
+			
+			   <td> <%=meetingObject.getId()%> </td>
+			   <td> <%= meetingObject.getTitle()%> </td>
+			   
+			   <td> <%=meetingObject.getMeetingDate()%> </td>
+			   <td> <%= meetingObject.getStartTime()%> </td>
+			   <td> <%= meetingObject.getDuration()%> </td>
+			   
+			   <td> <%= meetingObject.getOrganizedBy()%> </td>
+
+			   <td> <%= meetingObject.getMeetingType()%> </td>
+			  
+			 
+			</tr>
+			
 
 
+<%		
+		}
+
+%>      
+    </tbody>
+    
+  </table>
+  
+</div>
 
 
 <!-- Footer -->
@@ -96,7 +182,7 @@ List<Meeting> meetingList = lsi.loadMeeting(user); //loads meeting details, retu
             
             <div class="col-sm-3">
             
-                <h2 class="logo"> <a href="index.jsp"> <img src="images/logo/hsbc-logo-dark_2.png" style=" height:70px; width:150px;"  align="left"/> </a> </h2>
+                <h2 class="logo"> <a href="member.jsp"> <img src="images/logo/hsbc-logo-dark_2.png" style=" height:70px; width:150px;"  align="left"/> </a> </h2>
                 
             </div>
             
@@ -106,8 +192,8 @@ List<Meeting> meetingList = lsi.loadMeeting(user); //loads meeting details, retu
                 
                 <ul>
                 
-                    <li> <a href="index.jsp"> Home </a> </li>
-                    <li> <a href="login.jsp"> Login </a> </li>
+                    <li> <a href="member.jsp"> Home </a> </li>
+                    <li> <a href="Logout"> Logout </a> </li>
                     
                 </ul>
                 
@@ -119,9 +205,9 @@ List<Meeting> meetingList = lsi.loadMeeting(user); //loads meeting details, retu
                 
                 <ul>
                 
-                    <li> <a href="#"> Information </a> </li>
+                    <li> <a href="about_us.jsp"> Information </a> </li>
                     
-                    <li> <a href="#"> Give Feedback </a> </li>
+                    <li> <a href="feedback.jsp"> Give Feedback </a> </li>
                     
                 </ul>
                 
