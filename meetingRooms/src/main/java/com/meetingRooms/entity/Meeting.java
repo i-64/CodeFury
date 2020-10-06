@@ -3,7 +3,6 @@
  */
 package com.meetingRooms.entity;
 
-import java.util.Date;
 
 /**
  * POJO Class for creating objects for Meeting Event
@@ -14,8 +13,8 @@ import java.util.Date;
 public class Meeting {
 
 	private int id, duration;
-	private String title, organizedBy, meetingType;
-	private Date meetingDate, startTime;
+	private String title, organizedBy, meetingType, meetingRoomId;
+	private String meetingDate, startTime, endTime;
 	
 	/**
 	 * @return the id
@@ -90,28 +89,56 @@ public class Meeting {
 	/**
 	 * @return the meetingDate
 	 */
-	public Date getMeetingDate() {
+	public String getMeetingDate() {
 		return meetingDate;
 	}
 	
 	/**
 	 * @param meetingDate the meetingDate to set
 	 */
-	public void setMeetingDate(Date meetingDate) {
+	public void setMeetingDate(String meetingDate) {
 		this.meetingDate = meetingDate;
 	}
 	
 	/**
 	 * @return the startTime
 	 */
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 	
 	/**
 	 * @param startTime the startTime to set
 	 */
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
+	}
+
+	/**
+	 * @return the endTime
+	 */
+	public String getEndTime() {
+		return endTime;
+	}
+
+	/**
+	 * @param endTime the endTime to set
+	 */
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	/**
+	 * @return the meetingRoomId
+	 */
+	public String getMeetingRoomId() {
+		return meetingRoomId;
+	}
+
+	/**
+	 * @param meetingRoomId the meetingRoomId to set
+	 */
+	public void setMeetingRoomId(String meetingRoomId) {
+		this.meetingRoomId = meetingRoomId;
 	}
 }

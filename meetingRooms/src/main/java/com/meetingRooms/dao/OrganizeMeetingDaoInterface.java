@@ -20,4 +20,5 @@ public interface OrganizeMeetingDaoInterface {
 	
 	public ArrayList<MeetingRoom> filterMeetingRoomsDao (Meeting meeting, MeetingType meetingType);
 	public ArrayList<User> searchUserDao (User user);
+	public boolean saveMeetingDao (Meeting meeting, ArrayList<User> members);
 }

@@ -1,3 +1,4 @@
+<%@page import="com.meetingRooms.entity.MeetingType"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -12,34 +13,23 @@
 <%
 
 String startTime = request.getParameter("startTime");
-String meetingType = request.getParameter("meetingType");
-String meetingDate = request.getParameter("meetingDate");
-int duration = Integer.parseInt(request.getParameter("duration"));
+String endTime = request.getParameter("endTime");
+int meetingTypeId = Integer.parseInt(request.getParameter("meetingType"));
 
-
-
-System.out.println( startTime + "  "+  duration + "  " + meetingType+ "  " + meetingDate);
-
-DateFormat dateFormat = new SimpleDateFormat("hh:mm");
-Date d = dateFormat.parse(startTime);
-
-DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
-Date d1 = dateFormat1.parse(meetingDate);
-
-
-System.out.println(d + "      " + d1);
 
 Meeting meeting = new Meeting();
-meeting.setStartTime(d);
-meeting.setDuration(duration);
-meeting.setMeetingType(meetingType);
-meeting.setMeetingDate(d1);
+meeting.setStartTime(startTime);
+meeting.setEndTime(endTime);
+meeting.setMeetingDate(meetingDate);
+
+MeetingType meetingType = new MeetingType();
+meetingType.setMeetingTypeId(meetingTypeId);
 
 
 // get suitable meeting rooms according to the criteria
 
 OrganizeMeetingServiceInterface meetingService = OrganizeMeetingServiceFactory.createObject();
-ArrayList<MeetingRoom> meetingRoomsList = meetingService.filterRoomsService(meeting);
+ArrayList<MeetingRoom> meetingRoomsList = meetingService.filterRoomsService(meeting, meetingType);
 
 
 
