@@ -14,7 +14,7 @@ String meetingTitle = request.getParameter("meetingTitle");
 String startTime = request.getParameter("startTime");
 String endTime = request.getParameter("endTime");
 String meetingRoomId = request.getParameter("meetingRoomId");
-
+String organizedBy = session.getAttribute("user_id").toString();
 
 
 Meeting meeting = new Meeting();
@@ -24,7 +24,7 @@ meeting.setMeetingRoomId(meetingRoomId);
 meeting.setMeetingTypeId(meetingTypeId);
 meeting.setTitle(meetingTitle);
 meeting.setStartTime(startTime);
-meeting.setOrganizedBy("session"); // TODO
+meeting.setOrganizedBy(organizedBy);
 
 ArrayList<User> members = new ArrayList<>();
 String[] users = request.getParameter("members").split(",");
