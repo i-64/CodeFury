@@ -1,5 +1,6 @@
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.meetingRooms.service.OrganizeMeetingServiceInterface"%>
 <%@page import="com.meetingRooms.service.OrganizeMeetingService"%>
 <%@page import="com.meetingRooms.utility.OrganizeMeetingServiceFactory"%>
@@ -10,16 +11,29 @@
 
 <%
 
-String meetingDate = request.getParameter("meetingDate");
 String startTime = request.getParameter("startTime");
-int duration = Integer.parseInt(request.getParameter("duration"));
 String meetingType = request.getParameter("meetingType");
+String meetingDate = request.getParameter("meetingDate");
+int duration = Integer.parseInt(request.getParameter("duration"));
+
+
+
+System.out.println( startTime + "  "+  duration + "  " + meetingType+ "  " + meetingDate);
+
+DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+Date d = dateFormat.parse(startTime);
+
+DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+Date d1 = dateFormat1.parse(meetingDate);
+
+
+System.out.println(d + "      " + d1);
 
 Meeting meeting = new Meeting();
-meeting.setStartTime(DateFormat.getDateInstance().parse(startTime));
+meeting.setStartTime(d);
 meeting.setDuration(duration);
 meeting.setMeetingType(meetingType);
-meeting.setMeetingDate(DateFormat.getDateInstance().parse(meetingDate));
+meeting.setMeetingDate(d1);
 
 
 // get suitable meeting rooms according to the criteria
