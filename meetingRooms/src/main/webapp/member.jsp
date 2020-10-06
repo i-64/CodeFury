@@ -82,7 +82,7 @@
 	  	</div>
 
 	</nav>
-
+</div>
 <!-- NAVBAR -->
 
 <div class="row"> <br> <br> <br> </div>
@@ -90,7 +90,7 @@
 ${member_message}
 
 
-<%@page import="java.util.*,com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory"%>
+<%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory"%>
 <%
 /**
  * 
@@ -105,18 +105,10 @@ String str_userId=request.getParameter("user_id"); // get user id from session
  loginUserEntity user= new loginUserEntity();
  user.setUser_id(str_userId); //user details set in object
  
- 
-//MemberScheduleControllerInterface memberSchedule= new MemberScheduleController();
- List<Meeting> meetingList = new ArrayList<Meeting>() ;//memberSchedule.loadMeeting(user); 
+ //memberschedule retrieved from controller-service-dao
+ MemberScheduleControllerInterface memberSchedule= new MemberScheduleController();
+ List<Meeting> meetingList = memberSchedule.loadMeeting(user); 
  Meeting obj =new Meeting();
- 
- //adding random data to check
- obj.setId(1);
- obj.setTitle("Title");
- meetingList.add(obj);//loads meeting details, returns list to be displayed
- loginUserEntity user1= new loginUserEntity();
- 
- 
  
 
 
@@ -135,6 +127,9 @@ String str_userId=request.getParameter("user_id"); // get user id from session
         <th> Title </th>
         <th> Meeting Date </th>
         <th> Start Time </th>
+        <th> Duration </th>
+        <th> Organized By </th>
+        <th> Meeting Type </th>
         
       </tr>
       
@@ -150,8 +145,14 @@ String str_userId=request.getParameter("user_id"); // get user id from session
 			
 			   <td> <%=meetingObject.getId()%> </td>
 			   <td> <%= meetingObject.getTitle()%> </td>
+			   
 			   <td> <%=meetingObject.getMeetingDate()%> </td>
 			   <td> <%= meetingObject.getStartTime()%> </td>
+			   <td> <%= meetingObject.getDuration()%> </td>
+			   
+			   <td> <%= meetingObject.getOrganizedBy()%> </td>
+
+			   <td> <%= meetingObject.getMeetingType()%> </td>
 			  
 			 
 			</tr>
@@ -192,7 +193,7 @@ String str_userId=request.getParameter("user_id"); // get user id from session
                 <ul>
                 
                     <li> <a href="member.jsp"> Home </a> </li>
-                    <li> <a href="logout"> Logout </a> </li>
+                    <li> <a href="Logout"> Logout </a> </li>
                     
                 </ul>
                 

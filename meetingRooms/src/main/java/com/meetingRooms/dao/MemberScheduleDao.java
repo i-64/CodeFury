@@ -45,7 +45,7 @@ public class MemberScheduleDao implements MemberScheduleDaoInterface {
 			//getting all meeting ID's assigned to member using innerjoin to join meeting and attendees
 			
 			
-			PreparedStatement ps = con.prepareStatement ( "select meeting.id, meeting.title, meeting.organized_by, meeting.meeting_date, meeting.start_time, meeting.duration, meeting.meeting_type_id from meeting inner join attendees on meeting.id= attendees.meeting_id where attendees.user_id = ?" );
+			PreparedStatement ps = con.prepareStatement ( "select m.id, m.title, m.organized_by, m.meeting_date, m.start_time, m.duration, rm.meeting_type from attendees a inner join meeting m inner join (select m.id as meet_id, meeting_type from meeting m inner join meeting_types mt on m.meeting_type_id=mt.id) rm on rm.meet_id = m.id on a.meeting_id = m.id where a.user_id=?" );
 			ps.setString ( 1, user.getUser_id () );
 			ResultSet rs = ps.executeQuery ();
 			
