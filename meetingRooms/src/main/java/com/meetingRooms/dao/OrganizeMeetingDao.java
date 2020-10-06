@@ -8,10 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.HashSet;
+import java.util.Set;
 
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
+import com.meetingRooms.entity.MeetingType;
 import com.meetingRooms.entity.User;
 import com.meetingRooms.utility.ConnectionManager;
 
@@ -30,14 +32,53 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 	 * @return meetingRoomsList the list of available and suitable meeting rooms
 	 */
 	@Override
-	public ArrayList<MeetingRoom> filterMeetingRoomsDao(Meeting meeting) {
+	public ArrayList<MeetingRoom> filterMeetingRoomsDao(Meeting meeting, MeetingType meetingType) {
 		
 		ArrayList<MeetingRoom> meetingRoomsList = new ArrayList<>();
 		Connection con = null;
 		try {
 			con = ConnectionManager.getConnection();
+			
+			String queryString = "select unique_name from meeting_room except (select meeting_room_id from meeting where (((start_time>=? and end_time<=?) or (start_time<=? and end_time>=?) or (start_time>=? and endtime_<=?)) and meeting_date=?)) INTERSECT ";
 
-			PreparedStatement ps = con.prepareStatement("select * from MEETING_ROOMS where start_time<? and end_time<?");
+			PreparedStatement ps = con.prepareStatement(queryString);
+			ResultSet busy = ps.executeQuery();
+			
+			// ========================================
+			
+			String str = "select mandatory_amenities from meeting_types where id=?";
+			PreparedStatement ps1 = con.prepareStatement(str);
+			ps1.setInt(1, meetingType.getMeetingTypeId());
+			
+			ResultSet rs = ps1.executeQuery();
+			
+			if (rs.next()) {
+				
+				
+				
+				String[] test = rs.getString(1).split(",");
+				for (int i = 0; i < test.length; i++) {
+					
+					if (i < test.length - 1)
+						queryString = queryString + "select meeting_room_id from ROOM_AMENITIES where amenity_id=" + test[i] + " INTERSECT ";
+					else
+						queryString = queryString + "select meeting_room_id from ROOM_AMENITIES where amenity_id=" + test[i];
+				}
+			}
+			else {
+				// TODO handle this case
+			}
+			
+			String finalQuery = "select * from meeting_room INNER JOIN " + queryString;
+			
+			// ========================================
+			
+			ArrayList<String> availableRooms = new ArrayList<>();
+			
+			while (busy.next()) {
+				
+				availableRooms.add(busy.getString(1));
+			}
 			
 			// TODO query
 			// TODO resultset -> arraylist
@@ -54,7 +95,8 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		
 		return meetingRoomsList;
 	}
-
+	
+	
 	/**
 	 * search users with the role-member by name in the database
 	 * 

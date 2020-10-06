@@ -9,6 +9,7 @@ import java.util.Collections;
 import com.meetingRooms.dao.OrganizeMeetingDaoInterface;
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
+import com.meetingRooms.entity.MeetingType;
 import com.meetingRooms.entity.User;
 import com.meetingRooms.utility.OrganizeMeetingDaoFactory;
 import com.meetingRooms.utility.SortRoomsByAverageRating;
@@ -32,12 +33,13 @@ public class OrganizeMeetingService implements OrganizeMeetingServiceInterface {
 	 * filter meeting rooms according to the criteria
 	 * 
 	 * @param meeting containing date, time, type of meeting
+	 * @param type of meeting
 	 * @return list of available meeting rooms
 	 */
 	@Override
-	public ArrayList<MeetingRoom> filterRoomsService(Meeting meeting) {
+	public ArrayList<MeetingRoom> filterRoomsService(Meeting meeting, MeetingType meetingType) {
 		
-		ArrayList<MeetingRoom> meetingRoomsList = dao.filterMeetingRoomsDao(meeting);
+		ArrayList<MeetingRoom> meetingRoomsList = dao.filterMeetingRoomsDao(meeting, meetingType);
 		Collections.sort(meetingRoomsList, new SortRoomsByAverageRating());
 		return meetingRoomsList;
 	}
