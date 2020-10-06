@@ -8,6 +8,7 @@ insert into users values ( '5003', '123456', 'jkl uio', 'jkl@email.com', '159635
 
 insert into users values ( '5004', '123456', 'mno poi', 'mno@email.com', '6478123458', 0, 'member' );
 
+
 insert into users values ( '5005', '123456', 'sdw fre', 'pqr@email.com', '2589631474', 0, 'admin' );
 
 insert into users values ( '5006', '123456', 'xza wqq', 'stu@email.com', '6497316482', 0, 'admin' );
@@ -17,6 +18,7 @@ insert into users values ( '5007', '123456', 'vfe asd', 'vwx@email.com', '528647
 insert into users values ( '5008', '123456', 'xdc sqw', 'yza@email.com', '4589657841', 0, 'admin' );
 
 insert into users values ( '5009', '123456', 'csw seq', 'asq@email.com', '3214578963', 0, 'admin' );
+
 
 insert into users values ( '5010', '123456', 'asd asd', 'asd@email.com', '2356478596', 2000, 'manager' );
 
