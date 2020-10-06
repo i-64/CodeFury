@@ -14,7 +14,7 @@ public class Meeting {
 
 	
 	private int id, duration, meetingTypeId;
-	private String title, organizedBy, meetingType, meetingRoomId;
+	private String title, organizedBy, meetingRoomId;
 	private String meetingDate, startTime, endTime;
 	
 
@@ -86,20 +86,6 @@ public class Meeting {
 	 */
 	public void setOrganizedBy(String organizedBy) {
 		this.organizedBy = organizedBy;
-	}
-	
-	/**
-	 * @return the meetingType
-	 */
-	public String getMeetingType() {
-		return meetingType;
-	}
-	
-	/**
-	 * @param meetingType the meetingType to set
-	 */
-	public void setMeetingType(String meetingType) {
-		this.meetingType = meetingType;
 	}
 	
 	/**
