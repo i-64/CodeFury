@@ -88,19 +88,18 @@ ${home_page_message}
 
 
 <%
-	try {
-		
-		// load driver
-		
-		Class.forName ( "org.apache.derby.jdbc.EmbeddedDriver" );
-					
-		// get connection to database
-					
-		Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" );
+
+	//load driver
+
+	Class.forName ( "org.apache.derby.jdbc.EmbeddedDriver" );
+
+	//get connection to database
+
+	try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ); ) {
 		
 		// prepare query
 		
-		PreparedStatement ps = con.prepareStatement ( "select * from meeting_room" );
+		PreparedStatement ps = con.prepareStatement ( "select m.unique_name, m.seating_capacity, m.total_meetings_conducted, f.rating from meeting_room m inner join ( select meeting_room_id, SUM(rating)/COUNT(rating) as rating from feedback group by meeting_room_id ) f on m.unique_name = f.meeting_room_id" );
 		
 		ResultSet set_1 = ps.executeQuery ();		
 %>
@@ -134,15 +133,15 @@ ${home_page_message}
 			
 			   <td> <%=set_1.getString (1)%> </td>
 			   <td> <%=set_1.getString (2)%> </td>
-			   <td> 0 </td>
-			   <td> 0 </td>
+			   <td> <%=set_1.getString (3)%> </td>
+			   <td> <%=set_1.getString (4)%> </td>
 			 
 			</tr>
 			
 <%			
 		}
 
-	} catch ( SQLException | ClassNotFoundException e ) {
+	} catch ( SQLException e ) {
 	
 		e.printStackTrace ();
 	}
@@ -204,9 +203,9 @@ ${home_page_message}
                 
                 <ul>
                 
-                    <li> <a href="#"> Information </a> </li>
+                    <li> <a href="about_us.jsp"> Information </a> </li>
                     
-                    <li> <a href="#"> Give Feedback </a> </li>
+                    <li> <a href="feedback.jsp"> Give Feedback </a> </li>
                     
                 </ul>
                 
@@ -247,8 +246,6 @@ ${home_page_message}
 </footer>
 
 <!-- Footer -->
-
-
 
 </body>
 
