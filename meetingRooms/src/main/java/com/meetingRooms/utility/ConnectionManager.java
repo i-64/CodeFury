@@ -18,7 +18,7 @@ public class ConnectionManager {
 
 	private final static String DRIVER_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
 	private final static String CONNECTION_STRING_LINUX = "jdbc:derby:home/Downloads/meetingRoomsDB;create=true";
-	private final static String CONNECTION_STRING_WINDOWS = "jdbc:derby:c/database/meetingRoomsDB;create=true";
+	private final static String CONNECTION_STRING_WINDOWS = "jdbc:derby:c:/database/meetingRoomsDB;create=true";
 	private final static String DB_USERNAME = "admin";
 	private final static String DB_PASSWORD = "admin";
 	

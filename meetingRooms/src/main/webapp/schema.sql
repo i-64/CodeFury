@@ -2,7 +2,7 @@ connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=a
 
 // log table
 
-DROP TABLE LOG
+DROP TABLE LOG;
 CREATE TABLE LOG (
 
 	user_id varchar (50),
@@ -126,14 +126,14 @@ CREATE TABLE MEETING (
 	
 	meeting_date date not null,
 	start_time time not null,
-	end_time time not null,
+	duration int not null,
 	
-	meeting_room_id varchar (30),
 	meeting_type_id int,
+	booking_link int,
 	
-	foreign key (meeting_room_id) references MEETING_ROOM (unique_name),
 	foreign key (meeting_type_id) references MEETING_TYPES (id),
-	foreign key (organized_by) references USERS (user_id)
+	foreign key (organized_by) references USERS (user_id),
+	foreign key (booking_link) references BOOKING_INFO (unique_id)
 );
 
 
