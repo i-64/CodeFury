@@ -124,8 +124,8 @@ CREATE TABLE MEETING (
 	meeting_date date not null,
 	start_time time not null,
 	end_time time not null,
-	meeting_room_id varchar (30),
 	
+	meeting_room_id varchar (30),
 	meeting_type_id int,
 	
 	foreign key (meeting_room_id) references MEETING_ROOM (unique_name),
