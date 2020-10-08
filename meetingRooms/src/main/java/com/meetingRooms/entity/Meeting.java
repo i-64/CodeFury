@@ -12,10 +12,26 @@ package com.meetingRooms.entity;
  */
 public class Meeting {
 
-	private int id, duration;
-	private String title, organizedBy, meetingType, meetingRoomId;
+	
+	private int id, duration, meetingTypeId;
+	private String title, organizedBy, meetingRoomId;
 	private String meetingDate, startTime, endTime;
 	
+
+	/**
+	 * @return the meetingTypeId
+	 */
+	public int getMeetingTypeId() {
+		return meetingTypeId;
+	}
+
+	/**
+	 * @param meetingTypeId the meetingTypeId to set
+	 */
+	public void setMeetingTypeId(int meetingTypeId) {
+		this.meetingTypeId = meetingTypeId;
+	}
+
 	/**
 	 * @return the id
 	 */
@@ -70,20 +86,6 @@ public class Meeting {
 	 */
 	public void setOrganizedBy(String organizedBy) {
 		this.organizedBy = organizedBy;
-	}
-	
-	/**
-	 * @return the meetingType
-	 */
-	public String getMeetingType() {
-		return meetingType;
-	}
-	
-	/**
-	 * @param meetingType the meetingType to set
-	 */
-	public void setMeetingType(String meetingType) {
-		this.meetingType = meetingType;
 	}
 	
 	/**

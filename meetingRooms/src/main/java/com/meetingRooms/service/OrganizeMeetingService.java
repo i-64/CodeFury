@@ -56,6 +56,19 @@ public class OrganizeMeetingService implements OrganizeMeetingServiceInterface {
 		ArrayList<User> users = dao.searchUserDao(user);
 		return users;
 	}
+
+	/**
+	 * service to save the members invited and meeting room booking details
+	 * 
+	 * @param meeting details to save
+	 * @param list of members to invite for the meeting
+	 * @return meeting was saved or not
+	 */
+	@Override
+	public boolean saveMeetingService(Meeting meeting, ArrayList<User> members) {
+		
+		return (dao.saveMeetingDao(meeting, members));
+	}
 	
 	
 }
