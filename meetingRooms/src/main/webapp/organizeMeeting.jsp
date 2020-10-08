@@ -1,68 +1,91 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
+
+<%@ page isELIgnored="false" %>
+
+<% 
+	//verifying session details and returning to login page if not manager
+	
+	if ( session.getAttribute ( "role" ) == null || !session.getAttribute ( "role" ).toString().equals ( "manager" )) 
+	{
+	
+		request.getRequestDispatcher("login.jsp").forward ( request, response ); 
+	}
+   
+%>
+
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Organize meeting</title>
-<link rel="stylesheet" href="css/organizeMeeting.css">
+    <meta charset="UTF-8">
 
-    <script>
-        function ready() {
-            //initialze meeting date to today's date
-            document.getElementById('meetingDate').value = new Date().toISOString().split('T')[0];
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        function filterRooms() {
-            
-            var startTime = document.getElementById("startTime").value;
-            var endTime = document.getElementById("endTime").value;
-            var meetingType = document.getElementById("meetingType").value;
-            var meetingDate = document.getElementById("meetingDate").value;
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
 
-            
-        	var x=new XMLHttpRequest();
-        	//step 2 how xhr will open connection with server
-        	x.open(	"GET",
-                	"filterMeetingRooms.jsp"+
-                	"?startTime=" + startTime  + 
-                	"&endTime=" + endTime + 
-                	"&meetingType=" + meetingType + 
-                	"&meetingDate=" + meetingDate
-                	,true
-                  );
-        	
-        	//step 3 how xhr will send request
-        	x.send();
-        	
-        	//step 4 how xhr will get response from server
-        	//state={0,1,2,3,4}
-        	
-        	x.onreadystatechange=function(){
-        		if(x.readyState==4){
-        			var vv=x.responseText;	
-        			console.log(vv);
-        		}
-        	}
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/responsive.css" rel="stylesheet">
 
-        }
+    <link href="css/Footer-with-button-logo.css" rel="stylesheet">
 
-        // DOMContentLoaded event – DOM is ready, so the handler can lookup DOM nodes, initialize the interface.
-        document.addEventListener('DOMContentLoaded', ready);
-    </script>
+    <script src="javaScript/jQuery_v3.5.1.js"></script>
+    <script src="javaScript/bootstrap_v4.5.2.js"></script>
+
+
+    <title>Organize meeting</title>
+    <link rel="stylesheet" href="css/organizeMeeting.css">
+    <script src="javaScript/organizeMeeting.js"></script>
 </head>
+
 <body>
-	    <div class='container'>
+
+
+    <!-- NAVBAR -->
+
+    <div class="container">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+
+                    <a class="navbar-brand" href="ManagerHomePage.jsp"> <img src="images/logo/hsbc-logo-dark_navbar.png"
+                            style=" height:20px; width:110px;" /> </a>
+
+                </div>
+
+                <ul class="nav navbar-nav">
+
+                    <li> <a href="ManagerHomePage.jsp"> Manager Home </a> </li>
+
+                    <li class="active"> <a href="organizeMeeting.jsp"> Organize Meeting </a> </li>
+
+
+                    <li> <a href="Logout"> Logout </a> </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+
+    </div>
+
+    <!-- NAVBAR -->
+    <div class="row"> <br> <br> <br> </div>
+
+
+    <div class='mycontainer'>
         <h1> Organize a meeting </h1>
 
         <div class='item-container'>
-            <div class='title'> Purpose</div>
-            <input class='content width100' type="text" placeholder="Retrospective meeting">
-        </div>
-
-        <div class='item-container'>
             <div class='title'> Select meeting type</div>
-            <select class='content width100' id='meetingType'>
+            <select class='userinput width100' id='meetingType'>
                 <option value='1000'> Classroom Training</option>
                 <option value='1001'>Online Training</option>
                 <option value='1002'>Conference call</option>
@@ -72,21 +95,106 @@
 
         <div class='item-container'>
             <div class='title'> Select booking date</div>
-            <input class='content width100' type="date" id='meetingDate'>
+            <input class='userinput width100' type="date" id='meetingDate'>
         </div>
 
         <div class='flex-row item-container'>
             <div class='flex-item'>
                 <div class='title'> Select start time</div>
-                <input class='content' type="time" id='startTime'>
+                <input class='userinput' type="time" id='startTime'>
             </div>
 
             <div class='flex-item'>
                 <div class='title'> Select end time </div>
-                <input class='content' type="time" id='endTime'>
+                <input class='userinput' type="time" id='endTime'>
             </div>
         </div>
         <button onclick="filterRooms()" id='filterbtn'>Filter Rooms</button>
+
+        <div class='modal-container inactive'>
+            <div class='modal-body'></div>
+        </div>
+
     </div>
+
+
+    <!-- Footer -->
+
+    <div class="content"> </div>
+
+    <footer id="myFooter">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-sm-3">
+
+                    <h2 class="logo"> <a href="ManagerHomePage.jsp"> <img src="images/logo/hsbc-logo-dark_2.png"
+                                style=" height:70px; width:150px;" align="left" /> </a> </h2>
+
+                </div>
+
+                <div class="col-sm-2">
+
+                    <h5> Get started </h5>
+
+                    <ul>
+
+                        <li> <a href="ManagerHomePage.jsp"> Home </a> </li>
+                        <li> <a href="Logout"> Logout </a> </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-sm-2">
+
+                    <h5>About us</h5>
+
+                    <ul>
+
+                        <li> <a href="about_us.jsp"> Information </a> </li>
+
+                        <li> <a href="feedback.jsp"> Give Feedback </a> </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-sm-2">
+
+                    <h5> Support </h5>
+
+                    <ul>
+
+                        <li> <a href="#"> FAQ </a> </li>
+
+                        <li> <a href="#"> Help desk </a> </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-sm-3">
+
+                    <br>
+
+                    <a href="#"> <button type="button" class="btn"> Contact us </button> </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer-copyright">
+
+            <p> Developed By WFS BATCH-1 @ HSBC-CodeFury </p>
+
+        </div>
+
+    </footer>
 </body>
+
 </html>
