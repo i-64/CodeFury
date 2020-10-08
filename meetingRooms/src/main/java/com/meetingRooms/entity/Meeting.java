@@ -3,6 +3,7 @@
  */
 package com.meetingRooms.entity;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -14,8 +15,19 @@ import java.util.Date;
 public class Meeting {
 
 	private int id, duration;
-	private String title, organizedBy, meetingType;
-	private Date meetingDate, startTime;
+	private String title, organizedBy, meetingType, meetingRoom;
+	
+
+	private Date meetingDate;
+	private Time startTime;
+	
+	public String getMeetingRoom() {
+		return meetingRoom;
+	}
+
+	public void setMeetingRoom(String meetingRoom) {
+		this.meetingRoom = meetingRoom;
+	}
 	
 	/**
 	 * @return the id
@@ -104,14 +116,14 @@ public class Meeting {
 	/**
 	 * @return the startTime
 	 */
-	public Date getStartTime() {
+	public Time getStartTime() {
 		return startTime;
 	}
 	
 	/**
 	 * @param startTime the startTime to set
 	 */
-	public void setStartTime(Date startTime) {
+	public void setStartTime(Time startTime) {
 		this.startTime = startTime;
 	}
 }
