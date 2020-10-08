@@ -34,6 +34,12 @@
   	<description></description>
   	<servlet-class>com.meetingRooms.dao.GetDataForAdminCreateRoomDao</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>AdminCreateRoom</servlet-name>
+  	<display-name>AdminCreateRoom</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminCreateRoom</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
   	<url-pattern>/Login</url-pattern>
@@ -53,5 +59,9 @@
   <servlet-mapping>
   	<servlet-name>GetDataForAdminCreateRoomDao</servlet-name>
   	<url-pattern>/GetDataForAdminCreateRoomDao</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminCreateRoom</servlet-name>
+  	<url-pattern>/AdminCreateRoom</url-pattern>
   </servlet-mapping>
 </web-app>
