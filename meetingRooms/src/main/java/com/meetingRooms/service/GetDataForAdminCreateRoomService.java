@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.meetingRooms.dao.GetDataForAdminCreateRoomDaoInterface;
 import com.meetingRooms.entity.AmenitiesEntity;
+import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.entity.MeetingTypes;
 import com.meetingRooms.utility.GetDataForAdminCreateRoomFactory;
 
@@ -33,7 +34,11 @@ public class GetDataForAdminCreateRoomService implements GetDataForAdminCreateRo
 		return dao.getAmenities ();
 	}
 	
-	
+	@Override
+	public int createRoom ( MeetingRoomEntity entity ) {
+		
+		return dao.createRoom ( entity );
+	}
 	
 
 }

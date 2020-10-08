@@ -3,7 +3,8 @@
     
 <%@ page isELIgnored="false" %>
 
-<%--
+
+<%
 		// check for existing session
 
 	if ( session.getAttribute ( "role" ) == null ) {
@@ -26,7 +27,7 @@
 		}
 	}
 
---%>
+%>
 
 <!DOCTYPE html>
 
@@ -78,14 +79,10 @@
 	      		<li> <a href="AdminHomePage.jsp"> Admin Home </a> </li>
 	      	
 	      		<li class="active"> <a href="AdminCreateRoom.jsp"> Create Room  </a> </li>
+	      		
+	      		<li> <a href="Logout"> Logout </a> </li>
 
             
-	    	</ul>
-	    	
-	    	<ul class="nav navbar-nav navbar-right">
-	    		
-	    		<li> <a href="Logout"> Logout </a> </li>
-	    	
 	    	</ul>
 	    	
 	  	</div>
@@ -109,7 +106,7 @@ ${Admin_home_page_create_room_message}
 		
 		<div class="col-sm-3"></div>
 	
-		<div class="col-sm-6 text-center" >
+		<div class="col-sm-6 text-center">
 		
 		<div class="row"><h3>CREATE MEETING ROOM</h3></div>
 		
@@ -164,11 +161,11 @@ ${Admin_home_page_create_room_message}
 				
 				<div class="form-group">
 				
-				  <label for="sel1">Meeting Type</label>
+				  <label for="meetingType">Meeting Type</label>
 				  
-				  <select class="form-control" id='meetingType' name='meetingType' onchange="setCheckBoxes()" >
+				  <select class="form-control" id='meetingType' name='meetingType' required>
 				  
-				  	<option value=""> -----Select Meeting Type----- </option>
+				  	<option value="" onclick="setCheckBoxes('nothing')" disabled selected> -----Select Meeting Type----- </option>
 				  
 				  	<%
 				  	
@@ -178,7 +175,7 @@ ${Admin_home_page_create_room_message}
 				  			
 				  			for ( MeetingTypes a : meeting_list ) {
 				  	%>			
-				  				<option value="<%=a.getID()%>"><%=a.getType()%></option>
+				  				<option onclick="setCheckBoxes('<%=a.getAmenitites()%>')" value="<%=a.getID()%>"><%=a.getType()%></option>
 				  	<%
 				  			}
 				  		}
@@ -255,13 +252,19 @@ ${Admin_home_page_create_room_message}
 				
 				<div class="row">
 				
-					<div class = "col-sm-6 text-right">
+					<div class = "col-sm-4 text-right">
                      	
-                     	<button type="submit" class="btn  btn-success" onclick="validateForm()">Create</button>
+                     	<button type="button" class="btn  btn-info" name="validateButton" id="validateButton" onclick="preFinalValidation()">Validate Form</button>
+                     	
+                    </div>
+				
+					<div class = "col-sm-4 text-right">
+                     	
+                     	<button type="submit" class="btn  btn-success" name="submitButton" id="submitButton" disabled>Create</button>
                      	
                     </div>
                      
-                     <div class = "col-sm-6 text-left">
+                     <div class = "col-sm-4 text-left">
                      
                      	<button type="reset" class="btn  btn-warning">Reset</button>
                      	
@@ -271,14 +274,14 @@ ${Admin_home_page_create_room_message}
 			
 			</form>
 			
-		</div>
-		
+		</div>		
 		
 		<div class="col-sm-3"></div>
+		
+	</div>
 	
-	 </div>
-
 </div>
+
 
 <!-- CREATE ROOM FORM -->
 
@@ -365,66 +368,3 @@ ${Admin_home_page_create_room_message}
 </body>
 
 </html>
-
-
-<%@page import="com.meetingRooms.service.AdminServiceInterface"%>
-<%@page import="com.meetingRooms.utility.AdminServiceFactory"%>
-<%@page import="com.meetingRooms.entity.loginUserEntity"%>
-<%@page import="com.meetingRooms.entity.MeetingRoomEntity"%>
-<%@page import="com.meetingRooms.entity.AmenitiesEntity"%>
-
-
-<%--
-	//fetch data from form and update in database
-	
-	int is_room_created = 0;   // to see if room is created
-	loginUserEntity adminUser = new loginUserEntity();
-
-	adminUser.setUser_id(session.getAttribute("user_id").toString()); /////// Set user Id obtained from session
-   
-	///Text Box Values from form
-	
-	String meetingRoomName = request.getParameter("mname");
-	int seatingCapacity = Integer.parseInt(request.getParameter("scapacity"));
-	
-	//Values of checkboxes from form
-		
-	    String projectorValue = request.getParameter("projector");
-		String wiFiConnectionrValue = request.getParameter("WiFiConnection");
-		String conferenceCallFacilityValue = request.getParameter("Conferencecallfacility");
-		String whiteBoardValue = request.getParameter("Whiteboard");
-		String waterDispenserValue = request.getParameter("Waterdispenser");
-		String tvValue = request.getParameter("TV");
-		String coffeeMachineValue = request.getParameter("Coffeemachine");
-
-	//Amenities object set to values obtained from form
-	
-	AmenitiesEntity amenitiesEntity = new AmenitiesEntity();
-	AdminServiceInterface adminService = AdminServiceFactory.createObject("adminservice");
-		amenitiesEntity.setUniqueName(meetingRoomName);
-		amenitiesEntity.setSeatingCapacity(seatingCapacity);
-		amenitiesEntity.setProjector(projectorValue);
-		amenitiesEntity.setConferenceCallFacility(conferenceCallFacilityValue);
-		amenitiesEntity.setCoffeeMachine(coffeeMachineValue);
-		amenitiesEntity.setWhiteBoard(whiteBoardValue);
-		amenitiesEntity.setWaterDispenser(waterDispenserValue);
-		amenitiesEntity.setWiFiConnection(wiFiConnectionrValue);
-		amenitiesEntity.setTV(tvValue);
-
-//wrapping data to the object and transeferring to service layer.
-
-		is_room_created = adminService.createRoomService(amenitiesEntity, adminUser);
-
-		if (is_room_created > 0)
-				System.out.println("Room created...");        //Printing on Console if Room Created change Later             
-
-		else
-				System.out.println("Room not created...");
-
---%>
-
-<%
-	out.println("<a href=AdminHomePage.jsp>Click Here for HomePage</a>");
-%>
-
-

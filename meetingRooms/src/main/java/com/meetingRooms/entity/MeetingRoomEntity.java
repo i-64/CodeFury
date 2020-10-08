@@ -1,5 +1,7 @@
 package com.meetingRooms.entity;
 
+import java.util.List;
+
 /**
  * Entity class for a physical meeting room
  * 
@@ -8,11 +10,24 @@ package com.meetingRooms.entity;
  */
 
 public class MeetingRoomEntity {
+	
 	private String uniqueName;
 	private int seatingCapacity;
-	private int perHourCost, total_meetings_conducted;
+	
+	private String meetingType;
 	private String created_by;
+	
+	private int perHourCost, total_meetings_conducted;
+	
+	private List<String> amenityList;
 
+	public List<String> getAmenityList() {
+		return amenityList;
+	}
+
+	public void setAmenityList(List<String> amenityList) {
+		this.amenityList = amenityList;
+	}
 
 	public String getUniqueName() {
 		return uniqueName;
@@ -52,6 +67,14 @@ public class MeetingRoomEntity {
 
 	public void setPerHourCost(int perHourCost) {
 		this.perHourCost = perHourCost;
+	}
+
+	public String getMeetingType() {
+		return meetingType;
+	}
+
+	public void setMeetingType(String meetingType) {
+		this.meetingType = meetingType;
 	}
 
 	/**

@@ -16,7 +16,7 @@ int duration = Integer.parseInt(request.getParameter("duration"));
 String meetingType = request.getParameter("meetingType");
 
 Meeting meeting = new Meeting();
-meeting.setStartTime(DateFormat.getDateInstance().parse(startTime));
+//meeting.setStartTime(DateFormat.getDateInstance().parse(startTime));
 meeting.setDuration(duration);
 meeting.setMeetingType(meetingType);
 meeting.setMeetingDate(DateFormat.getDateInstance().parse(meetingDate));

@@ -7,15 +7,35 @@
  var seating_capacity = 0; // flag to validate seating capacity
  
  var meeting_type = 0; // flag to check meeting type
- 
+
+ var amenity_flag = 0; // flag to check amenities selected
  
  	// To Set setCheckBoxes function
  
- function setCheckBoxes () {
- 
- 	var option = document.getElementById ( "meetingType" ).value;
+ function setCheckBoxes ( list ) {
+	 
+ 	var values = document.getElementsByName ( "amenitites" ); // get checkBoxes 	
  	
- 	if ( option.length == 0 ) {
+ 		 // function to find automatically check amenities checkBoxes
+ 	
+ 	var amenity_list = "" + list; // convert to string
+ 	
+ 	for ( var i = 0; i < values.length; i++ ) {	 
+		
+		if ( ( amenity_list.search ( values [i].value ) ) != -1 ) {
+
+			values [i].checked = true;
+			values [i].disabled = true;
+		
+		} else {
+			
+			values [i].checked = false;
+			values [i].disabled = false;
+		}
+	}
+	
+	
+	if ( option.length == 0 ) {
  	
  		 var meeting_type = 0;
  		 alert ( "Select Meeting Type" );
@@ -25,7 +45,7 @@
  		alert ( option );
  	}
  
- } // end of setCheckBoxes function 
+} // end of setCheckBoxes function 
  
  
  	// function to validate seating capacity
@@ -41,7 +61,7 @@
 		error_message = "<span style = \"color:red;\"> Seating Capacity Empty </span>";
 		seating_capacity = 0;				
 				
-	} else if ( seatingCapacity.match ( /[^0-9 ]/ ) ) {
+	} else if ( seatingCapacity.match ( /[^0-9]/ ) ) {
 	
 		error_message = "<span style = \"color:red;\"> Invalid Characters </span>";
 		seating_capacity = 0;
@@ -54,8 +74,7 @@
 	
 	document.getElementById ( "seatingRoomError" ).innerHTML = error_message;
  
- } // end of validateSeatingCapacity Function
- 
+ } // end of validateSeatingCapacity Function 
  
  
  	// function to validate Meeting Name
@@ -80,38 +99,72 @@
 	
 		error_message = "";
 		name_flag = 1;
-	}
-		
+	}		
 	
 	document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
 
  } // end of validateMeetingName Function
+
  
+ 	// function to enable all checkBoxes before submitting 
+ 
+ function preFinalValidation () {
+	 
+	var values = document.getElementsByName ( "amenitites" );
+	 	
+	for (var i = 0; i < values.length; i++) {
+		  
+		values [i].disabled = false;
+	}
+	
+	validateForm ();
+	 
+ } // end of preFinalValidation function
  
  	// final validation
  
  function validateForm () {
  
+	 	// checking for amenities selected
+	
+	amenity_flag = 0;
+	 
  	var values = document.getElementsByName ( "amenitites" );
- 	
- 	var numberOfCheckedItems = 0;  
  	
 	for(var i = 0; i < values.length; i++) {
 	  
 		if ( values [i].checked ) {
 			
-			alert ( (values [i].value) );
+			amenity_flag = 1;
+			break;
 		}  
 	} 	
  
- 	if ( name_flag && seating_capacity ) {
+		// checking option selected or not
+	
+	meeting_type = 0;
+	
+	var meetingType = document.getElementsByName ( "meetingType" );
+	
+	if ( meetingType.length == 0 ) {
+		
+		meeting_type = 0;
+		
+	} else {
+		
+		meeting_type = 1;
+	}
+	
+		// final validation
+	
+ 	if ( name_flag && seating_capacity && meeting_type && amenity_flag ) {
  	
- 		form.submit ();
- 	
+ 		document.getElementById ( "submitButton" ).disabled = false;
+
  	} else  {
  	 	
  		alert ( "Error In Existing Form" );
- 	}
- 
+ 		document.getElementById ( "submitButton" ).disabled = true;
+ 	} 
 	
  } // end of validateForm
