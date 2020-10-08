@@ -34,6 +34,48 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	} // end of constructor
 	
 	
+    @Override
+    public List<MeetingRoomEntity> getMeetingRooms(String username){
+    	
+    	List<MeetingRoomEntity> meetingRoomList= new ArrayList<MeetingRoomEntity>();
+    	
+   
+    	try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) // get connection to database
+
+		{
+			PreparedStatement ps=con.prepareStatement("select * from meeting_room where created_by=?"); 
+			
+			ps.setString(1, username);
+			
+			ResultSet res = ps.executeQuery();
+       
+			while(res.next()) {
+			
+				MeetingRoomEntity meetingRoom=new MeetingRoomEntity ();
+				
+				meetingRoom.setUniqueName(res.getString(1));
+				
+				meetingRoom.setSeatingCapacity(res.getInt(2));
+				
+				meetingRoom.setPerHourCost(res.getInt(3));
+				
+				meetingRoom.setTotal_meetings_conducted(res.getInt(4));
+			
+				meetingRoomList.add(meetingRoom);
+			}
+	
+		}
+		
+		catch(SQLException ee) {
+			ee.printStackTrace();
+		}
+
+    	return meetingRoomList;
+    	    	
+    }
+    
+    
+    
 	@Override
 	public int createRoom ( MeetingRoomEntity entity ) {
 		

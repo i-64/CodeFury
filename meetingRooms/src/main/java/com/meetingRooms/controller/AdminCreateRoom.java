@@ -61,11 +61,25 @@ public class AdminCreateRoom extends HttpServlet {
 		
 		if ( service.createRoom ( entity ) == 1 ) {
 			
-			System.out.println ( "Success" );
+			String errorMessage = "<div class='alert alert-success alert-dismissible fade in'>" +
+					"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+					"<strong> Room Creation Successful... </strong>" + 
+					"</div>";
+
+			request.setAttribute ( "Admin_home_page_message", errorMessage );
+			
+			request.getRequestDispatcher("AdminHomePage.jsp").forward ( request, response );
 			
 		} else {
 			
-			System.out.println ( "Sophia" );
+			String errorMessage = "<div class='alert alert-danger alert-dismissible fade in'>" +
+					"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+					"<strong> Room Creation Unsuccessful... </strong>" + 
+					"</div>";
+
+			request.setAttribute ( "Admin_home_page_message", errorMessage );
+			
+			request.getRequestDispatcher("AdminHomePage.jsp").forward ( request, response );
 		}
 		
 	}

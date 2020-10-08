@@ -39,6 +39,13 @@ public class GetDataForAdminCreateRoomService implements GetDataForAdminCreateRo
 		
 		return dao.createRoom ( entity );
 	}
+
+
+	@Override
+	public List<MeetingRoomEntity> getMeetingRooms(String username) {
+		
+		return dao.getMeetingRooms(username);
+	}
 	
 
 }

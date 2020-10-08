@@ -83,13 +83,9 @@
 
 ${home_page_message}
 
+
 <!-- DISPLAY MEETING LISTS -->
 
-<!-- MANAG GEINOF -->
-
-
-
-<!--  -->
 <%
 
 	//load driver
