@@ -127,7 +127,7 @@ String str_userId=request.getParameter("user_id"); // get user id from session
         <th> Title </th>
         <th> Meeting Date </th>
         <th> Start Time </th>
-        <th> Duration </th>
+        <th> Meeting Room </th>
         <th> Organized By </th>
         <th> Meeting Type </th>
         
@@ -148,7 +148,7 @@ String str_userId=request.getParameter("user_id"); // get user id from session
 			   
 			   <td> <%=meetingObject.getMeetingDate()%> </td>
 			   <td> <%= meetingObject.getStartTime()%> </td>
-			   <td> <%= meetingObject.getDuration()%> </td>
+			   <td> <%= meetingObject.getMeetingRoom()%> </td>
 			   
 			   <td> <%= meetingObject.getOrganizedBy()%> </td>
 
