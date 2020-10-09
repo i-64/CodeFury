@@ -7,7 +7,6 @@
 
 <%
 
-String usersListString = request.getParameter("usersList");
 int meetingTypeId = Integer.parseInt(request.getParameter("meetingTypeId"));
 String meetingDate = request.getParameter("meetingDate");
 String meetingTitle = request.getParameter("meetingTitle");
@@ -39,8 +38,7 @@ for (String userId: users) {
 response.setContentType("text/html");
 OrganizeMeetingServiceInterface service = OrganizeMeetingServiceFactory.createObject();
 if (service.saveMeetingService(meeting, members)) {
-	
-	response.sendRedirect("manager.jsp");
+	out.println("success");
 }
 else
 	out.println("failed");

@@ -114,24 +114,26 @@ margin: 20px 0;
     background-color: #0009;
   }
 
+  #modal-title{
+    font-size:24px;
+    font-weight:500;
+    text-align: center;
+  }
+
  .modal-body{
     padding: 30px;
     background-color: #fff;
     width: 650px;
-    min-height: 400px;
+    min-height: 450px;
   }
-
-  .modal-body h3{
-      text-align: center;
-  }
-
+  
   .inactive{
       display: none;
   }
 
 
   .content-container{
-	position: absolute;
+	/* position: absolute; */
 	top:100%;
 	max-height:100px;
 	overflow:auto;
@@ -139,6 +141,65 @@ margin: 20px 0;
 	background: white;
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 10px 0px;
 }
+
+.content-container li:hover{
+    background-color: rgb(94, 35, 220);
+}
+.content-container li{
+    position:relative;
+    cursor: pointer;
+}
+
+.content-container li img{
+    position: absolute;
+    top:2px;
+    right:10px;
+    width: 16px;
+    height: 16px;
+}
+
+.membersList button{
+    border-radius: 10px;
+    margin: 5px 5px;
+}
+
+.membersList button img{
+    width: 10px;
+    height: 10px;
+    margin-left: 5px;
+}
+
+.room-modal-items{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.room-modal-items > *{
+    margin-right: 10px;
+}
+
+.bold{
+    font-weight: 500;
+}
+
+.modal-confirm{
+    margin-top: 100px;
+    display:flex;
+    justify-content: space-between;
+}
+
+.modal-confirm button{
+    min-width: 200px;
+}
+/* Suprisingly below doesnt work. Fetching image from browser gives 404 strangely. Maybe tomcat not allowing to get the resource.
+ .content-container li::after{
+        position: absolute;
+        top:2px;
+        right:10px;
+        width: 16px;
+        height: 16px;
+    content: url('/src/main/webapp/images/plus.png');
+}  */
 
 ::placeholder { 
     color: #CACFD2 ;

@@ -189,9 +189,9 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 					for (User user: members) {
 						
 						PreparedStatement psAttendees = con.prepareStatement("insert into ATTENDEES values (?, ?)");
-						ps.setInt(1, meetingId);
-						ps.setString(2, user.getUserId());
-						ps.execute();
+						psAttendees.setInt(1, meetingId);
+						psAttendees.setString(2, user.getUserId());
+						psAttendees.execute();
 					}
 					
 					return true;

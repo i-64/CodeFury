@@ -101,7 +101,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "{\"name\":\"" + name + "\", \"phone\":\"" + phone + "\", \"userId\":\"" + userId + "\", \"email\"=:\"" + email + "\", \"role\":\"" + role
+		return "{\"name\":\"" + name + "\", \"phone\":\"" + phone + "\", \"userId\":" + userId + ", \"email\":\"" + email + "\", \"role\":\"" + role
 				+ "\", \"credits\":\"" + credits + "\"}";
 	}
 
