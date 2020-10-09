@@ -1,12 +1,12 @@
-<%@page import="com.meetingRooms.entity.MeetingType"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.meetingRooms.service.OrganizeMeetingServiceInterface"%>
 <%@page import="com.meetingRooms.service.OrganizeMeetingService"%>
 <%@page import="com.meetingRooms.utility.OrganizeMeetingServiceFactory"%>
 <%@page import="com.meetingRooms.entity.MeetingRoom"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="com.meetingRooms.entity.MeetingType"%>
 <%@page import="com.meetingRooms.entity.Meeting"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 

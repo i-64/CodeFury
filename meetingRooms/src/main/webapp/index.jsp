@@ -46,36 +46,38 @@
 
         <nav class="navbar navbar-inverse navbar-fixed-top">
 
-            <div class="container-fluid">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
 
-                <div class="navbar-header">
+                <div class="container-fluid">
 
-                    <a class="navbar-brand" href="index.jsp"> <img src="images/logo/hsbc-logo-dark_navbar.png"
-                            style=" height:20px; width:110px;" /> </a>
+                    <div class="navbar-header">
+
+                        <a class="navbar-brand" href="index.jsp"> <img src="images/logo/hsbc-logo-dark_navbar.png"
+                                style=" height:20px; width:110px;" /> </a>
+
+                    </div>
+
+                    <ul class="nav navbar-nav">
+
+                        <li class="active"> <a href="index.jsp"> Home </a> </li>
+
+                        <li> <a href="#"> Import Users </a> </li>
+
+                        <% if ( session.getAttribute ( "role" ) == null ) { %>
+
+                        <li> <a href="login.jsp"> Login </a> </li>
+
+                        <% } else { %>
+
+                        <li> <a href="Logout"> Logout </a> </li>
+
+                        <% } %>
+
+                    </ul>
 
                 </div>
 
-                <ul class="nav navbar-nav">
-
-                    <li class="active"> <a href="index.jsp"> Home </a> </li>
-
-                    <li> <a href="#"> Import Users </a> </li>
-
-                    <% if ( session.getAttribute ( "role" ) == null ) { %>
-
-                    <li> <a href="login.jsp"> Login </a> </li>
-
-                    <% } else { %>
-
-                    <li> <a href="Logout"> Logout </a> </li>
-
-                    <% } %>
-
-                </ul>
-
-            </div>
-
-        </nav>
+            </nav>
 
     </div>
 
@@ -87,8 +89,11 @@
 
     <!-- DISPLAY MEETING LISTS -->
 
+    <!-- MANAG GEINOF -->
 
 
+
+    <!--  -->
     <%
 
 	//load driver
