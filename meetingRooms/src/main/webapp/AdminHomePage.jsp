@@ -78,6 +78,7 @@
 	      	
 	      		<li> <a href="AdminCreateRoom.jsp"> Create Room  </a> </li>
 	      		
+	      		   		
                 <li> <a href="Logout"> Logout </a> </li>
             
 	    	</ul>
@@ -95,60 +96,68 @@
 ${Admin_home_page_message}
 
 <%@page import = "java.util.ArrayList,java.util.List " %>
-<%@page import = "com.meetingRooms.service.AdminServiceInterface" %>
-<%@page import = "com.meetingRooms.utility.AdminServiceFactory" %>
-<%@page import = "com.meetingRooms.entity.loginUserEntity" %>
+<%@page import = "com.meetingRooms.service.GetDataForAdminCreateRoomServiceInterface" %>
+<%@page import = "com.meetingRooms.utility.GetDataForAdminCreateRoomFactory" %>
 <%@page import = "com.meetingRooms.entity.MeetingRoomEntity" %>
 
 
+<div class="container">
+
+  <h2> Admin Meeting Rooms </h2>
+  
+  <%
+	
+	GetDataForAdminCreateRoomServiceInterface service =  GetDataForAdminCreateRoomFactory.createObjectForService ();
+
+	List<MeetingRoomEntity> list = new ArrayList<MeetingRoomEntity>();
+	
+	list=service.getMeetingRooms(session.getAttribute("user_id").toString());
+	
+%>
+          
+  <table class="table table-striped table-hover">
+  
+    <thead>
+    
+      <tr>
+      
+        <th> Meeting Room Name </th>
+        <th> Seating Capacity </th>
+        <th> Per Hour Cost (credits) </th>
+        <th> Total Meeting Conducted </th>
+        <th> &nbsp </th>
+        
+      </tr>
+      
+    </thead>
+    
+    <tbody>
+    
 <%
-	loginUserEntity adminUser = new loginUserEntity();
-
-    AdminServiceInterface adminService = AdminServiceFactory.createObject("adminservice");
-   
-    adminUser.setUser_id(session.getAttribute("user_id").toString()); /// Setting user id from session
-
-    adminUser = adminService.fetchuserdata(adminUser);             /// Fetching user data from database
-
-	String userinfo = "<p>";
-		userinfo += "<br>" + "User Name :" + adminUser.getName() + "<br>" + "User Email :" + adminUser.getEmail() + "<br>"
-		+ "User Phone Number :" + adminUser.getPhone();
-		userinfo += "</p>";                                      ///Change Later
 	
-	out.println(userinfo);                       /// Displaying User Info
+	for ( MeetingRoomEntity e : list ) {
 
-    ////Meeting Rooms Info Display created by Admin
-	List<MeetingRoomEntity> listofRooms = new ArrayList<MeetingRoomEntity>();
-	
-	 adminUser.setUser_id(session.getAttribute("user_id").toString());
-	
-    listofRooms = adminService.listRoomsAdminService(adminUser);
-
-	for (MeetingRoomEntity meetingRooms : listofRooms) {
-		
-		String meetingRooms1 = "<br> <p>";
-		
-		meetingRooms1 += "<br>" + "Meeting Room Name :" + meetingRooms.getUniqueName() + "<br>" + "Seating Capacity :"
-		+ meetingRooms.getSeatingCapacity() + "<br>" + "Per Hour Cost :" + meetingRooms.getPerHourCost();
-		
-		meetingRooms1 += "<br>" + "Total Meetings Conducted :" + meetingRooms.getTotal_meetings_conducted();
-		
-		meetingRooms1 += "</p>";
-		
-		out.println(meetingRooms1);
-		
-		out.println("<a href=AdminEditRoom.jsp?meetingRoomID="+ meetingRooms.getUniqueName()+">EditRoom</a>");   /// Link to Edit Rooms
+%>
+			<tr>
+			
+			   <td> <%=e.getUniqueName()%> </td>
+			   <td> <%=e.getSeatingCapacity()%> </td>
+			   <td> <%=e.getPerHourCost()%> </td>
+			   <td> <%=e.getTotal_meetings_conducted()%> </td>
+			   <td> <a href="AdminEditRoom.jsp?unique_name=<%=e.getUniqueName()%>"><button type="button" class="btn  btn-success">Edit Room</button></a></td>
+			 
+			</tr>
+			
+<%			
 		}
-	
-	out.println("<br><br><br>");
-	
-	out.println("Click Here to Create New Meeting Room....");                     
-
-	//Create room 
-	out.print("<a href=AdminCreateRoom.html>CreateRoom</a>");  /// Link to Create New Room
 
 %>
 
+    </tbody>
+    
+   </table>
+
+</div>
 
 
 <!-- Footer -->

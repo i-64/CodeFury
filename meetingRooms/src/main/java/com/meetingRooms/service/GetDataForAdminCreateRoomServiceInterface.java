@@ -12,6 +12,8 @@ public interface GetDataForAdminCreateRoomServiceInterface {
 	
 	public List<MeetingTypes> getMeetingTypes (); // to get meeting types from database
 
-	public int createRoom ( MeetingRoomEntity entity );; // to insert data in database
+	public int createRoom ( MeetingRoomEntity entity ); // to insert data in database
+	
+	public List<MeetingRoomEntity> getMeetingRooms(String username);   //To get all the meetings created 
 	
 }
