@@ -15,5 +15,13 @@ public interface GetDataForAdminCreateRoomDaoInterface {
 	public int createRoom ( MeetingRoomEntity entity );
 	
 	public List<MeetingRoomEntity> getMeetingRooms(String username); 
+	
+	public MeetingRoomEntity getEditRoomInfo ( String meetingName );
+	
+	public int editRoom ( MeetingRoomEntity entity );
+	
+	public int deleteRoom ( String meetingName );
+	
+	public int getNameStatus ( String meetingName );
 
 }
