@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.meetingRooms.entity.loginUserEntity;
+import com.meetingRooms.utility.ConnectionManager;
 
 public class loginDAO implements loginDAOInterface {
 
@@ -23,7 +24,7 @@ public class loginDAO implements loginDAOInterface {
 						
 			// get connection to database
 						
-			con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" );
+			con = ConnectionManager.getConnection();
 			
 		} catch ( SQLException | ClassNotFoundException e ) {
 			
