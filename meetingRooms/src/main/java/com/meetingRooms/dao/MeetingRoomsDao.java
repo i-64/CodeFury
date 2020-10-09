@@ -86,11 +86,11 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 					m.setId(res.getInt(1));
 					m.setTitle(res.getString(2));
 					m.setOrganizedBy(res.getString(3));
-					m.setMeetingDate(res.getDate(4));
-					m.setStartTime(res.getTime(5));
+					m.setMeetingDateDT(res.getDate(4));
+					m.setStartTimeTM(res.getTime(5));
 					m.setDuration(res.getInt(6));
-					m.setMeetingType(res.getString(7));
-					m.setMeetingRoom(res.getString(8));
+					m.setMeetingTypeName(res.getString(7));
+					m.setMeetingRoomId(res.getString(8));
 					meetingList.add(m);
 				}
 			} 
