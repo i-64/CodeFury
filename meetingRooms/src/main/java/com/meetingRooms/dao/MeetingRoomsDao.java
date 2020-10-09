@@ -37,10 +37,10 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 		
 		PreparedStatement ps;
 			try {
-				ps = con.prepareStatement("select * from loginUserEntitys where loginUserEntity_id=? and role='manager'");
+				 ps = con.prepareStatement ( "select * from users where user_id=?" );
+				
 				ps.setString(1, u.getUser_id());
-				//ps.setString(2, u.getPassword());
-				//ps.setString(3, );
+				
 				ResultSet res=ps.executeQuery();
 				while(res.next()) {
 					//i=true;
@@ -73,7 +73,7 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 		PreparedStatement ps;
 		
 			try {
-				ps = con.prepareStatement("select a.id, title, organized_by, meeting_date, start_time, duration, b.meeting_type, d.unique_name from meeting a INNER JOIN MEETING_TYPES b  ON a.meeting_type_id=b.id INNER JOIN MEETING_ROOM d ON d.created_by = a.organized_by where organized_by=?");
+				ps = con.prepareStatement("select a.id, title, organized_by, meeting_date, start_time, end_time, b.meeting_type, d.unique_name from meeting a INNER JOIN MEETING_TYPES b  ON a.meeting_type_id=b.id INNER JOIN MEETING_ROOM d ON d.created_by = a.organized_by where organized_by=?");
 				ps.setString(1, u.getUser_id());
 			
 				
