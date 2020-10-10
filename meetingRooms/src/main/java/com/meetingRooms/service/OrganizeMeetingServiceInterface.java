@@ -9,6 +9,7 @@ import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
 import com.meetingRooms.entity.MeetingType;
 import com.meetingRooms.entity.User;
+import com.meetingRooms.exceptions.MeetingRoomAlreadyBookedException;
 import com.meetingRooms.exceptions.NotEnoughCreditsException;
 
 /**
@@ -21,6 +22,6 @@ public interface OrganizeMeetingServiceInterface {
 
 	public ArrayList<MeetingRoom> filterRoomsService (Meeting meeting, MeetingType meetinType);
 	public ArrayList<User> searchUserService (User user);
-	public boolean saveMeetingService (Meeting meeting, ArrayList<User> members) throws NotEnoughCreditsException;
+	public boolean saveMeetingService (Meeting meeting, ArrayList<User> members) throws NotEnoughCreditsException, MeetingRoomAlreadyBookedException;
 	public int getCredits(User user);
 }

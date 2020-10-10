@@ -13,6 +13,7 @@ import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
 import com.meetingRooms.entity.MeetingType;
 import com.meetingRooms.entity.User;
+import com.meetingRooms.exceptions.MeetingRoomAlreadyBookedException;
 import com.meetingRooms.exceptions.NotEnoughCreditsException;
 import com.meetingRooms.utility.ConnectionManager;
 
@@ -176,14 +177,36 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 	 * @param list of members to invite to meeting
 	 * @return if meeting saved or not
 	 * @throws NotEnoughCreditsException 
+	 * @throws MeetingRoomAlreadyBookedException 
 	 */
 	@Override
-	public boolean saveMeetingDao(Meeting meeting, ArrayList<User> members) throws NotEnoughCreditsException {
+	public boolean saveMeetingDao(Meeting meeting, ArrayList<User> members) throws NotEnoughCreditsException, MeetingRoomAlreadyBookedException {
 		
 		Connection con = null;
 		try {
 			
 			con = ConnectionManager.getConnection();
+			
+			/**
+			 * 
+			 *  !! Super Important Check !!
+			 *  
+			 *  Check if the room got booked by someone else
+			 *  by the time the current user (manager) submitted the "book room" form
+			 */
+			PreparedStatement checkRoomNotBookedStatement = con.prepareStatement("select * from meeting where meeting_room_id=? and ((start_time<=? and end_time>=?) or (start_time<=? and start_time>=?)) and meeting_date=?");
+			checkRoomNotBookedStatement.setString(1, meeting.getMeetingRoomId());
+			checkRoomNotBookedStatement.setString(1, meeting.getStartTime());
+			checkRoomNotBookedStatement.setString(2, meeting.getStartTime());
+			checkRoomNotBookedStatement.setString(3, meeting.getEndTime());
+			checkRoomNotBookedStatement.setString(4, meeting.getStartTime());
+			checkRoomNotBookedStatement.setString(5, meeting.getMeetingDate());
+			ResultSet checkRoomNotBookedResult = checkRoomNotBookedStatement.executeQuery();
+			if (checkRoomNotBookedResult.next())
+				throw (new MeetingRoomAlreadyBookedException());
+			
+			// In an event that the room is already booked, exit this function by raising an exception
+			
 
 
 			// check if the manager has enough credits
@@ -261,6 +284,10 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 			// TODO log exception to error.log
 			e.printStackTrace();
+		} catch (MeetingRoomAlreadyBookedException e) {
+			
+			// TODO log
+			throw e;
 		}
 		finally {
 			ConnectionManager.close();

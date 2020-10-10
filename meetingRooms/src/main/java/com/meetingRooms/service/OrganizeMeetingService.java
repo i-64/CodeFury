@@ -11,6 +11,7 @@ import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
 import com.meetingRooms.entity.MeetingType;
 import com.meetingRooms.entity.User;
+import com.meetingRooms.exceptions.MeetingRoomAlreadyBookedException;
 import com.meetingRooms.exceptions.NotEnoughCreditsException;
 import com.meetingRooms.utility.OrganizeMeetingDaoFactory;
 import com.meetingRooms.utility.SortRoomsByAverageRating;
@@ -65,9 +66,10 @@ public class OrganizeMeetingService implements OrganizeMeetingServiceInterface {
 	 * @param list of members to invite for the meeting
 	 * @return meeting was saved or not
 	 * @throws NotEnoughCreditsException 
+	 * @throws MeetingRoomAlreadyBookedException 
 	 */
 	@Override
-	public boolean saveMeetingService(Meeting meeting, ArrayList<User> members) throws NotEnoughCreditsException {
+	public boolean saveMeetingService(Meeting meeting, ArrayList<User> members) throws NotEnoughCreditsException, MeetingRoomAlreadyBookedException {
 		
 		return (dao.saveMeetingDao(meeting, members));
 	}

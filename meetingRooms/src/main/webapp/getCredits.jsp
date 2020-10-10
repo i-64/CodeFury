@@ -11,7 +11,7 @@ if ( session.getAttribute ( "role" ) == null || !session.getAttribute ( "role" )
 
 User user = new User();
 
-user.setUserId(request.getParameter("userId"));
+user.setUserId(session.getAttribute("user_id").toString());
 
 response.setContentType("text/html");
 
