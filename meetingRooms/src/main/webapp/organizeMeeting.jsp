@@ -7,9 +7,7 @@
 <% 
 	//verifying session details and returning to login page if not manager
 	
-	if ( session.getAttribute ( "role" ) == null || !session.getAttribute ( "role" ).toString().equals ( "manager" )) 
-	{
-	
+	if ( session.getAttribute ( "role" ) == null || !session.getAttribute ( "role" ).toString().equals ( "manager" )) {
 		request.getRequestDispatcher("login.jsp").forward ( request, response ); 
 	}
    

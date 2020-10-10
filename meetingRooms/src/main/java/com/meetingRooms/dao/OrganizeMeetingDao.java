@@ -8,13 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
 import com.meetingRooms.entity.MeetingType;
 import com.meetingRooms.entity.User;
+import com.meetingRooms.exceptions.MeetingRoomAlreadyBookedException;
+import com.meetingRooms.exceptions.NotEnoughCreditsException;
 import com.meetingRooms.utility.ConnectionManager;
 
 /**
@@ -37,15 +37,18 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		ArrayList<MeetingRoom> meetingRoomsList = new ArrayList<>();
 		Connection con = null;
 		try {
+			
 			con = ConnectionManager.getConnection();
 			
 			/*
 			 *  start build query
 			 *  exclude overlapping meeting rooms
 			 */
-			String queryString = " (  select unique_name from meeting_room except (select meeting_room_id from meeting where (   ((start_time<=? and end_time>=?) or (start_time<=? and start_time>=?)) and meeting_date=?)) ) INTERSECT ";
+			String queryString = "(select unique_name from meeting_room except (select meeting_room_id from meeting where ( ((start_time<=? and end_time>=?) or (start_time<=? and start_time>=?)) and meeting_date=?)) ) INTERSECT ";
+			
 			
 			// fetch mandatory amenities for this meeting type
+			
 			String str = "select mandatory_amenities from meeting_types where id=?";
 			PreparedStatement ps1 = con.prepareStatement(str);
 			ps1.setInt(1, meetingType.getMeetingTypeId());
@@ -54,7 +57,9 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 			if (rs.next()) {
 				
+				
 				// intersect rooms with rooms containing the amenity required
+				
 				String[] amenity_ids = rs.getString(1).split(",");
 				for (int i = 0; i < amenity_ids.length; i++) {
 					
@@ -65,7 +70,7 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				}
 				
 				
-				// complete the query
+				// finishig off the query
 				String finalQuery = "select * from meeting_room where unique_name in (" + queryString + ")";
 				
 				
@@ -81,10 +86,16 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				
 				while (availableRooms.next()) {
 					
+					PreparedStatement ratingStatement = con.prepareStatement("");
+					ResultSet ratingResultSet = ratingStatement.executeQuery();
+					
+					double averageRating = 0.0;
+					
 					MeetingRoom room = new MeetingRoom();
 					room.setRoomName(availableRooms.getString(1));
 					room.setCostPerHour(availableRooms.getInt(3));
 					room.setSeatingCapacity(availableRooms.getInt(2));
+					room.setAverageRating(averageRating);
 					meetingRoomsList.add(room);
 				}
 				
@@ -101,6 +112,10 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 			// TODO log exception to error.log
 			e.printStackTrace();
+		}
+		catch (Exception e) {
+			
+			// TODO log
 		}
 		finally {
 			ConnectionManager.close();
@@ -161,15 +176,71 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 	 * @param meeting details to save
 	 * @param list of members to invite to meeting
 	 * @return if meeting saved or not
+	 * @throws NotEnoughCreditsException 
+	 * @throws MeetingRoomAlreadyBookedException 
 	 */
 	@Override
-	public boolean saveMeetingDao(Meeting meeting, ArrayList<User> members) {
+	public boolean saveMeetingDao(Meeting meeting, ArrayList<User> members) throws NotEnoughCreditsException, MeetingRoomAlreadyBookedException {
 		
 		Connection con = null;
 		try {
 			
 			con = ConnectionManager.getConnection();
+			
+			/**
+			 * 
+			 *  !! Super Important Check !!
+			 *  
+			 *  Check if the room got booked by someone else
+			 *  by the time the current user (manager) submitted the "book room" form
+			 */
+			PreparedStatement checkRoomNotBookedStatement = con.prepareStatement("select * from meeting where meeting_room_id=? and ((start_time<=? and end_time>=?) or (start_time<=? and start_time>=?)) and meeting_date=?");
+			checkRoomNotBookedStatement.setString(1, meeting.getMeetingRoomId());
+			checkRoomNotBookedStatement.setString(1, meeting.getStartTime());
+			checkRoomNotBookedStatement.setString(2, meeting.getStartTime());
+			checkRoomNotBookedStatement.setString(3, meeting.getEndTime());
+			checkRoomNotBookedStatement.setString(4, meeting.getStartTime());
+			checkRoomNotBookedStatement.setString(5, meeting.getMeetingDate());
+			ResultSet checkRoomNotBookedResult = checkRoomNotBookedStatement.executeQuery();
+			if (checkRoomNotBookedResult.next())
+				throw (new MeetingRoomAlreadyBookedException());
+			
+			// In an event that the room is already booked, exit this function by raising an exception
+			
 
+
+			// check if the manager has enough credits
+			
+			int managerCredits = 0, meetingCost = 0;
+			PreparedStatement managerCreditStatement = con.prepareStatement("select credits from USERS where user_id=?");
+			managerCreditStatement.setString(1, meeting.getOrganizedBy());
+			ResultSet managerCreditResult = managerCreditStatement.executeQuery();
+			
+			if (managerCreditResult.next()) {
+				
+				managerCredits = managerCreditResult.getInt(1);
+				PreparedStatement roomCreditStatement = con.prepareStatement("select per_hour_cost from MEETING_ROOM where roounique_name=?");
+				roomCreditStatement.setString(1, meeting.getMeetingRoomId());
+				ResultSet roomCreditResult = roomCreditStatement.executeQuery();
+				
+				if (roomCreditResult.next()) {
+					
+					int roomCreditsPerHour = roomCreditResult.getInt(1);
+					meetingCost = roomCreditsPerHour * meeting.getDurationInHours();
+					
+					if (meetingCost > managerCredits) {
+						
+						// Manager does not have enough credits to book the meeting
+						// raise an exception and reject the booking request
+						
+						throw (new NotEnoughCreditsException());
+					}
+				}
+			}
+			
+			
+			// the manager has enough credits, meeting can be committed to database
+			
 			PreparedStatement statement = con.prepareStatement("insert into MEETING (title, organized_by, meeting_date, start_time, end_time, meeting_room_id, meeting_type_id) values (?,?,?,?,?,?,?)");
 			statement.setString(1, meeting.getTitle());
 			statement.setString(2, meeting.getOrganizedBy());
@@ -195,25 +266,65 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 						psAttendees.execute();
 					}
 					
-					return true;
-				}
-				else {
-					// TODO throw
+					
+					// meeting and attendees saved, safely charge credits to the manager
+					
+					PreparedStatement updateCreditsStatement = con.prepareStatement("update USERS set credits=? where user_id=?");
+					updateCreditsStatement.setString(2, meeting.getOrganizedBy());
+					updateCreditsStatement.setInt(1, managerCredits - meetingCost);
+					return (updateCreditsStatement.executeUpdate() == 1);
 				}
 			}
 			else {
-				// TODO throw and log
+				
+				// TODO logr.error("Failed to insert meeting: " + meeting.toString());
 			}
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			
 			// TODO log exception to error.log
 			e.printStackTrace();
+		} catch (MeetingRoomAlreadyBookedException e) {
+			
+			// TODO log
+			throw e;
 		}
 		finally {
 			ConnectionManager.close();
 		}
 		return false;
+	}
+
+	
+	/**
+	 * get the credits of the manager
+	 * 
+	 * @param the user to get crdits
+	 * @return the credits of the manager
+	 */
+	@Override
+	public int getCredits(User user) {
+		
+		Connection con = null;
+		try {
+		
+			con = ConnectionManager.getConnection();
+			PreparedStatement ps = con.prepareStatement("select credits from USERS where user_id=?");
+			ps.setString(1, user.getUserId());
+			ResultSet rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				
+				return rs.getInt(1);
+			}
+		}
+		catch (SQLException | ClassNotFoundException e) {
+			// TODO
+		}
+		finally {
+			ConnectionManager.close();
+		}
+		return 0;
 	}
 	
 }
