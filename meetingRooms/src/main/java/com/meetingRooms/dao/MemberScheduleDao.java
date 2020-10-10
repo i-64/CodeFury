@@ -55,11 +55,13 @@ public class MemberScheduleDao implements MemberScheduleDaoInterface {
 				m1.setId(Integer.parseInt(rs.getString(1)));
 				m1.setTitle(rs.getString(2));
 				m1.setOrganizedBy(rs.getString(3));
-
-				m1.setMeetingDateDT(rs.getTime(4));
+				
+				m1.setMeetingDateDT(rs.getDate(4));
 				m1.setStartTimeTM((rs.getTime(5)));
-				m1.setDuration(Integer.parseInt(rs.getString(6)));
-				m1.setMeetingTypeName(rs.getString(7));
+				m1.setEndTime(rs.getString(6));
+				
+				m1.setMeetingRoomId(rs.getString(7));
+				m1.setMeetingTypeName(rs.getString(8));
 
 				
 				meeting_schedule.add(m1);
