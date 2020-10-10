@@ -33,17 +33,6 @@
 			values [i].disabled = false;
 		}
 	}
-	
-	
-	if ( option.length == 0 ) {
- 	
- 		 var meeting_type = 0;
- 		 alert ( "Select Meeting Type" );
- 	
- 	} else {
- 	
- 		alert ( option );
- 	}
  
 } // end of setCheckBoxes function 
  
@@ -61,6 +50,11 @@
 		error_message = "<span style = \"color:red;\"> Seating Capacity Empty </span>";
 		seating_capacity = 0;				
 				
+	} else if ( parseInt ( seatingCapacity ) == 0 ) {
+		
+		error_message = "<span style = \"color:red;\"> Seating Capacity can't be zero </span>";
+		seating_capacity = 0;
+		
 	} else if ( seatingCapacity.match ( /[^0-9]/ ) ) {
 	
 		error_message = "<span style = \"color:red;\"> Invalid Characters </span>";
@@ -143,57 +137,75 @@
  
  function preFinalValidation () {
 	 
-	var values = document.getElementsByName ( "amenitites" );
-	 	
-	for (var i = 0; i < values.length; i++) {
-		  
-		values [i].disabled = false;
-	}
-	
-	validateForm ();
+		amenity_flag = 0;
+		 
+		var values = document.getElementsByName ( "amenitites" );
+		
+		var amenitiesCount = 0;
+		
+		for (var i = 0; i < values.length; i++) {
+			  
+			if ( values [i].checked ) {
+				
+				amenitiesCount++;
+				
+				if ( amenitiesCount >= 2 ) {
+					
+					amenity_flag = 1;
+					break;
+				}
+			}  
+		}
+		
+		if ( amenitiesCount < 2 ) {
+			
+			alert ( "Select at least 2 Amenities" );
+		}
+		
+		// checking option selected or not
+		
+		meeting_type = 0;
+		
+		var meetingType = document.getElementsByName ( "meetingType" );
+		
+		if ( meetingType.length == 0 ) {
+			
+			meeting_type = 0;
+			
+		} else {
+			
+			meeting_type = 1;
+		}
+		
+
+	 if ( name_flag && seating_capacity && meeting_type && amenity_flag ) {
+		 
+		 document.getElementById ( "submitButton" ).disabled = false;
+		 
+	 } else {
+		 
+	 	document.getElementById ( "submitButton" ).disabled = true;
+	 }
 	 
  } // end of preFinalValidation function
  
  	// final validation
  
- function validateForm () {
- 
-	 	// checking for amenities selected
-	
-	amenity_flag = 0;
-	 
- 	var values = document.getElementsByName ( "amenitites" );
- 	
-	for(var i = 0; i < values.length; i++) {
-	  
-		if ( values [i].checked ) {
-			
-			amenity_flag = 1;
-			break;
-		}  
-	} 	
- 
-		// checking option selected or not
-	
-	meeting_type = 0;
-	
-	var meetingType = document.getElementsByName ( "meetingType" );
-	
-	if ( meetingType.length == 0 ) {
-		
-		meeting_type = 0;
-		
-	} else {
-		
-		meeting_type = 1;
-	}
+ function validateForm () { 
 	
 		// final validation
 	
  	if ( name_flag && seating_capacity && meeting_type && amenity_flag ) {
+ 		
+ 		var values = document.getElementsByName ( "amenitites" ); // get checkBoxes
+ 		 
+ 		 for ( var i = 0; i < values.length; i++ ) {	 
+ 				
+ 				values [i].disabled = false;
+ 		}
  	
- 		document.getElementById ( "submitButton" ).disabled = false;
-
+ 		document.getElementById ( "AdminCreateRoomForm" ).submit (); // submit the final form
+ 		
  	} else  {
  	 	
  		alert ( "Error In Existing Form" );
