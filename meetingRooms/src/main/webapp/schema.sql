@@ -158,3 +158,16 @@ CREATE TABLE ATTENDEES  (
 	foreign key (meeting_id) references MEETING (id),
 	foreign key (user_id) references USERS (user_id)
 );
+
+
+//credits renewal table
+DROP TABLE CREDIT_RENEWAL;
+CREATE TABLE CREDIT_RENEWAL (
+
+	user_id varchar (50),
+	
+	next_Renewal_Date timestamp,
+	
+	foreign key (user_id) references USERS (user_id)
+
+);
