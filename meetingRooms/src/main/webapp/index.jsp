@@ -100,10 +100,12 @@
 		
 		// prepare query
 		
-		PreparedStatement ps = con.prepareStatement ( "select m.unique_name, m.seating_capacity, m.total_meetings_conducted, f.rating from meeting_room m inner join ( select meeting_room_id, SUM(rating)/COUNT(rating) as rating from feedback group by meeting_room_id ) f on m.unique_name = f.meeting_room_id" );
+		//select m.unique_name, m.seating_capacity, m.total_meetings_conducted, f.rating from meeting_room m inner join ( select meeting_room_id, SUM(rating)/COUNT(rating) as rating from feedback group by meeting_room_id ) f on m.unique_name = f.meeting_room_id
+	
+		PreparedStatement ps = con.prepareStatement ( "select m.unique_name, m.seating_capacity, m.total_meetings_conducted, f.rating from meeting_room m left outer join ( select meeting_room_id, SUM(rating)/COUNT(rating) as rating from feedback group by meeting_room_id ) f on m.unique_name = f.meeting_room_id" );
 		
 		ResultSet set_1 = ps.executeQuery ();		
-%>
+	%>
 
     <div class="container">
 
@@ -125,32 +127,42 @@
             </thead>
 
             <tbody>
-
-                <%
-		while ( set_1.next () ) {
-
+            
+<%            
+            while ( set_1.next () ) {
 %>
-                <tr>
+            	<tr>
+            	
+            		<td> <%=set_1.getString (1)%> </td>
+                	<td> <%=set_1.getString (2)%> </td>
+                	<td> <%=set_1.getString (3)%> </td>
+                	<td> 
 
-                    <td> <%=set_1.getString (1)%> </td>
-                    <td> <%=set_1.getString (2)%> </td>
-                    <td> <%=set_1.getString (3)%> </td>
-                    <td> <%=set_1.getString (4)%> </td>
+						 <% if ( set_1.getString (4) == null ) {
+      				
+      						%>0<%
+      					
+      					} else {  
+      					
+      					%> <%=set_1.getString (4)%> <%
+      					}
+      				%>
+                	
+                	
+                	</td>
+                
+            	</tr>
+<%
+      		}
+%>      		
+      		</tbody> 
 
-                </tr>
-
-                <%			
-		}
-
-	} catch ( SQLException e ) {
-	
-		e.printStackTrace ();
-	}
-
-%>
-			</tbody>
-
-        </table>
+<%		} catch ( SQLException e ) {
+		
+			e.printStackTrace ();
+		}	
+%>		
+       </table>
 
     </div>
 

@@ -42,7 +42,7 @@
 	 for ( var i = 0; i < values.length; i++ ) {	 
 			
 			values [i].disabled = false;
-		}
+	}
 	 
  } // end of enableAmenitySelection function
  
