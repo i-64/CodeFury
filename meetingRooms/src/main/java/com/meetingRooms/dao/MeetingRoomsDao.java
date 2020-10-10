@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.meetingRooms.entity.Meeting;
+import com.meetingRooms.entity.User;
 import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.ConnectionManager;
 
@@ -28,10 +29,10 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 	}
 	
 	@Override
-	public loginUserEntity managerInfoDao(loginUserEntity u) {
+	public User managerInfoDao(User u) {
 		// TODO Auto-generated method stub
 		
-		loginUserEntity loginUserEntity=null;
+		User user=null;
 		
 		//getting manager information
 		
@@ -39,19 +40,18 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 			try {
 				 ps = con.prepareStatement ( "select * from users where user_id=?" );
 				
-				ps.setString(1, u.getUser_id());
+				ps.setString(1, u.getUserId());
 				
 				ResultSet res=ps.executeQuery();
 				while(res.next()) {
 					//i=true;
-					loginUserEntity=new loginUserEntity();
-					//loginUserEntity.setCredits(res.getInt("credits"));
-					loginUserEntity.setName(res.getString("name"));
-					//loginUserEntity.setPassword(res.getString("password"));
-					loginUserEntity.setPhone(res.getString("Phone"));
-					loginUserEntity.setRole(res.getString("role"));
-					loginUserEntity.setUser_id(res.getString("user_id"));
-					loginUserEntity.setEmail(res.getString("email"));	
+					user =new User();
+					user.setName(res.getString("name"));
+					user.setPhone(res.getString("Phone"));
+					user.setRole(res.getString("role"));
+					user.setUserId(res.getString("user_id"));
+					user.setEmail(res.getString("email"));	
+					user.setCredits(res.getInt("credits"));
 				}
 				
 			} 
@@ -61,20 +61,22 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 			
 			}
 					
-		return loginUserEntity;
+		return user;
 	
 		}
 
 	@Override
-	public List<Meeting> listOfScheduledMeetingsDao(loginUserEntity u) {
+	public List<Meeting> listOfScheduledMeetingsDao(User u) {
 		
 		List<Meeting> meetingList=new ArrayList<Meeting>();
 		//getting list of meetings scheduled by the manager 
 		PreparedStatement ps;
 		
 			try {
+				
+				//meeting_types, meeting_room, meeting
 				ps = con.prepareStatement("select a.id, title, organized_by, meeting_date, start_time, end_time, b.meeting_type, d.unique_name from meeting a INNER JOIN MEETING_TYPES b  ON a.meeting_type_id=b.id INNER JOIN MEETING_ROOM d ON d.created_by = a.organized_by where organized_by=?");
-				ps.setString(1, u.getUser_id());
+				ps.setString(1, u.getUserId());
 			
 				
 				ResultSet res= ps.executeQuery();

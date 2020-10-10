@@ -4,7 +4,7 @@
 <%@ page isELIgnored="false"%>
 
 <%@page
-	import="java.util.*, com.meetingRooms.entity.loginUserEntity,com.meetingRooms.entity.Meeting, com.meetingRooms.service.MeetingRoomsServiceInterface, com.meetingRooms.utility.MeetingServiceFactory"%>
+	import="java.util.*,java.sql.Time, com.meetingRooms.entity.User,com.meetingRooms.entity.Meeting, com.meetingRooms.service.MeetingRoomsServiceInterface,com.meetingRooms.service.LogServiceInterface,com.meetingRooms.service.LogService, com.meetingRooms.utility.MeetingServiceFactory,com.meetingRooms.utility.LogServiceFactory"%>
 <%@ page import="com.meetingRooms.utility.ConnectionManager"%>
 
 <% 
@@ -97,10 +97,16 @@
 	<%@ page import="java.text.*"%>
 
 	<% 	String userId=(String)session.getAttribute("user_id");
-	loginUserEntity u=new loginUserEntity();
-	u.setUser_id(userId);
+	User u=new User();
+	u.setUserId(userId);
+
 	MeetingRoomsServiceInterface s=MeetingServiceFactory.createObject("admin service");
-	loginUserEntity user=s.managerInfoService(u);
+	User user=s.managerInfoService(u);
+	
+	LogServiceInterface ls=LogServiceFactory.createObject();
+	Time t=ls.displayLastLoginService(u);
+	
+	
 	%>
 
 
@@ -129,7 +135,15 @@
 						<tr>
 							<th>User ID</th>
 
+							<th>Name</th>
+							
 							<th>Email id</th>
+							
+							<th>Phone Number</th>
+							
+							<th>Role</th>
+							
+							<th>Credits</th>
 
 							<th>Last Logged In</th>
 						</tr>
@@ -141,11 +155,19 @@
 %>
 						<tr>
 
-							<td><%=user.getUser_id()%></td>
-
+							<td><%=user.getUserId()%></td>
+								
+							<td><%=user.getName()%></td>
+							
 							<td><%=user.getEmail()%></td>
+							
+							<td><%=user.getPhone()%></td>
+							
+							<td><%=user.getRole()%></td>
+							
+							<td><%=user.getCredits()%></td>
 
-							<td></td>
+							<td><%= t %></td>
 
 
 						</tr>
@@ -218,7 +240,7 @@
 	
 	
 		
-		List<Meeting> listOfMeetings=s.listOfScheduledMeetingsService(user);
+		List<Meeting> listOfMeetings= s.listOfScheduledMeetingsService(user);
 	
 		for(Meeting m : listOfMeetings) {
 %>
