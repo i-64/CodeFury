@@ -47,8 +47,8 @@
 	
 	<link href="css/Footer-with-button-logo.css" rel="stylesheet">
 
-	<script src="javaScript/bootstrap_v4.5.2.js"></script>
 	<script src="javaScript/jQuery_v3.5.1.js"></script>
+	<script src="javaScript/bootstrap_v4.5.2.js"></script>	
 	
 	<title> Member Home Page  </title>
 
@@ -74,7 +74,6 @@
 	      	
 	      		<li class="active"> <a href="member.jsp"> Home </a> </li>
 	      	
-	      		
 	      		<li > <a href="Logout"> Logout </a> </li>	      		
 	      		
 	    	</ul>
@@ -88,7 +87,6 @@
 <div class="row"> <br> <br> <br> </div>
 
 ${member_message}
-
 
 <%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory"%>
 <%

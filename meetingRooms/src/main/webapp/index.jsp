@@ -10,6 +10,7 @@
 <%@ page import = "java.sql.SQLException" %>
 <%@ page import = "java.sql.SQLException" %>
 <%@ page import = "com.meetingRooms.utility.ConnectionManager" %>
+
 <!DOCTYPE html>
 
 <html>
@@ -43,8 +44,6 @@
 
 
     <div class="container">
-
-        <nav class="navbar navbar-inverse navbar-fixed-top">
 
             <nav class="navbar navbar-inverse navbar-fixed-top">
 
@@ -89,11 +88,6 @@
 
     <!-- DISPLAY MEETING LISTS -->
 
-    <!-- MANAG GEINOF -->
-
-
-
-    <!--  -->
     <%
 
 	//load driver
@@ -154,10 +148,7 @@
 	}
 
 %>
-
-
-
-            </tbody>
+			</tbody>
 
         </table>
 

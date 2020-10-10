@@ -77,8 +77,26 @@
  } // end of validateSeatingCapacity Function 
  
  
- function getUniqueNameStatus ( name ) {
-	 
+ 	// function to validate Meeting Name
+ 	
+ function validateMeetingName () {
+
+	var name = document.getElementById ( "meeting_name" ).value;
+	
+	var error_meesage = "";
+	
+	if ( name.length == 0 ) {
+				
+		error_message = "<span style = \"color:red;\"> Name Empty </span>";
+		name_flag = 0;				
+				
+	} else if ( name.match ( /[^A-Za-z0-9 ]/ ) ) {
+	
+		error_message = "<span style = \"color:red;\"> Invalid Characters </span>";
+		name_flag = 0;
+		
+	} else {
+		
 			// get XHR
 		
 		var xhr = new XMLHttpRequest ();
@@ -93,54 +111,30 @@
 			
 			// check response from server
 			// state ( 0 = no connection, 1 = connection exists, 2 = client send request, 3 = server responded, 4 = interaction finished )
-
+		
 		xhr.onreadystatechange = function () {
 			
 			if ( xhr.readyState == 4 ) {
 				
 				message = xhr.responseText;
-
-				if ( message == "0" ) {
+				
+				if ( (message == "0") ) {
 					
-					return 0;
-				}
+					error_message = "<span style = \"color:red;\"> Meeting Room Already Exists </span>";
+					name_flag = 0;
+					document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
+				
+				} else {
+					
+					error_message = "";
+					name_flag = 1;
+					document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
+				}				
 			}						
 		}
-	 
-	 return 1; // on success
-	 
- } // end of getUniqueNameStatus function
- 
- 	// function to validate Meeting Name
- 	
- function validateMeetingName () {
+	}
 
-	var name = document.getElementById ( "meeting_name" ).value;
-	
-	var error_meesage = "";
-	
-	if ( name.length == 0 ) {
-				
-		error_message = "<span style = \"color:red;\"> Name Empty </span>";
-		name_flag = 0;				
-				
-	} else if ( getUniqueNameStatus ( name ) == 0 ) {
-		
-		error_message = "<span style = \"color:red;\"> Meeting Room Already Exists </span>";
-		name_flag = 0;
-	
-	} else if ( name.match ( /[^A-Za-z0-9 ]/ ) ) {
-	
-		error_message = "<span style = \"color:red;\"> Invalid Characters </span>";
-		name_flag = 0;
-		
-	} else {
-	
-		error_message = "";
-		name_flag = 1;
-	}		
-	
-	document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
+	//document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
 
  } // end of validateMeetingName Function
 

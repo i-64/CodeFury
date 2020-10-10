@@ -52,9 +52,9 @@
 	
 	<link href="css/Footer-with-button-logo.css" rel="stylesheet">
 	
-	<script src="javaScript/bootstrap_v4.5.2.js"></script>
 	<script src="javaScript/jQuery_v3.5.1.js"></script>
-	
+	<script src="javaScript/bootstrap_v4.5.2.js"></script>
+		
 	<script type="text/javascript" src="javaScript/AdminEditRoom.js"></script>	
 
 	<title> Admin Edit Room </title>
@@ -257,13 +257,48 @@ ${Admin_edit_page_room_message}
 			
 			<div class = "row"> <br> </div>
 			
-			<form action="AdminDeleteMeetingRoom" method="post" id = "DeleteMeetingRoom" name = "DeleteMeetingRoom">
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Delete</button>
 			
-				<button type="button" class="btn  btn-danger" onclick="deleteRoom()"> Delete Room </button>
-				<input type="hidden" name = "unique_name" id = "unique_name" value = "<%=meeting_details.getUniqueName()%>">
+			<!-- MODAL -->
+		
+			<div class="modal" id="myModal">
+		
+				<div class="modal-dialog">
+		
+					<div class="modal-content">
+		
+						<!-- Modal Header -->
+						<div class="modal-header">
+		
+							<h4 class="modal-title">CONFIRM DELETE</h4>
+		
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+		
+						</div>
+		
+						<!-- Modal body -->
+		
+						<div class="modal-body"> ACTION CANNOT BE REVERSED </div>
+		
+		      			<!-- Modal footer -->
+		      			<div class="modal-footer">
+		      
+		        			<form action="AdminDeleteMeetingRoom" method="post" id = "DeleteMeetingRoom" name = "DeleteMeetingRoom">
+			
+								<button type="button" class="btn  btn-danger" onclick="deleteRoom()"> Delete Room </button>
+								<input type="hidden" name = "unique_name" id = "unique_name" value = "<%=meeting_details.getUniqueName()%>">
 				
-			</form>
-					
+							</form>
+		      
+		      			</div>
+		
+		    		</div>
+		  
+		  		</div>
+		
+			</div>
+			
+		<!-- MODAL -->
 			
 		</div>
 		

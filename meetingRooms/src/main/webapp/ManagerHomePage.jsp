@@ -99,7 +99,6 @@
 	<% 	String userId=(String)session.getAttribute("user_id");
 	loginUserEntity u=new loginUserEntity();
 	u.setUser_id(userId);
-
 	MeetingRoomsServiceInterface s=MeetingServiceFactory.createObject("admin service");
 	loginUserEntity user=s.managerInfoService(u);
 	%>
@@ -215,7 +214,6 @@
 
 
 				<%
-
 	// getting the details of scheduled meetings
 	
 	
@@ -223,7 +221,6 @@
 		List<Meeting> listOfMeetings=s.listOfScheduledMeetingsService(user);
 	
 		for(Meeting m : listOfMeetings) {
-
 %>
 				<tr>
 
