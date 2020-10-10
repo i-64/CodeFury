@@ -92,21 +92,26 @@
         </div>
 
         <div class='item-container'>
-            <div class='title'> Select booking date</div>
-            <input class='userinput width100' type="date" id='meetingDate' onchange="resetRooms()">
+            <div class='title'> Select booking date(dd/mm/yyyy)</div>
+            <input class='userinput width100' type="date" id='meetingDate'
+                onChange="dateValidation();resetRooms();enableFilterBtn();">
+            <div class='error' id='dateError'></div>
         </div>
 
         <div class='flex-row item-container'>
             <div class='flex-item'>
                 <div class='title'> Select start time</div>
-                <input class='userinput' type="time" id='startTime' onchange="resetRooms()">
+                <input class='userinput' type="time" id='startTime'
+                    onChange="timeValidation();resetRooms();enableFilterBtn();">
             </div>
 
             <div class='flex-item'>
                 <div class='title'> Select end time </div>
-                <input class='userinput' type="time" id='endTime' onchange="resetRooms()">
+                <input class='userinput' type="time" id='endTime'
+                    onChange="timeValidation();resetRooms();enableFilterBtn();">
             </div>
         </div>
+        <div class='error' id='timeError'></div>
         <button onclick="filterRooms()" id='filterbtn'>Show Available Rooms</button>
         <div class='modal-container inactive'>
             <div class='modal-body'></div>
