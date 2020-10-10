@@ -77,6 +77,40 @@
  } // end of validateSeatingCapacity Function 
  
  
+ function getUniqueNameStatus ( name ) {
+	 
+			// get XHR
+		
+		var xhr = new XMLHttpRequest ();
+			
+			// open connection with server
+			
+		xhr.open ( "POST", "AdminGetData?name=" + name, true );
+		
+			// send request
+			
+		xhr.send ();
+			
+			// check response from server
+			// state ( 0 = no connection, 1 = connection exists, 2 = client send request, 3 = server responded, 4 = interaction finished )
+
+		xhr.onreadystatechange = function () {
+			
+			if ( xhr.readyState == 4 ) {
+				
+				message = xhr.responseText;
+
+				if ( message == "0" ) {
+					
+					return 0;
+				}
+			}						
+		}
+	 
+	 return 1; // on success
+	 
+ } // end of getUniqueNameStatus function
+ 
  	// function to validate Meeting Name
  	
  function validateMeetingName () {
@@ -90,6 +124,11 @@
 		error_message = "<span style = \"color:red;\"> Name Empty </span>";
 		name_flag = 0;				
 				
+	} else if ( getUniqueNameStatus ( name ) == 0 ) {
+		
+		error_message = "<span style = \"color:red;\"> Meeting Room Already Exists </span>";
+		name_flag = 0;
+	
 	} else if ( name.match ( /[^A-Za-z0-9 ]/ ) ) {
 	
 		error_message = "<span style = \"color:red;\"> Invalid Characters </span>";

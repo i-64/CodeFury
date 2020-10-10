@@ -110,7 +110,7 @@ ${Admin_home_page_create_room_message}
 		
 		<div class="row"><h3>CREATE MEETING ROOM</h3></div>
 		
-			<form action="AdminCreateRoom" method="post">
+			<form action="AdminCreateRoom" method="post" name = "AdminCreateRoomForm" edit = "AdminCreateRoomForm">
 			
 				<div class="row"><br></div>
 			

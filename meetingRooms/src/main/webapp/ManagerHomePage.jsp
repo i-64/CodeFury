@@ -50,7 +50,35 @@
 
 	<div class="container">
 
+<<<<<<< HEAD
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	
+		<div class="container-fluid">
+	    	
+	    	<div class="navbar-header">
+	    	
+	      		<a class="navbar-brand" href="ManagerHomePage.jsp"> <img src="images/logo/hsbc-logo-dark_navbar.png"  style=" height:20px; width:110px;"/> </a>
+	      		
+	    	</div>
+	    	
+	    	<ul class="nav navbar-nav">
+	      	
+	      		<li  class="active"> <a href ="ManagerHomePage.jsp"> Manager Home </a> </li>
+	      	
+	      		<li> <a href ="organizeMeeting.jsp"> Organize Meeting </a> </li>
+	      		
+	      		<li> <a href ="#myModal" role="button" data-toggle="modal" stlye="link:white;"> Manager Information </a> </li>
+	      		
+	      		<li> <a href="Logout"> Logout </a> </li>	      		
+	      		
+	    	</ul>
+	    	
+	  	</div>
+
+	</nav>
+=======
 		<nav class="navbar navbar-inverse navbar-fixed-top">
+>>>>>>> 5c6dfac6754ead6d71a9e50b800faeb86ae2d47d
 
 			<div class="container-fluid">
 

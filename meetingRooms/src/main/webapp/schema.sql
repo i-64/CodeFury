@@ -1,4 +1,4 @@
-connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=admin'; 
+connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=admin';
 
 // log table
 

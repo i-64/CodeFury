@@ -40,6 +40,30 @@
   	<description></description>
   	<servlet-class>com.meetingRooms.controller.AdminCreateRoom</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>AdminEditRoom</servlet-name>
+  	<display-name>AdminEditRoom</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminEditRoom</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AdminDeleteRoom</servlet-name>
+  	<display-name>AdminDeleteRoom</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminDeleteRoom</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AdminDeleteMeetingRoom</servlet-name>
+  	<display-name>AdminDeleteMeetingRoom</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminDeleteMeetingRoom</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AdminGetData</servlet-name>
+  	<display-name>AdminGetData</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminGetData</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
   	<url-pattern>/Login</url-pattern>
@@ -63,5 +87,21 @@
   <servlet-mapping>
   	<servlet-name>AdminCreateRoom</servlet-name>
   	<url-pattern>/AdminCreateRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminEditRoom</servlet-name>
+  	<url-pattern>/AdminEditRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminDeleteRoom</servlet-name>
+  	<url-pattern>/AdminDeleteRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminDeleteMeetingRoom</servlet-name>
+  	<url-pattern>/AdminDeleteMeetingRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminGetData</servlet-name>
+  	<url-pattern>/AdminGetData</url-pattern>
   </servlet-mapping>
 </web-app>

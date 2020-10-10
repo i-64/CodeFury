@@ -17,6 +17,40 @@ public class GetDataForAdminCreateRoomService implements GetDataForAdminCreateRo
 		dao = GetDataForAdminCreateRoomFactory.createObjectForDAO ();		
 	}
 	
+		// function to get meeting Name Status
+	
+	@Override
+	public int getNameStatus ( String meetingName ) {
+		
+		return dao.getNameStatus(meetingName);
+		
+	} // end of getNameStatus function
+	
+	
+		// function to delete meeting room
+	
+	@Override
+	public int deleteRoom ( String meetingName ) {
+		
+		return dao.deleteRoom (meetingName);
+	}	
+	
+		// function to edit room
+	
+	@Override
+	public int editRoom ( MeetingRoomEntity entity ) {
+		
+		return dao.editRoom ( entity );
+	}
+		
+		// function to get info for edit meeting 
+	
+	@Override
+	public MeetingRoomEntity getEditRoomInfo ( String meetingName ) {
+		
+		return dao.getEditRoomInfo (meetingName);
+	}
+	
 	
 		// function to get meeting types
 	
