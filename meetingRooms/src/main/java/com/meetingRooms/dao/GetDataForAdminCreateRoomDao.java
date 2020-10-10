@@ -51,7 +51,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			if ( rs.next () ) {
 				
-				return 0; // unsuccessful insertion				
+				return 0; // invalid name				
 			}
 			
 		} catch (SQLException e ) {

@@ -124,8 +124,9 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		try {
 			con = ConnectionManager.getConnection();
 
-			PreparedStatement statement = con.prepareStatement("select * from USERS where role=?");
+			PreparedStatement statement = con.prepareStatement("select * from USERS where role=? or role=?");
 			statement.setString(1, "member");
+			statement.setString(2, "manager");
 			ResultSet rs = statement.executeQuery();
 			
 			while (rs.next()) {

@@ -3,6 +3,9 @@
     pageEncoding="ISO-8859-1"%>
 
 <%@ page isELIgnored="false" %>
+
+<%@page	import="java.util.*,java.sql.Time, com.meetingRooms.entity.User,com.meetingRooms.entity.Meeting, com.meetingRooms.service.MeetingRoomsServiceInterface,com.meetingRooms.service.LogServiceInterface,com.meetingRooms.service.LogService, com.meetingRooms.utility.MeetingServiceFactory,com.meetingRooms.utility.LogServiceFactory"%>
+<%@ page import="com.meetingRooms.utility.ConnectionManager"%>
     
 <!DOCTYPE html>
 <%
@@ -47,8 +50,8 @@
 	
 	<link href="css/Footer-with-button-logo.css" rel="stylesheet">
 
-	<script src="javaScript/bootstrap_v4.5.2.js"></script>
 	<script src="javaScript/jQuery_v3.5.1.js"></script>
+	<script src="javaScript/bootstrap_v4.5.2.js"></script>	
 	
 	<title> Member Home Page  </title>
 
@@ -73,8 +76,9 @@
 	    	<ul class="nav navbar-nav">
 	      	
 	      		<li class="active"> <a href="member.jsp"> Home </a> </li>
-	      	
 	      		
+	      		<li><a href="#myModal" role="button" data-toggle="modal"> Member Information </a></li>
+	      	
 	      		<li > <a href="Logout"> Logout </a> </li>	      		
 	      		
 	    	</ul>
@@ -89,8 +93,105 @@
 
 ${member_message}
 
+	<% 	String userId=(String)session.getAttribute("user_id");
+	User u=new User();
+	u.setUserId(userId);
+
+	MeetingRoomsServiceInterface s=MeetingServiceFactory.createObject("admin service");
+	User user=s.managerInfoService(u);
+	
+	LogServiceInterface ls=LogServiceFactory.createObject();
+	Time t=ls.displayLastLoginService(u);
+	
+	
+	%>
+
+
+	<!-- The Modal for Manager information in the navbar -->
+
+	<div class="modal" id="myModal">
+
+		<div class="modal-dialog">
+
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+
+					<h4 class="modal-title">Member Information</h4>
+
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+				</div>
+
+				<!-- Modal body -->
+
+				<div class="modal-body">
+
+					<table class="table">
+						<tr>
+							<th>User ID</th>
+
+							<th>Name</th>
+							
+							<th>Email id</th>
+							
+							<th>Phone Number</th>
+							
+							<th>Role</th>
+							
+							<th>Credits</th>
+
+							<th>Last Logged In</th>
+						</tr>
+						<%
+		
+		if(user!=null){
+			// for getting last accessed time of the manager
+			
+%>
+						<tr>
+
+							<td><%=user.getUserId()%></td>
+								
+							<td><%=user.getName()%></td>
+							
+							<td><%=user.getEmail()%></td>
+							
+							<td><%=user.getPhone()%></td>
+							
+							<td><%=user.getRole()%></td>
+							
+							<td><%=user.getCredits()%></td>
+
+							<td><%= t %></td>
+
+
+						</tr>
+
+						<%}%>
+					</table>
+
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- Modal Close -->
+
 
 <%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory"%>
+
 <%
 /**
  * 
@@ -102,15 +203,13 @@ String str_userId=request.getParameter("user_id"); // get user id from session
 
 
  loginServiceInterface lsi = loginUserServiceFactory.createObject();  //factory to creste object
- loginUserEntity user= new loginUserEntity();
- user.setUser_id(str_userId); //user details set in object
+ loginUserEntity user1= new loginUserEntity();
+ user1.setUser_id(str_userId); //user details set in object
  
  //memberschedule retrieved from controller-service-dao
  MemberScheduleControllerInterface memberSchedule= new MemberScheduleController();
- List<Meeting> meetingList = memberSchedule.loadMeeting(user); 
+ List<Meeting> meetingList = memberSchedule.loadMeeting(user1); 
  Meeting obj =new Meeting();
- 
-
 
 %>
 <div class="container">
