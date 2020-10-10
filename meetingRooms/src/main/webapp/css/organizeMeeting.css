@@ -32,7 +32,7 @@ li{
 }
 
 .item-container{
-margin: 20px 0;
+    margin-top: 20px;
 }
 
 
@@ -191,6 +191,15 @@ margin: 20px 0;
 .modal-confirm button{
     min-width: 200px;
 }
+
+.error{
+    color: red;
+}
+
+#filterbtn{
+    margin-top: 10px;
+}
+
 /* Suprisingly below doesnt work. Fetching image from browser gives 404 strangely. Maybe tomcat not allowing to get the resource.
  .content-container li::after{
         position: absolute;

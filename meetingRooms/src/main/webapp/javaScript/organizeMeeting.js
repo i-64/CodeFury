@@ -1,13 +1,72 @@
-function ready() {
-	//initialze meeting date to today's date
-	document.getElementById('meetingDate').value = new Date().toISOString().split('T')[0];
-}
-
 var rooms = [];
 var userIdToNameMap = {};
 var usersPresentInMeeting = [];
 var suggestedUsers = [];
 var currentRoomId = null;
+
+function ready() {
+	//initialze meeting date to tomorrow's date
+	document.getElementById('filterbtn').disabled = true
+	document.getElementById('meetingDate').value = new Date(getTomorrowDate()).toLocaleDateString().split('/').reverse().join('-')
+}
+
+
+
+function getTomorrowDate() {
+	var tomorrow = new Date();
+	tomorrow.setHours(0, 0, 0, 0)
+	return tomorrow.setDate(new Date().getDate() + 1);
+}
+
+function dateValidation() {
+	var meetingDate = document.getElementById("meetingDate").value;
+	document.getElementById('dateError').innerHTML = '';
+
+	if (new Date(meetingDate) < getTomorrowDate()) {
+		document.getElementById('filterbtn').disabled = true
+		document.getElementById('dateError').innerHTML = 'Booking date should always be a later date than today'
+	}
+
+}
+
+function timeValidation() {
+	var startTime = document.getElementById("startTime").value;
+	var endTime = document.getElementById("endTime").value;
+	var [startTimeHH, startTimeMM] = startTime.split(':');
+	var [endTimeHH, endTimeMM] = endTime.split(':');
+	var validationFailed = false;
+	document.getElementById('timeError').innerHTML = '';
+
+	if (startTime === '' || endTime === '') return
+
+	if (startTimeHH > endTimeHH) {
+		validationFailed = true;
+	}
+	else if (startTimeHH === endTimeHH && startTimeMM >= endTimeMM) {
+		validationFailed = true;
+	}
+
+
+	if (validationFailed) {
+		document.getElementById('filterbtn').disabled = true
+		document.getElementById('timeError').innerHTML = 'Start time should always be less than end time';
+	}
+}
+
+function enableFilterBtn() {
+
+	var startTime = document.getElementById("startTime").value;
+	var endTime = document.getElementById("endTime").value;
+	var meetingDate = document.getElementById("meetingDate").value;
+
+	if (meetingDate === '' || startTime === '' || endTime === '') return
+	if (document.getElementById('timeError').innerHTML === '' && document.getElementById('dateError').innerHTML === '') {
+		document.getElementById('filterbtn').disabled = false
+	}
+}
+
+
+
 
 function filterRooms() {
 
