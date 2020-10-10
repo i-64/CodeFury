@@ -61,7 +61,7 @@ public class loginDAO implements loginDAOInterface {
     				
     					// if passed renewal date update credits
     				
-    				ps = con.prepareStatement ( "update users set credits = 1500 where user_id = ?" );
+    				ps = con.prepareStatement ( "update users set credits = 2000 where user_id = ?" );
     				ps.setString ( 1, user );
     				
     				if ( ! (ps.executeUpdate() > 0) ) {
