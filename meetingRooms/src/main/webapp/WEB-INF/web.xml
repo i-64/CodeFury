@@ -104,4 +104,8 @@
   	<servlet-name>AdminGetData</servlet-name>
   	<url-pattern>/AdminGetData</url-pattern>
   </servlet-mapping>
+  
+  	<listener>
+		<listener-class>com.meetingRooms.listeners.LogoutListener</listener-class>
+	</listener>
 </web-app>
