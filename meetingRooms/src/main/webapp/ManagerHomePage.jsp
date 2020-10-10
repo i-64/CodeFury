@@ -67,7 +67,7 @@
 	      	
 	      		<li> <a href ="organizeMeeting.jsp"> Organize Meeting </a> </li>
 	      		
-	      		<li> <a href ="#myModal" role="button" data-toggle="modal" stlye="link:white;"> Manager Information </a> </li>
+	      		<li> <a href ="#myModal" role="button" data-toggle="modal" style="link:white;"> Manager Information </a> </li>
 	      		
 	      		<li> <a href="Logout"> Logout </a> </li>	      		
 	      		
