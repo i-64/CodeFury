@@ -4,6 +4,9 @@
 package com.meetingRooms.entity;
 
 import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -22,6 +25,22 @@ public class Meeting {
 	private Time startTimeTM;
 	private Date meetingDateDT;
 	
+	
+	/**
+	 * @return the duration of meeting in hours
+	 */
+	public int getDurationInHours () {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		
+		if (endTime.length() == 5) endTime = endTime + ":00";
+		if (startTime.length() == 5) startTime = startTime + ":00";
+		
+		LocalDateTime dateTime1= LocalDateTime.parse("2020-10-10 " + endTime, formatter);
+		LocalDateTime dateTime2= LocalDateTime.parse("2020-10-10 " + startTime, formatter);
+		
+		return ((int)Math.ceil(((int)Duration.between(dateTime1, dateTime2).toMinutes()) / 60.0));
+	}
 	
 	/**
 	 * @return the startTimeTM
