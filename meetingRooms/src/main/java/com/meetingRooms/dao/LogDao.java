@@ -17,7 +17,6 @@ public class LogDao implements LogDaoInterface{
 
 			try {
 				con = ConnectionManager.getConnection();
-				System.out.println("connection created");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				throw new RuntimeException("unable to get db connection!");

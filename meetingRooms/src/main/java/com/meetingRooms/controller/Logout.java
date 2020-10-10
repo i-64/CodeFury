@@ -22,7 +22,7 @@ public class Logout extends HttpServlet {
 		
 		if ( session != null ) {
 			
-				// remove session paramaters
+				// remove session parameters
 			
 				/*
 				 * session.removeAttribute ( "user_id" ); session.removeAttribute ( "name" );

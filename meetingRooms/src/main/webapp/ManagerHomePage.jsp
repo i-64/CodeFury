@@ -3,12 +3,20 @@
 
 <%@ page isELIgnored="false"%>
 
-<%@page	import="java.util.*,java.sql.Time, com.meetingRooms.entity.User,com.meetingRooms.entity.Meeting, com.meetingRooms.service.MeetingRoomsServiceInterface,com.meetingRooms.service.LogServiceInterface,com.meetingRooms.service.LogService, com.meetingRooms.utility.MeetingServiceFactory,com.meetingRooms.utility.LogServiceFactory"%>
+<%@page
+	import="java.util.*,java.sql.Time, com.meetingRooms.entity.User,com.meetingRooms.entity.Meeting, com.meetingRooms.service.MeetingRoomsServiceInterface,com.meetingRooms.service.LogServiceInterface,com.meetingRooms.service.LogService, com.meetingRooms.utility.MeetingServiceFactory,com.meetingRooms.utility.LogServiceFactory"%>
 <%@ page import="com.meetingRooms.utility.ConnectionManager"%>
 
 <% 
 						//verifying session details and returning to login page if not manager
 	
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+
+	response.setHeader("Pragma", "no-cache");
+
+	response.setHeader("Expires", "0");
+
+						
 	if ( session.getAttribute ( "role" ) == null || !session.getAttribute ( "role" ).toString().equals ( "manager" )) 
 	{
 	
@@ -246,10 +254,10 @@
 				<tr>
 
 					<td><%= m.getTitle() %></td>
-					<td><%= m.getMeetingRoomName() %></td>
+					<td><%= m.getMeetingRoomId() %></td>
 					<td><%= m.getMeetingDate() %></td>
 					<td><%= m.getStartTime() %></td>
-					<td><%= m.getDuration() %></td>
+					<td><%= m.getEndTime() %></td>
 					<td><%= m.getMeetingTypeName() %></td>
 
 				</tr>
