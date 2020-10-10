@@ -53,6 +53,14 @@ function timeValidation() {
 	}
 }
 
+function memberCountValidation() {
+	var roomObj = rooms.filter(({ roomName }) => roomName === currentRoomId)[0];
+	document.getElementById('memberCountError').innerHTML = '';
+	if (usersPresentInMeeting.length > roomObj.seatingCapacity) {
+		document.getElementById('memberCountError').innerHTML = 'Members in meeting cannot exceed the seating capacity of room';
+	}
+}
+
 function enableFilterBtn() {
 
 	var startTime = document.getElementById("startTime").value;
@@ -65,7 +73,15 @@ function enableFilterBtn() {
 	}
 }
 
+function enableConfirmBtn() {
+	var meetingTitle = document.getElementById('meetingTitle').value;
+	if (meetingTitle.trim() === '' || document.getElementById('memberCountError').innerHTML !== '' || usersPresentInMeeting.length === 0) {
+		document.getElementById('confirmbtn').disabled = true
+		return;
+	}
 
+	document.getElementById('confirmbtn').disabled = false
+}
 
 
 function filterRooms() {
@@ -118,7 +134,7 @@ function filterRooms() {
 
 
 function getUserSuggestions() {
-	var name = document.querySelector(".input-container").value;
+	var name = document.querySelector(".input-container input").value;
 	var x = new XMLHttpRequest();
 	//step 2 how xhr will open connection with server
 	x.open("GET", "searchUser.jsp?name=" + name, true);
@@ -149,11 +165,15 @@ function addUsertoMeeting(userId) {
 	usersPresentInMeeting.push(userId);
 	generateDropDownDom();
 	generatePillsDom();
+	memberCountValidation();
+	enableConfirmBtn();
 }
 
 function removeUserFromMeeting(userId) {
 	usersPresentInMeeting = usersPresentInMeeting.filter((id) => id !== userId);
 	generatePillsDom();
+	memberCountValidation();
+	enableConfirmBtn();
 }
 
 function generatePillsDom() {
@@ -194,23 +214,30 @@ function openModal(e) {
 	var endTime = document.getElementById("endTime").value;
 	var meetingTypeSel = document.getElementById("meetingType");
 	var meetingTypeText = meetingTypeSel.options[meetingTypeSel.selectedIndex].text;
-	var meetingDate = document.getElementById("meetingDate").value;
+	var meetingDate = document.getElementById("meetingDate").value.split('-').reverse().join('/');
 
 	var modalbodyHTML = `
 	<div id='modal-title'>${roomObj.roomName} </div>
-	
-	<div class='room-modal-items'>
+
+		<div class='flex-row'>
 		<div> <span class='bold'>-> Seating capactiy: </span> ${roomObj.seatingCapacity}</div>
 		<div> <span class='bold'>-> Average Rating:</span> ${roomObj.averageRating}</div>
+		</div>
+
+		<div class='flex-row'>
 		<div> <span class='bold'>-> Meeting Type: </span> ${meetingTypeText} </div>
 		<div><span class='bold'>-> Booking date: </span> ${meetingDate} </div>
+		</div>
+
+		<div class='flex-row'>
 		<div> <span class='bold'>-> Start time: </span> ${startTime} </div>
 		<div> <span class='bold'>-> End time: </span> ${endTime} </div>
-	</div>
+		</div>
+
 	
 	<div class='item-container'>
 		<div class='title'> Purpose</div>
-		<input id='meetingTitle' class='userinput width100' type="text" placeholder="Retrospective meeting">
+		<input id='meetingTitle' onkeyup="enableConfirmBtn()" class='userinput width100' type="text" placeholder="Retrospective meeting">
 	</div>
 
 	<div class='item-container'>
@@ -218,13 +245,16 @@ function openModal(e) {
 		 Add members
 		 </div>
 		 <div class='membersList'></div>
-		<input type=text class="input-container width100" onkeyup="getUserSuggestions()"> 
-		<div class="content-container">
+		 <div class='error' id='memberCountError'> </div>
+		 <div class='input-container'>
+			<input type=text class='width100' onkeyup="getUserSuggestions()"> 
+			<div class="content-container">
+		</div>
 	</div>
 
 	<div class='modal-confirm'>
-		<button onclick="saveMeeting()">Confirm</button>
-		<button id='cancelbtn'> Cancel </button>
+		<button onclick="saveMeeting()" id='confirmbtn' disabled>Confirm</button>
+		<button id='cancelbtn' > Cancel </button>
 	</div>
 	`
 
