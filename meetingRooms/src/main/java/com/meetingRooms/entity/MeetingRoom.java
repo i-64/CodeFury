@@ -77,7 +77,7 @@ public class MeetingRoom {
 	 */
 	@Override
 	public String toString() {
-		return "{\"roomName\":\"" + roomName + "\", \"seatingCapacity\":\"" + seatingCapacity + "\", \"costPerHour\":\""
-				+ costPerHour + "\", \"averageRating\":\"" + averageRating + "\"}";
+		return "{\"roomName\":\"" + roomName + "\", \"seatingCapacity\":" + seatingCapacity + ", \"costPerHour\":"
+				+ costPerHour + ", \"averageRating\":" + averageRating + "}";
 	}
 }

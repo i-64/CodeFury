@@ -152,7 +152,7 @@ String str_userId=request.getParameter("user_id"); // get user id from session
 			   
 			   <td> <%= meetingObject.getOrganizedBy()%> </td>
 
-			   <td> <%= meetingObject.getMeetingType()%> </td>
+			   <td> <%= meetingObject.getMeetingTypeName()%> </td>
 			  
 			 
 			</tr>

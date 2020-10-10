@@ -68,11 +68,8 @@ CREATE TABLE MEETING_ROOM (
 	unique_name varchar (30) primary key,
 	
 	seating_capacity int default 0,
-	
 	per_hour_cost int default 0,
-	
 	total_meetings_conducted int default 0,
-	
 	created_by varchar (50),
 	
 	foreign key (created_by) references USERS (user_id)
