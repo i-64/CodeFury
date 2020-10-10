@@ -47,8 +47,8 @@
 	
 	<link href="css/Footer-with-button-logo.css" rel="stylesheet">
 
-	<script src="javaScript/bootstrap_v4.5.2.js"></script>
 	<script src="javaScript/jQuery_v3.5.1.js"></script>
+	<script src="javaScript/bootstrap_v4.5.2.js"></script>	
 	
 	<title> Member Home Page  </title>
 
@@ -74,7 +74,6 @@
 	      	
 	      		<li class="active"> <a href="member.jsp"> Home </a> </li>
 	      	
-	      		
 	      		<li > <a href="Logout"> Logout </a> </li>	      		
 	      		
 	    	</ul>
@@ -88,7 +87,6 @@
 <div class="row"> <br> <br> <br> </div>
 
 ${member_message}
-
 
 <%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory"%>
 <%
@@ -127,8 +125,9 @@ String str_userId=request.getParameter("user_id"); // get user id from session
         <th> Title </th>
         <th> Meeting Date </th>
         <th> Start Time </th>
-        <th> Duration </th>
+        <th> End Time </th>
         <th> Organized By </th>
+        <th> Meeting Room </th>
         <th> Meeting Type </th>
         
       </tr>
@@ -146,12 +145,12 @@ String str_userId=request.getParameter("user_id"); // get user id from session
 			   <td> <%=meetingObject.getId()%> </td>
 			   <td> <%= meetingObject.getTitle()%> </td>
 			   
-			   <td> <%=meetingObject.getMeetingDate()%> </td>
-			   <td> <%= meetingObject.getStartTime()%> </td>
-			   <td> <%= meetingObject.getDuration()%> </td>
+			   <td> <%=meetingObject.getMeetingDateDT()%> </td>
+			   <td> <%= meetingObject.getStartTimeTM()%> </td>
+			   <td> <%= meetingObject.getEndTime()%> </td>
 			   
 			   <td> <%= meetingObject.getOrganizedBy()%> </td>
-
+			   <td> <%= meetingObject.getMeetingRoomId()%> </td>
 			   <td> <%= meetingObject.getMeetingTypeName()%> </td>
 			  
 			 

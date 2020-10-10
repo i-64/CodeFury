@@ -76,8 +76,7 @@
 	      	
 	      		<li class="active"> <a href="AdminHomePage.jsp"> Admin Home </a> </li>
 	      	
-	      		<li> <a href="AdminCreateRoom.jsp"> Create Room  </a> </li>
-	      		
+	      		<li> <a href="AdminCreateRoom.jsp"> Create Room  </a> </li>	      		
 	      		   		
                 <li> <a href="Logout"> Logout </a> </li>
             
@@ -94,6 +93,7 @@
 <div class="row"> <br> <br> <br> </div>
 
 ${Admin_home_page_message}
+
 
 <%@page import = "java.util.ArrayList,java.util.List " %>
 <%@page import = "com.meetingRooms.service.GetDataForAdminCreateRoomServiceInterface" %>
@@ -112,6 +112,8 @@ ${Admin_home_page_message}
 	List<MeetingRoomEntity> list = new ArrayList<MeetingRoomEntity>();
 	
 	list=service.getMeetingRooms(session.getAttribute("user_id").toString());
+	
+	if ( list.size () > 0 ) {
 	
 %>
           
@@ -150,6 +152,12 @@ ${Admin_home_page_message}
 			
 <%			
 		}
+
+	} else {
+		
+		%> <h2> No Meetings Found </h2> <%
+		
+	}
 
 %>
 

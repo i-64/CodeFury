@@ -5,9 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.ConnectionManager;
+
+import com.meetingRooms.utility.DateTimeManipulation;
 
 public class loginDAO implements loginDAOInterface {
 
@@ -33,6 +37,58 @@ public class loginDAO implements loginDAOInterface {
 		 
 	} // end of constructor
 
+	
+	@Override
+	public void renewCredits(String user) {
+		
+		try {
+			
+			// prepare query
+			
+			PreparedStatement ps = con.prepareStatement ( "select next_Renewal_Date from credit_renewal where user_id = ?" );
+			
+			ps.setString ( 1, user );
+
+    		ResultSet rs = ps.executeQuery();
+    		
+    		if ( rs.next() ) {
+    			
+    			Timestamp currentTimestamp = Timestamp.from(Instant.now()); // current date
+    			
+    			Timestamp renewalDate = Timestamp.valueOf( rs.getString (1) ); // get renewal date
+    			
+    			if ( currentTimestamp.after ( renewalDate ) ) { // check if current date is past renewal date
+    				
+    					// if passed renewal date update credits
+    				
+    				ps = con.prepareStatement ( "update users set credits = 2000 where user_id = ?" );
+    				ps.setString ( 1, user );
+    				
+    				if ( ! (ps.executeUpdate() > 0) ) {
+    					
+    					return;
+    				}
+    				
+    					// set next renewal date
+    				
+    				ps = con.prepareStatement ( "update CREDIT_RENEWAL set next_Renewal_Date = ? where user_id = ?" );
+    				ps.setString ( 1, DateTimeManipulation.addDays ( renewalDate, 7 ).toString() );
+    				ps.setString ( 2, user );
+    				
+    				if ( !(ps.executeUpdate() > 0) ) {
+    					return;
+    				}
+    				
+    			}
+    		}
+    		
+		} catch ( SQLException sql ) {
+			
+			sql.printStackTrace ();
+		}
+		
+	} // end of renewCredits function
+	
 	
 	@Override
 	public loginUserEntity logInUser ( loginUserEntity user ) {

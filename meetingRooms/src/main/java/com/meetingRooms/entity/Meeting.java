@@ -20,7 +20,7 @@ public class Meeting {
 
 	
 	private int id, duration, meetingTypeId;
-	private String title, organizedBy, meetingRoomId, meetingTypeName;
+	private String title, organizedBy, meetingRoomId, meetingTypeName, meetingRoomName;
 	private String meetingDate, startTime, endTime;
 	private Time startTimeTM;
 	private Date meetingDateDT;
@@ -208,5 +208,13 @@ public class Meeting {
 	 */
 	public void setMeetingTypeName(String meetingTypeName) {
 		this.meetingTypeName = meetingTypeName;
+	}
+
+	public String getMeetingRoomName() {
+		return meetingRoomName;
+	}
+
+	public void setMeetingRoomName(String meetingRoomName) {
+		this.meetingRoomName = meetingRoomName;
 	}
 }

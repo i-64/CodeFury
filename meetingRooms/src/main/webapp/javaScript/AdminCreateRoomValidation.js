@@ -96,12 +96,45 @@
 		name_flag = 0;
 		
 	} else {
-	
-		error_message = "";
-		name_flag = 1;
-	}		
-	
-	document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
+		
+			// get XHR
+		
+		var xhr = new XMLHttpRequest ();
+			
+			// open connection with server
+			
+		xhr.open ( "POST", "AdminGetData?name=" + name, true );
+		
+			// send request
+			
+		xhr.send ();
+			
+			// check response from server
+			// state ( 0 = no connection, 1 = connection exists, 2 = client send request, 3 = server responded, 4 = interaction finished )
+		
+		xhr.onreadystatechange = function () {
+			
+			if ( xhr.readyState == 4 ) {
+				
+				message = xhr.responseText;
+				
+				if ( (message == "0") ) {
+					
+					error_message = "<span style = \"color:red;\"> Meeting Room Already Exists </span>";
+					name_flag = 0;
+					document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
+				
+				} else {
+					
+					error_message = "";
+					name_flag = 1;
+					document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
+				}				
+			}						
+		}
+	}
+
+	//document.getElementById ( "meetingRoomError" ).innerHTML = error_message;
 
  } // end of validateMeetingName Function
 

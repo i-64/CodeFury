@@ -52,9 +52,10 @@
 	
 	<link href="css/Footer-with-button-logo.css" rel="stylesheet">
 	
-	<script src="javaScript/bootstrap_v4.5.2.js"></script>
 	<script src="javaScript/jQuery_v3.5.1.js"></script>
-	
+	<script src="javaScript/bootstrap_v4.5.2.js"></script>
+		
+	<script type="text/javascript" src="javaScript/AdminEditRoom.js"></script>	
 
 	<title> Admin Edit Room </title>
 
@@ -81,7 +82,7 @@
 	      	
 	      		<li> <a href="AdminHomePage.jsp"> Admin Home </a> </li>
 	      	
-	      		<li class="active"> <a href="#"> Edit Room </a> </li>
+	      		<li class="active"> <a href = "#"> Edit Room </a> </li>
 	      		
                 <li> <a href="Logout"> Logout </a> </li>
             
@@ -97,10 +98,220 @@
 
 <div class="row"> <br> <br> <br> </div>
 
-<%
+${Admin_edit_page_room_message}
+
+<!-- EDIT ROOM FORM -->
+
+<div class=container>
+
+	<div class = "row">
+	
+		<div class="col-sm-3"></div>
+		
+		<div class="col-sm-6 text-center">
+		
+			<div class="row"><h3>EDIT MEETING ROOM</h3></div>
+			
+			<form action="AdminEditRoom" method="post" name = "AdminEditRoomForm" id = "AdminEditRoomForm">
+
+				<div class="row"><br></div>
+				
+				<%@page import="com.meetingRooms.service.GetDataForAdminCreateRoomServiceInterface"%>
+				<%@page import="com.meetingRooms.service.GetDataForAdminCreateRoomService"%>
+				<%@page import="com.meetingRooms.utility.GetDataForAdminCreateRoomFactory"%>
+				<%@page import="com.meetingRooms.entity.AmenitiesEntity"%>
+				<%@page import="com.meetingRooms.entity.MeetingRoomEntity"%>
+				<%@page import="com.meetingRooms.entity.MeetingTypes"%>
+				<%@page import="java.util.List, java.util.ArrayList"%>
+				
+				<%
+				
+					GetDataForAdminCreateRoomServiceInterface service = GetDataForAdminCreateRoomFactory.createObjectForService ();
+				
+					MeetingRoomEntity meeting_details = service.getEditRoomInfo(request.getParameter( "unique_name" ));
+				
+				%>
+				
+				<div class="row">
+								
+					<div class="input-group">
+					
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						<input type=text placeholder="Meeting Name" id="meeting_name" name="meeting_name" class=form-control value='<%=meeting_details.getUniqueName()%>'  disabled>
+						<div id="meetingRoomError"></div>					
+						
+					</div>
+					
+				</div>
+				
+				<div class="row"><br></div>
+				
+				<div class="row">
+				 
+				 	<div class="input-group">
+					
+						<span class="input-group-addon"><i class="glyphicon glyphicon-sort-by-order"></i></span>
+						<input type=text placeholder="Seating Capacity" id="seating_capacity" name="seating_capacity" value='<%=meeting_details.getSeatingCapacity()%>' class=form-control onkeyup="validateSeatingCapacity()" disabled required>
+						<div id="seatingRoomError"></div>					
+						
+				 	</div>
+				 	
+				 </div>
+				 
+				 <div class="row"><br></div>
+				 
+				 <div class="row text-left"><button type="button" class="btn  btn-success" name="editSeatingCapacityButton" id="editSeatingCapacityButton" onclick="enableSeatingCapacity()" >Edit Seating Capacity</button></div>
+				 
+				<div class="row"><br></div>
+				
+				<div class="row text-center">
+				
+					<div class="col-sm-12">
+						<h4><span class="input-group-addon"><i class="glyphicon glyphicon-tasks"> Select Amenities </i></span></h4>
+					</div>
+				
+				</div>
+				
+				<div class="row"><br></div>
+				
+				<%
+
+					List <AmenitiesEntity> amenity_list = new ArrayList <AmenitiesEntity> ();
+					
+					amenity_list = service.getAmenities ();
+					
+					int i = 0;
+					
+					if ( amenity_list == null ) {
+					
+					%>
+						<div class = "row"> No Amenities Found </div>
+					
+					<%} else {					
+					
+						for ( AmenitiesEntity a : amenity_list ) {
+							
+							
+							if ( i == 0 ) {%>
+								
+								<div class = "row text-left">
+								
+							<%}%>
+							
+								<div class = "col-sm-4">
+                    				<label  class="checkbox-inline"> <input title="CREDITS: <%=a.getCredits()%>" type="checkbox" id="amenitites" name="amenitites" value="<%=a.getID()%>"><%=a.getAmenity()%></label>  
+                     			</div>
+                     			
+                     		<%
+                     		
+                     			i++;
+                     				
+                     			if ( i == 3 ) {    
+                     				
+                     				i = 0;  
+                     				
+                     		%> </div> <div class = "row"> <br> </div>
+                     					
+                     			<%}%>							 
+				
+					<%}
+						
+						if ( i != 0 ) {
+							
+					%>	</div> <div class = "row"> <br> </div>
+					
+					<%}}%>
+				
+				<%
+					String list = "";
+					
+					for ( String temp : meeting_details.getAmenityList() ) {
+						
+						list += temp + ",";
+					}
+				%>
+					
+				<script type="text/javascript"> setCheckBoxes( '<%=list%>' ); </script>
+				
+				<div class="row"><br></div>
+				 
+				<div class="row text-left"><button type="button" class="btn  btn-success" name="editAmenityButton" id="editAmenityButton" onclick="enableAmenitySelection()" >Edit Amenities</button></div>
+				
+				<div class = "row"> <br> </div>
+				
+				<div class="row"> <hr style="height:3px; border:none; color:rgb(60,90,180); background-color:rgb(60,90,180);"> </div>
+
+				<div class = "row"> <br> </div>
+				
+				<div class="row">
+
+					<div class = "col-sm-12 text-center">
+                     	
+                     	<button type="button" class="btn  btn-success" name="submitButton" id="submitButton" onclick="finalSubmit()">Edit</button>
+                     	
+                    </div>
+                    
+            	</div>
+			
+			</form>
+			
+			<div class = "row"> <br> </div>
+			
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Delete</button>
+			
+			<!-- MODAL -->
+		
+			<div class="modal" id="myModal">
+		
+				<div class="modal-dialog">
+		
+					<div class="modal-content">
+		
+						<!-- Modal Header -->
+						<div class="modal-header">
+		
+							<h4 class="modal-title">CONFIRM DELETE</h4>
+		
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+		
+						</div>
+		
+						<!-- Modal body -->
+		
+						<div class="modal-body"> ACTION CANNOT BE REVERSED </div>
+		
+		      			<!-- Modal footer -->
+		      			<div class="modal-footer">
+		      
+		        			<form action="AdminDeleteMeetingRoom" method="post" id = "DeleteMeetingRoom" name = "DeleteMeetingRoom">
+			
+								<button type="button" class="btn  btn-danger" onclick="deleteRoom()"> Delete Room </button>
+								<input type="hidden" name = "unique_name" id = "unique_name" value = "<%=meeting_details.getUniqueName()%>">
+				
+							</form>
+		      
+		      			</div>
+		
+		    		</div>
+		  
+		  		</div>
+		
+			</div>
+			
+		<!-- MODAL -->
+			
+		</div>
+		
+		<div class="col-sm-3"></div>		
+	
+	</div>
+
+</div>
 
 
-%>
+<!-- EDIT ROOM FORM -->
+
+
 
 <!-- Footer -->
 
