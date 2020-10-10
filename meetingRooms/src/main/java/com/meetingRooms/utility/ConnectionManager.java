@@ -17,8 +17,8 @@ import java.sql.SQLException;
 public class ConnectionManager {
 
 	private final static String DRIVER_NAME = "org.apache.derby.jdbc.EmbeddedDriver";
-	private final static String CONNECTION_STRING_LINUX = "jdbc:derby:home/Downloads/meetingRoomsDB;create=true";
-	private final static String CONNECTION_STRING_WINDOWS = "jdbc:derby:c/database/meetingRoomsDB;create=true";
+	private final static String CONNECTION_STRING_LINUX = "jdbc:derby:/home/rkdgr8/Downloads/meetingRoomsDB;create=true";
+	private final static String CONNECTION_STRING_WINDOWS = "jdbc:derby:c:/database/meetingRoomsDB;create=true";
 	private final static String DB_USERNAME = "admin";
 	private final static String DB_PASSWORD = "admin";
 	
@@ -53,7 +53,7 @@ public class ConnectionManager {
 	/**
 	 * @throws SQLException
 	 */
-	public static void close () throws SQLException {
+	public static void close () {
 		
 		try {
 			con.close();
@@ -61,7 +61,8 @@ public class ConnectionManager {
 		catch (SQLException e) {
 			
 			// TODO log error to error.log
-			throw e;
+			e.printStackTrace();
+			// throw e;
 		}
 	}
 }

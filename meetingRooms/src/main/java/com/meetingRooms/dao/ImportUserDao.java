@@ -62,6 +62,17 @@ public class ImportUserDao implements ImportUserDaoInterface{
 		
 		p.executeUpdate();
 		
+		
+		if(iu.getrole().equals("manager"))
+		{
+		PreparedStatement credits=con.prepareStatement("insert into CREDIT_RENEWAL values(?,?)");
+		credits.setString(1,iu.getuid());
+		credits.setString(2,iu.getmondaydate());
+		credits.executeUpdate();
+			
+			
+		}
+		
 		}
 		catch ( SQLException sql ) 
 		{

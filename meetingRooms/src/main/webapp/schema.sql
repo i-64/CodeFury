@@ -1,8 +1,8 @@
-connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=admin'; 
+connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=admin';
 
 // log table
 
-DROP TABLE LOG
+DROP TABLE LOG;
 CREATE TABLE LOG (
 
 	user_id varchar (50),
@@ -68,11 +68,8 @@ CREATE TABLE MEETING_ROOM (
 	unique_name varchar (30) primary key,
 	
 	seating_capacity int default 0,
-	
 	per_hour_cost int default 0,
-	
 	total_meetings_conducted int default 0,
-	
 	created_by varchar (50),
 	
 	foreign key (created_by) references USERS (user_id)
@@ -127,8 +124,8 @@ CREATE TABLE MEETING (
 	meeting_date date not null,
 	start_time time not null,
 	end_time time not null,
-	
 	meeting_room_id varchar (30),
+	
 	meeting_type_id int,
 	
 	foreign key (meeting_room_id) references MEETING_ROOM (unique_name),

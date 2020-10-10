@@ -10,9 +10,21 @@ public class ImportUser {
 	private String password;
 	private int credits;
 	private String userpath;
+	private String mondaydate;
 	
 	
 	
+	
+	public void setmondaydate(String mondaydate)
+	{
+		this.mondaydate=mondaydate;
+	}
+	public String getmondaydate()
+	{
+		return mondaydate;
+	}
+	
+	//---------------------------
 	public void setuserpath(String userpath)
 	{
 		this.userpath=userpath;
