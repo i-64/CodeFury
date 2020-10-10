@@ -60,7 +60,7 @@
 
                         <li class="active"> <a href="index.jsp"> Home </a> </li>
 
-                        <li> <a href="#"> Import Users </a> </li>
+                        <li> <a href="userimport.jsp"> Import Users </a> </li>
 
                         <% if ( session.getAttribute ( "role" ) == null ) { %>
 

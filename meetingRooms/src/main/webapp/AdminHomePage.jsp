@@ -78,6 +78,8 @@
 	      	
 	      		<li class="active"> <a href="AdminHomePage.jsp"> Admin Home </a> </li>
 	      		
+	      		<li> <a href="userimport.jsp"> Import Users </a> </li>
+	      		
 	      		<li><a href="#myModal" role="button" data-toggle="modal"> Admin Information </a></li>
 	      	
 	      		<li> <a href="AdminCreateRoom.jsp"> Create Room  </a> </li>	      		
