@@ -27,7 +27,7 @@ CREATE TABLE USERS (
 	email varchar (50) not null,
 	phone varchar (12) not null,
 
-	credits int default 2000,
+	credits int default 0,
 	role varchar (10) default 'member'
 );
 
