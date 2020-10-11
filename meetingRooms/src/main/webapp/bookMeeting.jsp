@@ -42,7 +42,7 @@ OrganizeMeetingServiceInterface service = OrganizeMeetingServiceFactory.createOb
 
 try {
 	if (service.saveMeetingService(meeting, members)) {
-		out.println("Meeting Booked");
+		out.println("success");
 	}
 	else
 		out.println("Could not book meeting :(");
