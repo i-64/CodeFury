@@ -187,6 +187,8 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 			con = ConnectionManager.getConnection();
 			
+			con.setAutoCommit(false); // initiate transaction
+			
 			/**
 			 * 
 			 *  !! Super Important Check !!
@@ -202,8 +204,12 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			checkRoomNotBookedStatement.setString(5, meeting.getStartTime());
 			checkRoomNotBookedStatement.setString(6, meeting.getMeetingDate());
 			ResultSet checkRoomNotBookedResult = checkRoomNotBookedStatement.executeQuery();
-			if (checkRoomNotBookedResult.next())
+			if (checkRoomNotBookedResult.next()) {
+			
+				con.rollback(); // roll back uncommitted changes
+				
 				throw (new MeetingRoomAlreadyBookedException());
+			}
 			
 			// In an event that the room is already booked, exit this function by raising an exception
 			
@@ -232,6 +238,8 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 						
 						// Manager does not have enough credits to book the meeting
 						// raise an exception and reject the booking request
+						
+						con.rollback(); // roll back uncommitted changes
 						
 						throw (new NotEnoughCreditsException());
 					}
@@ -263,7 +271,11 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 						PreparedStatement psAttendees = con.prepareStatement("insert into ATTENDEES values (?, ?)");
 						psAttendees.setInt(1, meetingId);
 						psAttendees.setString(2, user.getUserId());
-						psAttendees.execute();
+						
+						if (!(psAttendees.executeUpdate() > 0 )) {
+							
+							con.rollback(); // roll back uncommitted changes
+						}
 					}
 					
 					
@@ -272,7 +284,19 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 					PreparedStatement updateCreditsStatement = con.prepareStatement("update USERS set credits=? where user_id=?");
 					updateCreditsStatement.setString(2, meeting.getOrganizedBy());
 					updateCreditsStatement.setInt(1, managerCredits - meetingCost);
-					return (updateCreditsStatement.executeUpdate() == 1);
+					
+					if (updateCreditsStatement.executeUpdate()>0) {
+						
+						con.commit(); // commit transactions
+						
+						return true;
+						
+					} else {
+						
+						con.rollback(); // roll back uncommitted changes
+					}
+					
+					// return (updateCreditsStatement.executeUpdate() == 1);
 				}
 			}
 			else {

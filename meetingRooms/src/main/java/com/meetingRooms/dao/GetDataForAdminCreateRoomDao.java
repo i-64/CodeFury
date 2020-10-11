@@ -49,15 +49,18 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				return 0; // invalid name				
 			}
 			
+			return 1;
+			
 		} catch (SQLException | ClassNotFoundException e ) {
 			
 			e.printStackTrace ();
 		}		
-		finally{
+		finally {
+			
 			ConnectionManager.close();
 		}
 		
-		return 1; // return on success
+		return 0; // return on success
 		
 	} // end of getNameStatus function
 	
@@ -78,12 +81,16 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		Connection con;
 		try  { 
 			con = ConnectionManager.getConnection() ; // get connection to database
+			
+			con.setAutoCommit(false); // initiate transaction
 
 			ps = con.prepareStatement ( "delete from ROOM_AMENITIES where meeting_room_id = ?" );
 			
 			ps.setString ( 1, meetingName );
 			
 			if ( !( ps.executeUpdate () > 0) ) {
+				
+				con.rollback(); // roll back uncommitted changes
 				
 				return 0; // unsuccessful insertion				
 			}
@@ -94,8 +101,12 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			if ( !( ps.executeUpdate () > 0) ) {
 				
+				con.rollback(); // roll back uncommitted changes
+				
 				return 0; // unsuccessful insertion				
 			}
+			
+			con.commit(); // commit transactions
 			
 			return 1; // successful deletion
 			
@@ -104,6 +115,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			e.printStackTrace ();
 		}
 		finally {
+			
 			ConnectionManager.close();
 		}
 		
@@ -124,8 +136,12 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		
 		PreparedStatement ps;
 		Connection con = null;
+		
 		try  { // get connection to database
 			con = ConnectionManager.getConnection();
+			
+			con.setAutoCommit(false); // initiate transaction
+
 			int per_hour_cost = 0; // to calculate per hour cost
 			
 				// edit existing meeting room details
@@ -137,6 +153,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			if ( !( ps.executeUpdate () > 0) ) {
 				
+				con.rollback(); // roll back uncommitted changes
+				
 				return 0; // unsuccessful insertion				
 			}
 			
@@ -147,6 +165,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			ps.setString ( 1, entity.getUniqueName () );
 			
 			if ( !( ps.executeUpdate () > 0) ) {
+				
+				con.rollback(); // roll back uncommitted changes
 				
 				return 0; // successful insertion				
 			}
@@ -163,6 +183,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				ps.setString (2, temp);	
 				
 				if ( !( ps.executeUpdate () > 0 ) ) {
+					
+					con.rollback(); // roll back uncommitted changes
 					
 					return 0; // return 0 if unsuccessful insertion
 				}
@@ -197,6 +219,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				
 			} else {
 				
+				con.rollback(); // roll back uncommitted changes
+				
 				return 0;
 			}
 			
@@ -214,6 +238,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			ps = con.prepareStatement ( "update MEETING_ROOM set per_hour_cost = " + per_hour_cost + "  where unique_name = '" + entity.getUniqueName () + "'" );
 		
 			if ( ps.executeUpdate () > 0 ) {
+				
+				con.commit(); // commit transactions
 				
 				return 1; // return on success
 			}
@@ -245,7 +271,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		try  { 
 			con = ConnectionManager.getConnection() ;// get connection to database
 				// create query for fetching room info
-			
+
 			PreparedStatement ps=con.prepareStatement("select * from meeting_room where unique_name=?");
 			
 			ps.setString(1, meetingName);
@@ -284,7 +310,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				list.add ( rs.getString ( 1 ) );
 			}
 			
-			info.setAmenityList ( list ); 			
+			info.setAmenityList ( list );
 			
 			return info;
 			
@@ -317,6 +343,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
    
     	try {
 			con = ConnectionManager.getConnection();
+			
 			PreparedStatement ps=con.prepareStatement("select * from meeting_room where created_by=?"); 
 			
 			ps.setString(1, username);
@@ -337,6 +364,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 				meetingRoomList.add(meetingRoom);
 			}
+			
+	    	return meetingRoomList;
 	
 		}
 		
@@ -346,8 +375,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		finally {
 			ConnectionManager.close();
 		}
-
-    	return meetingRoomList;
+    	
+    	return null;
     	    	
     }
     
@@ -366,6 +395,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		Connection con = null;
 		try  { 
 			con = ConnectionManager.getConnection(); // get connection to database
+			
+			con.setAutoCommit(false); // initiate transaction
+			
 			int per_hour_cost = 0; // to calculate per hour cost			
 			
 				// prepare query to enter data into meeting_room database
@@ -381,8 +413,10 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			ps.setString ( 5, entity.getCreatedBy () );			
 			
 			if ( !( ps.executeUpdate () > 0) ) {
+				
+				con.rollback(); // roll back uncommitted changes
 			
-				return 0; // successful insertion				
+				return 0; // insertion unsuccessful				
 			}
 			
 				// insert into room_amenities all amenities
@@ -397,6 +431,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				ps.setString (2, temp);	
 				
 				if ( !( ps.executeUpdate () > 0 ) ) {
+					
+					con.rollback(); // roll back uncommitted changes
 					
 					return 0; // return 0 if unsuccessful insertion
 				}
@@ -430,6 +466,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				
 			} else {
 				
+				con.rollback(); // roll back uncommitted changes
+				
 				return 0;
 			}
 			
@@ -447,6 +485,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			ps = con.prepareStatement ( "update MEETING_ROOM set per_hour_cost = " + per_hour_cost + "  where unique_name = '" + entity.getUniqueName () + "'" );
 		
 			if ( ps.executeUpdate () > 0 ) {
+				
+				con.commit(); // commit transactions
 				
 				return 1;
 			}
@@ -475,6 +515,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		Connection con  = null;
 		try  { // get connection to database
 			con   = ConnectionManager.getConnection() ;
+			
 			// prepare query
 			
 			PreparedStatement ps = con.prepareStatement ( "select * from meeting_types" );
@@ -520,6 +561,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		Connection con = null;
 		try  { // get connection to database
 			con = ConnectionManager.getConnection();
+			
 			// prepare query
 			
 			PreparedStatement ps = con.prepareStatement ( "select * from amenities" );
