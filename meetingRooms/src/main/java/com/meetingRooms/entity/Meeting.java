@@ -39,7 +39,7 @@ public class Meeting {
 		LocalDateTime dateTime1= LocalDateTime.parse("2020-10-10 " + endTime, formatter);
 		LocalDateTime dateTime2= LocalDateTime.parse("2020-10-10 " + startTime, formatter);
 		
-		return ((int)Math.ceil(((int)Duration.between(dateTime1, dateTime2).toMinutes()) / 60.0));
+		return Math.abs((int)Math.ceil(((int)Duration.between(dateTime1, dateTime2).toMinutes()) / 60.0));
 	}
 	
 	/**

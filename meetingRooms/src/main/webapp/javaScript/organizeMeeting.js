@@ -3,6 +3,7 @@ var userIdToNameMap = {};
 var usersPresentInMeeting = [];
 var suggestedUsers = [];
 var currentRoomId = null;
+var managerCredits;
 
 function ready() {
 	//initialze meeting date to tomorrow's date
@@ -84,13 +85,43 @@ function enableConfirmBtn() {
 }
 
 
+function getCreditsAndFilterRooms() {
+	getCredits()
+}
+
+function getCredits() {
+	var x = new XMLHttpRequest();
+	//step 2 how xhr will open connection with server
+	x.open("GET", "getCredits.jsp", true);
+
+	//step 3 how xhr will send request
+	x.send();
+
+	//step 4 how xhr will get response from server
+	//state={0,1,2,3,4}
+
+	x.onreadystatechange = function () {
+		if (x.readyState == 4) {
+			managerCredits = parseInt(x.responseText.trim());
+			filterRooms();
+		}
+	}
+}
+
+function calculateMeetingDuration(startTime, endTime) {
+	var [startTimeHH, startTimeMM] = startTime.split(':');
+	var [endTimeHH, endTimeMM] = endTime.split(':');
+	var time1 = parseInt(startTimeHH) * 60 + parseInt(startTimeMM);
+	var time2 = parseInt(endTimeHH) * 60 + parseInt(endTimeMM);
+
+	return (time2 - time1) / 60;
+}
 function filterRooms() {
 
 	var startTime = document.getElementById("startTime").value;
 	var endTime = document.getElementById("endTime").value;
 	var meetingType = document.getElementById("meetingType").value;
 	var meetingDate = document.getElementById("meetingDate").value;
-
 
 	var x = new XMLHttpRequest();
 	//step 2 how xhr will open connection with server
@@ -116,15 +147,19 @@ function filterRooms() {
 
 			roomContainer.innerHTML = '';
 			for (var room of rooms) {
+
 				roomContainer.innerHTML +=
-					` <div class='room' id='${room.roomName}'>
+					`<div class='room' id='${room.roomName}'>
                 		<h2>${room.roomName}</h2>
                 		<div>Seating capactiy: ${room.seatingCapacity}</div>
                 		<div> Cost per hour : ${room.costPerHour}</div>
 						<div>Average Rating: ${room.averageRating}</div>
-						<button onClick="openModal(event)">Book now!</button>
-					</div>`
-					;
+						${managerCredits >= (room.costPerHour * calculateMeetingDuration(startTime, endTime))
+						? `<button onClick="openModal(event)">Book now!</button>`
+						: `<div class='error'>Insufficient credits to book.</div>`
+					}
+						</div >`
+
 			}
 			document.querySelector('.mycontainer').appendChild(roomContainer);
 		}
@@ -181,9 +216,9 @@ function generatePillsDom() {
 	if (usersPresentInMeeting && usersPresentInMeeting.length) {
 		var pillsContent = '';
 		for (var userId of usersPresentInMeeting) {
-			pillsContent += `<button  onclick=removeUserFromMeeting(${userId}) >
-								${userIdToNameMap[userId]}
-								<img src='images/cross-remove-sign.png'>
+			pillsContent += `<button  onclick = removeUserFromMeeting(${userId})>
+					${userIdToNameMap[userId]}
+				<img src='images/cross-remove-sign.png'>
 							</button>`
 		}
 		document.querySelector('.membersList').innerHTML = pillsContent;
@@ -195,11 +230,11 @@ function generateDropDownDom() {
 	dropDownContent = ` <ul> `;
 	for (var userId of suggestedUsers) {
 		dropDownContent += `
-		<li onclick= addUsertoMeeting(${userId})> ${userIdToNameMap[userId]}
-		<img src="images/plus.png"> </img>
-		</li>`;
+					<li onclick = addUsertoMeeting(${userId})> ${userIdToNameMap[userId]}
+						<img src="images/plus.png"> </img>
+					</li> `;
 	}
-	dropDownContent += `</ul>`;
+	dropDownContent += `</ul > `;
 	document.querySelector(".content-container").innerHTML = dropDownContent;
 
 }
@@ -217,7 +252,7 @@ function openModal(e) {
 	var meetingDate = document.getElementById("meetingDate").value.split('-').reverse().join('/');
 
 	var modalbodyHTML = `
-	<div id='modal-title'>${roomObj.roomName} </div>
+					<div id='modal-title'> ${roomObj.roomName} </div>
 
 		<div class='flex-row'>
 		<div> <span class='bold'>-> Seating capactiy: </span> ${roomObj.seatingCapacity}</div>
@@ -242,7 +277,7 @@ function openModal(e) {
 
 	<div class='item-container'>
 		<div class='title'>
-		 Add members
+									Add members
 		 </div>
 		 <div class='membersList'></div>
 		 <div class='error' id='memberCountError'> </div>
@@ -270,6 +305,8 @@ function saveMeeting() {
 	var startTime = document.getElementById("startTime").value;
 	var endTime = document.getElementById("endTime").value;
 
+	document.getElementById('confirmbtn').disabled = true
+
 	var x = new XMLHttpRequest();
 	//step 2 how xhr will open connection with server
 	x.open("GET",
@@ -294,6 +331,10 @@ function saveMeeting() {
 		if (x.readyState == 4) {
 			if (x.responseText.trim() === 'success') {
 				window.location.href = 'ManagerHomePage.jsp';
+			}
+			else {
+				alert(x.responseText.trim())
+				document.getElementById('confirmbtn').disabled = false
 			}
 
 		}

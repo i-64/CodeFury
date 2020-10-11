@@ -86,8 +86,8 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				
 				while (availableRooms.next()) {
 					
-					PreparedStatement ratingStatement = con.prepareStatement("");
-					ResultSet ratingResultSet = ratingStatement.executeQuery();
+//					PreparedStatement ratingStatement = con.prepareStatement("");
+//					ResultSet ratingResultSet = ratingStatement.executeQuery();
 					
 					double averageRating = 0.0;
 					
@@ -139,9 +139,8 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		try {
 			con = ConnectionManager.getConnection();
 
-			PreparedStatement statement = con.prepareStatement("select * from USERS where role=? or role=?");
+			PreparedStatement statement = con.prepareStatement("select * from USERS where role=?");
 			statement.setString(1, "member");
-			statement.setString(2, "manager");
 			ResultSet rs = statement.executeQuery();
 			
 			while (rs.next()) {
@@ -196,11 +195,11 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			 */
 			PreparedStatement checkRoomNotBookedStatement = con.prepareStatement("select * from meeting where meeting_room_id=? and ((start_time<=? and end_time>=?) or (start_time<=? and start_time>=?)) and meeting_date=?");
 			checkRoomNotBookedStatement.setString(1, meeting.getMeetingRoomId());
-			checkRoomNotBookedStatement.setString(1, meeting.getStartTime());
 			checkRoomNotBookedStatement.setString(2, meeting.getStartTime());
-			checkRoomNotBookedStatement.setString(3, meeting.getEndTime());
-			checkRoomNotBookedStatement.setString(4, meeting.getStartTime());
-			checkRoomNotBookedStatement.setString(5, meeting.getMeetingDate());
+			checkRoomNotBookedStatement.setString(3, meeting.getStartTime());
+			checkRoomNotBookedStatement.setString(4, meeting.getEndTime());
+			checkRoomNotBookedStatement.setString(5, meeting.getStartTime());
+			checkRoomNotBookedStatement.setString(6, meeting.getMeetingDate());
 			ResultSet checkRoomNotBookedResult = checkRoomNotBookedStatement.executeQuery();
 			if (checkRoomNotBookedResult.next())
 				throw (new MeetingRoomAlreadyBookedException());
@@ -219,7 +218,7 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			if (managerCreditResult.next()) {
 				
 				managerCredits = managerCreditResult.getInt(1);
-				PreparedStatement roomCreditStatement = con.prepareStatement("select per_hour_cost from MEETING_ROOM where roounique_name=?");
+				PreparedStatement roomCreditStatement = con.prepareStatement("select per_hour_cost from MEETING_ROOM where unique_name=?");
 				roomCreditStatement.setString(1, meeting.getMeetingRoomId());
 				ResultSet roomCreditResult = roomCreditStatement.executeQuery();
 				
