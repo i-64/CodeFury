@@ -8,6 +8,13 @@ import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.entity.MeetingTypes;
 import com.meetingRooms.utility.GetDataForAdminCreateRoomFactory;
 
+/**
+ * implementation for admin features service layer
+ * 
+ * @author Ashutosh Danwe
+ * @author Sophia Tiwari
+ *
+ */
 public class GetDataForAdminCreateRoomService implements GetDataForAdminCreateRoomServiceInterface {
 
 	private GetDataForAdminCreateRoomDaoInterface dao;
@@ -17,34 +24,54 @@ public class GetDataForAdminCreateRoomService implements GetDataForAdminCreateRo
 		dao = GetDataForAdminCreateRoomFactory.createObjectForDAO ();		
 	}
 	
-		// function to get meeting Name Status
-	
+	/**
+	 * get the meeting name status
+	 * 
+	 * @param meeting name
+	 * @return status of the name
+	 */
 	@Override
 	public int getNameStatus ( String meetingName ) {
 		
 		return dao.getNameStatus(meetingName);
 		
-	} // end of getNameStatus function
+	}
 	
 	
-		// function to delete meeting room
-	
+	/**
+	 * function to delete meeting room
+	 *
+	 * @param name of meeting room
+	 * @return if the meeting room was deleted
+	 * 
+	 */
 	@Override
 	public int deleteRoom ( String meetingName ) {
 		
 		return dao.deleteRoom (meetingName);
 	}	
 	
-		// function to edit room
-	
+	/**
+	 * edit the room details
+	 * 
+	 * @param meeting room entity
+	 * @return if the room edit was saved
+	 * 
+	 */
 	@Override
 	public int editRoom ( MeetingRoomEntity entity ) {
 		
 		return dao.editRoom ( entity );
 	}
 		
-		// function to get info for edit meeting 
 	
+	/**
+	 * function to get info for edit meeting 
+	 * 
+	 * @param meeting name
+	 * @return the meeting room entity
+	 * 
+	 */
 	@Override
 	public MeetingRoomEntity getEditRoomInfo ( String meetingName ) {
 		
@@ -52,22 +79,38 @@ public class GetDataForAdminCreateRoomService implements GetDataForAdminCreateRo
 	}
 	
 	
-		// function to get meeting types
-	
+	/**
+	 * function to get meeting types
+	 * 
+	 * @return list of meeting types
+	 *
+	 */
 	@Override
 	public List<MeetingTypes> getMeetingTypes () {
 		
 		return dao.getMeetingTypes ();
 	}
 	
-		// function to get amenities
 	
+	/**
+	 * fetch the amenities from database
+	 * 
+	 * @return list of amenities
+	 * 
+	 */
 	@Override
 	public List<AmenitiesEntity> getAmenities() {
 		
 		return dao.getAmenities ();
 	}
 	
+	/**
+	 * service to create a new meeting room
+	 * 
+	 * @param details of the meeting room
+	 * @return if the room was saved
+	 *
+	 */
 	@Override
 	public int createRoom ( MeetingRoomEntity entity ) {
 		
@@ -75,6 +118,13 @@ public class GetDataForAdminCreateRoomService implements GetDataForAdminCreateRo
 	}
 
 
+	/**
+	 * get the list of meeting rooms
+	 * 
+	 * @param logged in user
+	 * @return list of meeting rooms
+	 *
+	 */
 	@Override
 	public List<MeetingRoomEntity> getMeetingRooms(String username) {
 		
