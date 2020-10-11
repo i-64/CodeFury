@@ -1,5 +1,11 @@
 package com.meetingRooms.dao;
 
+/**
+ * 
+ * Dao to retrieve scheduled meetings for a member
+ * @author Haritha Jayan
+ * 
+ */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
