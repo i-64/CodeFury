@@ -3,6 +3,12 @@ package com.meetingRooms.utility;
 import com.meetingRooms.service.MemberScheduleService;
 import com.meetingRooms.service.MemberScheduleServiceInterface;
 
+/**
+ * object factory for member schedule service
+ * 
+ * @author Haritha Jayan
+ *
+ */
 public class MemberScheduleServiceFactory {
 
 	
@@ -12,6 +18,12 @@ public class MemberScheduleServiceFactory {
 			
 		}
 
+		/**
+		 * create object of MemberScheduleService
+		 * 
+		 * @param str
+		 * @return object of MemberScheduleService
+		 */
 		public static MemberScheduleServiceInterface createObject(String str) {
 			
 			MemberScheduleServiceInterface meeting_schedule= null;
