@@ -112,7 +112,7 @@
             </div>
         </div>
         <div class='error' id='timeError'></div>
-        <button onclick="filterRooms()" id='filterbtn'>Show Available Rooms</button>
+        <button onclick="getCreditsAndFilterRooms()" id='filterbtn'>Show Available Rooms</button>
         <div class='modal-container inactive'>
             <div class='modal-body'></div>
         </div>
