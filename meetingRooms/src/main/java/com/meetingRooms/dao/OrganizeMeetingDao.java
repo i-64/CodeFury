@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
 import com.meetingRooms.entity.MeetingType;
@@ -25,6 +28,9 @@ import com.meetingRooms.utility.ConnectionManager;
  */
 public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 
+	
+	private static final Logger LOGR = LoggerFactory.getLogger(OrganizeMeetingDao.class);
+	
 	/**
 	 * filter meeting rooms according to the meeting organised by manager
 	 * 
@@ -99,23 +105,17 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 					meetingRoomsList.add(room);
 				}
 				
-				return meetingRoomsList;
 			}
-			else {
-				// TODO handle this case
-				// TODO throw
-				System.out.println("Invalid Meeting Type");
-			}
+			return meetingRoomsList;
 			
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			
-			// TODO log exception to error.log
-			e.printStackTrace();
+			LOGR.error(e.toString());
 		}
 		catch (Exception e) {
 			
-			// TODO log
+			LOGR.error("Unhandled Exception: " + e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -158,10 +158,14 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			
-			// TODO log exception to error.log
-			e.printStackTrace();
+			LOGR.error(e.toString());
+		}
+		catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception:" + e.toString());
 		}
 		finally {
+			
 			ConnectionManager.close();
 		}
 		
@@ -281,12 +285,17 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			
-			// TODO log exception to error.log
-			e.printStackTrace();
-		} catch (MeetingRoomAlreadyBookedException e) {
+			LOGR.error(e.toString());
+		}
+		catch (MeetingRoomAlreadyBookedException e) {
 			
-			// TODO log
-			throw e;
+			LOGR.error(e.toString());
+			
+			throw e; // rethrow to the calling layers
+		}
+		catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception: " + e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -318,7 +327,12 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			}
 		}
 		catch (SQLException | ClassNotFoundException e) {
-			// TODO
+			
+			LOGR.error(e.toString());
+		}
+		catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception: " + e.toString());
 		}
 		finally {
 			ConnectionManager.close();
