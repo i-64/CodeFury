@@ -12,27 +12,12 @@ import java.util.List;
 import com.meetingRooms.entity.AmenitiesEntity;
 import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.entity.MeetingTypes;
+import com.meetingRooms.utility.ConnectionManager;
 
 /**
  * Servlet implementation class GetDataForAdminCreateRoomDao
  */
 public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDaoInterface {
-
-	public GetDataForAdminCreateRoomDao () {
-		
-		try {
-			
-			// load driver
-			
-			Class.forName ( "org.apache.derby.jdbc.EmbeddedDriver" );
-		
-		} catch (ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
-		}
-		 
-	} // end of constructor
-	
 	
 		// function to get meeting name status
 	
@@ -40,8 +25,10 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	public int getNameStatus ( String meetingName ) {
 		
 		PreparedStatement ps;
+		Connection con=null;
 		
-		try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) { // get connection to database
+		try  { 
+			con = ConnectionManager.getConnection() ;
 			
 			ps = con.prepareStatement ( "select unique_name from MEETING_ROOM where unique_name = ?" );
 			
@@ -54,10 +41,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				return 0; // invalid name				
 			}
 			
-		} catch (SQLException e ) {
+		} catch (SQLException | ClassNotFoundException e ) {
 			
 			e.printStackTrace ();
 		}		
+		finally{
+			ConnectionManager.close();
+		}
 		
 		return 1; // return on success
 		
@@ -70,9 +60,10 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	public int deleteRoom ( String meetingName ) {
 	
 		PreparedStatement ps;
-		
-		try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) { // get connection to database
-			
+		Connection con;
+		try  { 
+			con = ConnectionManager.getConnection() ; // get connection to database
+
 			ps = con.prepareStatement ( "delete from ROOM_AMENITIES where meeting_room_id = ?" );
 			
 			ps.setString ( 1, meetingName );
@@ -93,10 +84,14 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			return 1; // successful deletion
 			
-		} catch (SQLException e ) {
+		} catch (SQLException | ClassNotFoundException e ) {
 			
 			e.printStackTrace ();
 		}
+		finally {
+			ConnectionManager.close();
+		}
+		
 		
 		return 0;
 		
@@ -107,9 +102,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	public int editRoom ( MeetingRoomEntity entity ) {
 		
 		PreparedStatement ps;
-		
-		try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) { // get connection to database
-			
+		Connection con = null;
+		try  { // get connection to database
+			con = ConnectionManager.getConnection();
 			int per_hour_cost = 0; // to calculate per hour cost
 			
 				// edit existing meeting room details
@@ -202,11 +197,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				return 1; // return on success
 			}
 			
-		} catch (SQLException e ) {
+		} catch (SQLException | ClassNotFoundException e ) {
 			
 			e.printStackTrace ();
 		}
-		
+		finally {
+			ConnectionManager.close();
+		}
 		return 0;
 	
 	} // end of editRoom Function
@@ -216,9 +213,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	public MeetingRoomEntity getEditRoomInfo ( String meetingName ) {
 		
 		MeetingRoomEntity info = new MeetingRoomEntity ();		
-		
-		try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) { // get connection to database
-
+		Connection con = null;
+		try  { 
+			con = ConnectionManager.getConnection() ;// get connection to database
 				// create query for fetching room info
 			
 			PreparedStatement ps=con.prepareStatement("select * from meeting_room where unique_name=?");
@@ -263,11 +260,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			return info;
 			
-		} catch (SQLException ee) {
+		} catch (SQLException | ClassNotFoundException ee) {
 			
 			ee.printStackTrace();
 		}
-		
+		finally {
+			ConnectionManager.close();
+		}
 		
 		return null;
 		
@@ -279,11 +278,10 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
     public List<MeetingRoomEntity> getMeetingRooms(String username){
     	
     	List<MeetingRoomEntity> meetingRoomList= new ArrayList<MeetingRoomEntity>();
-    	
+    	Connection con = null;
    
-    	try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) // get connection to database
-
-		{
+    	try {
+			con = ConnectionManager.getConnection();
 			PreparedStatement ps=con.prepareStatement("select * from meeting_room where created_by=?"); 
 			
 			ps.setString(1, username);
@@ -307,8 +305,11 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	
 		}
 		
-		catch(SQLException ee) {
+		catch(SQLException | ClassNotFoundException ee) {
 			ee.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close();
 		}
 
     	return meetingRoomList;
@@ -320,9 +321,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	public int createRoom ( MeetingRoomEntity entity ) {
 		
 		PreparedStatement ps;
-		
-		try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) { // get connection to database
-			
+		Connection con = null;
+		try  { 
+			con = ConnectionManager.getConnection(); // get connection to database
 			int per_hour_cost = 0; // to calculate per hour cost			
 			
 				// prepare query to enter data into meeting_room database
@@ -409,9 +410,12 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			}
 			
 			
-		} catch (SQLException e ) {
+		} catch (SQLException | ClassNotFoundException e ) {
 			
 			e.printStackTrace ();
+		}
+		finally {
+			ConnectionManager.close();
 		}
 		
 		return 0;
@@ -420,9 +424,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	@Override
 	public List<MeetingTypes> getMeetingTypes () {
 		
-		
-		try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) { // get connection to database
-		
+		Connection con  = null;
+		try  { // get connection to database
+			con   = ConnectionManager.getConnection() ;
 			// prepare query
 			
 			PreparedStatement ps = con.prepareStatement ( "select * from meeting_types" );
@@ -444,10 +448,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			return type_list;
 			
-		} catch (SQLException e ) {
+		} catch (SQLException | ClassNotFoundException e ) {
 			
 			e.printStackTrace ();
-		}		
+		}	
+		finally {
+			ConnectionManager.close();
+		}	
 		
 		return null;
 		
@@ -456,9 +463,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	
 	@Override
 	public List<AmenitiesEntity> getAmenities() {
-		
-		try ( Connection con = DriverManager.getConnection ( "jdbc:derby:c:/database/meetingRoomsDB", "admin", "admin" ) ) { // get connection to database
-			
+		Connection con = null;
+		try  { // get connection to database
+			con = ConnectionManager.getConnection();
 			// prepare query
 			
 			PreparedStatement ps = con.prepareStatement ( "select * from amenities" );
@@ -480,9 +487,12 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			return amenity_list;
 			
-		} catch (SQLException e ) {
+		} catch (SQLException | ClassNotFoundException e ) {
 			
 			e.printStackTrace ();
+		}
+		finally {
+			ConnectionManager.close();
 		}
 						
 		return null;
