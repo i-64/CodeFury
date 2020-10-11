@@ -3,11 +3,24 @@ package com.meetingRooms.utility;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+/**
+ * Manipulate Date Time
+ * 
+ * @author Ashutosh Danwe
+ *
+ */
 public class DateTimeManipulation {
 	
 	private DateTimeManipulation () {}
 	
 	
+	/**
+	 * take the sum of days, and add to the given timestamp
+	 * 
+	 * @param date
+	 * @param days
+	 * @return resulting time
+	 */
 	public static Timestamp addDays (Timestamp date, int days) {
 		
         Calendar cal = Calendar.getInstance();
