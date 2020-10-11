@@ -137,6 +137,11 @@
     <i class="fa fa-quote-left fa-1x fa-pull-left fa-border"></i>
     Int_Elegance is a 10 member team from WFS-2. 
     They are enthusiastic about coding , and are guided by mentor Rajesh Upadhyay for Code Fury 2020.
+
+
+</div>
+
+<!-- 
     
     <div class="row"> <br><br> </div>
     
@@ -244,7 +249,7 @@
 </div>
 
 
-<!-- DISPLAY MEETING LISTS -->
+ -->
 
 
 <!-- Footer -->
