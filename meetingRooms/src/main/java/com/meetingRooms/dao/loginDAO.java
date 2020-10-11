@@ -13,6 +13,13 @@ import com.meetingRooms.utility.ConnectionManager;
 
 import com.meetingRooms.utility.DateTimeManipulation;
 
+/**
+ * Implementation of login feature
+ * 
+ * @author Ashutosh Danwe
+ * @author Ravi Kachhadiya
+ *
+ */
 public class loginDAO implements loginDAOInterface {
 
 	private Connection con; // connection object to establish connection
@@ -38,6 +45,12 @@ public class loginDAO implements loginDAOInterface {
 	} // end of constructor
 
 	
+	/**
+	 * renew the credits of the manager users
+	 * 
+	 * @param user object
+	 *
+	 */
 	@Override
 	public void renewCredits(String user) {
 		
@@ -90,6 +103,13 @@ public class loginDAO implements loginDAOInterface {
 	} // end of renewCredits function
 	
 	
+	/**
+	 * Log the user in to the system
+	 * 
+	 * @param user object
+	 * @return user that was logged in
+	 * 
+	 */
 	@Override
 	public loginUserEntity logInUser ( loginUserEntity user ) {
 		

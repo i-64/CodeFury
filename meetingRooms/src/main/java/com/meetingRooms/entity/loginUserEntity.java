@@ -1,5 +1,11 @@
 package com.meetingRooms.entity;
 
+/**
+ * entity class of user for login
+ * 
+ * @author Ashutosh Danwe
+ *
+ */
 public class loginUserEntity {
 	
 	private String user_id;	// to store userID

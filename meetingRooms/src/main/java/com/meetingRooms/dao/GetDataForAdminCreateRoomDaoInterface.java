@@ -6,6 +6,13 @@ import com.meetingRooms.entity.AmenitiesEntity;
 import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.entity.MeetingTypes;
 
+/**
+ * Interface for admin features, room creation and deletion
+ * 
+ * @author Sophia Tiwari
+ * @author Ashutosh Danwe
+ *
+ */
 public interface GetDataForAdminCreateRoomDaoInterface {
 	
 	public List<AmenitiesEntity> getAmenities ();

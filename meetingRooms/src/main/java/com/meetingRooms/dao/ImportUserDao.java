@@ -9,6 +9,12 @@ import java.sql.*;
 
 import com.meetingRooms.entity.ImportUser;
 
+/**
+ * implementation of imprting users functionality, loading users into the database
+ * 
+ * @author Kunal Rasam
+ *
+ */
 public class ImportUserDao implements ImportUserDaoInterface{
 
 	int i=0;
@@ -35,6 +41,12 @@ public class ImportUserDao implements ImportUserDaoInterface{
 	} // end of constructor
 
 	
+	/**
+	 * import user functionality and loading into database
+	 * 
+	 * @param object of imported user entity
+	 * @return the number of members saved
+	 */
 	@Override
 	public int DaoImport(ImportUser iu) {
 		

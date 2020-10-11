@@ -16,6 +16,12 @@ import javax.servlet.http.HttpSessionListener;
 import com.meetingRooms.entity.UserLog;
 import com.meetingRooms.utility.ConnectionManager;
 
+/**
+ * Listener for log out event
+ * 
+ * @author Akspreet Kaur
+ *
+ */
 public class LogoutListener implements HttpSessionListener {
 	
 	private static Connection con;
@@ -35,6 +41,9 @@ public class LogoutListener implements HttpSessionListener {
 				
 	
 	
+	/**
+	 * @see HttpSessionListener.sessionDestroyed(HttpSessionEvent session)
+	 */
 	@Override
 	public void sessionDestroyed(HttpSessionEvent session) {
 		HttpSession ctx = session.getSession();
@@ -66,6 +75,9 @@ public class LogoutListener implements HttpSessionListener {
 		}
 	}
 
+	/**
+	 * @see HttpSessionListener.sessionCreated(HttpSessionEvent session)
+	 */
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
 		// TODO Auto-generated method stub

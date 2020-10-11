@@ -12,8 +12,18 @@ import com.meetingRooms.entity.User;
 import com.meetingRooms.utility.ConnectionManager;
 
 
+/**
+ * Implementation for meeting rooms display
+ * 
+ * @author Akspreet Kaur
+ * @author Mrunal Ahire
+ *
+ */
 public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
+	
+	
 	private static Connection con;
+	
 	//creating connection con for the whole class
 	static {
 
@@ -28,6 +38,13 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 
 	}
 	
+	/**
+	 * get the info of manager
+	 * 
+	 * @param the user with his id
+	 * @return the details of user in user object
+	 * 
+	 */
 	@Override
 	public User managerInfoDao(User u) {
 		// TODO Auto-generated method stub
@@ -65,6 +82,13 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 	
 		}
 
+	/**
+	 * get the list of meetingas scheduled by the user
+	 * 
+	 * @param object of user
+	 * @return list of meeting objects sceduled by the user
+	 * 
+	 */
 	@Override
 	public List<Meeting> listOfScheduledMeetingsDao(User u) {
 		

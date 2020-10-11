@@ -16,11 +16,19 @@ import com.meetingRooms.utility.ConnectionManager;
 
 /**
  * Servlet implementation class GetDataForAdminCreateRoomDao
+ * 
+ * @author Sophia Tiwari
+ * @author Ashutosh Danwe
+ * @author Ravi Kachhadiya
+ * 
  */
 public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDaoInterface {
 	
 		// function to get meeting name status
 	
+	/**
+	 * @param title of the meeting
+	 */
 	@Override
 	public int getNameStatus ( String meetingName ) {
 		
@@ -54,8 +62,15 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	} // end of getNameStatus function
 	
 	
-		// function to delete meeting room 
 	
+	
+	/**
+	 * function to delete meeting room 
+	 * 
+	 * @param name of meeting
+	 * @return if room was deleted
+	 * 
+	 */
 	@Override
 	public int deleteRoom ( String meetingName ) {
 	
@@ -98,6 +113,12 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	} // end of deleteRoom function
 	
 	
+	/**
+	 * editing room functionality
+	 * 
+	 * @param meeting room object
+	 * @return if room was edited successfully
+	 */
 	@Override
 	public int editRoom ( MeetingRoomEntity entity ) {
 		
@@ -209,6 +230,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	} // end of editRoom Function
 	
 	
+	/**
+	 * get the info for editing room
+	 * 
+	 * @param name if the meeting
+	 * @return meeting room object 
+	 * 
+	 */
 	@Override
 	public MeetingRoomEntity getEditRoomInfo ( String meetingName ) {
 		
@@ -234,7 +262,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				
 				info.setTotal_meetings_conducted ( rs.getInt ( 4 ) );
 				
-				info.setCreated_by ( rs.getString ( 5 ) );
+				info.setCreatedBy ( rs.getString ( 5 ) );
 				
 			} else {
 				
@@ -274,6 +302,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	
 	
 	
+    /**
+     * get the list of meeting rooms
+     *
+     * @param the current user
+     * @return list of meeting rooms
+     * 
+     */
     @Override
     public List<MeetingRoomEntity> getMeetingRooms(String username){
     	
@@ -317,6 +352,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
     }
     
 
+    /**
+     * creates a new room admin feature
+     * 
+     * @param the meeting room object
+     * @return if the room was successfully created
+     * 
+     */
     @Override
 	public int createRoom ( MeetingRoomEntity entity ) {
 		
@@ -336,7 +378,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			ps.setInt ( 3, per_hour_cost );
 			ps.setInt ( 4, 0 );
 			
-			ps.setString ( 5, entity.getCreated_by () );			
+			ps.setString ( 5, entity.getCreatedBy () );			
 			
 			if ( !( ps.executeUpdate () > 0) ) {
 			
@@ -421,6 +463,12 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		return 0;
 	}
 	
+	/**
+	 * get the list of meeting types
+	 * 
+	 * @return list of meeting types
+	 * 
+	 */
 	@Override
 	public List<MeetingTypes> getMeetingTypes () {
 		
@@ -461,6 +509,12 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	} // end of getMeetingTypes
 	
 	
+	/**
+	 * get the list of amenities
+	 * 
+	 * @return the list of amenities
+	 * 
+	 */
 	@Override
 	public List<AmenitiesEntity> getAmenities() {
 		Connection con = null;

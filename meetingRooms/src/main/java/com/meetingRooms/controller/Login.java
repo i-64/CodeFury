@@ -14,6 +14,9 @@ import com.meetingRooms.utility.loginUserServiceFactory;
 
 /**
  * Servlet implementation class Login
+ * 
+ * @author Ashutosh Danwe
+ * 
  */
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -81,6 +84,5 @@ public class Login extends HttpServlet {
 			request.getRequestDispatcher("login.jsp").forward ( request, response );
 		}
 		
-	} // end of service class
-
-} // end of Login class
+	}
+}

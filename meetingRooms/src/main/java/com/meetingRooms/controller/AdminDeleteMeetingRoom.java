@@ -11,6 +11,8 @@ import com.meetingRooms.utility.GetDataForAdminCreateRoomFactory;
 
 /**
  * Servlet implementation class AdminDeleteMeetingRoom
+ * 
+ * @author Ashutosh Danwe
  */
 public class AdminDeleteMeetingRoom extends HttpServlet {
 	private static final long serialVersionUID = 1L;

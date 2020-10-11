@@ -1,11 +1,5 @@
 package com.meetingRooms.dao;
 
-/**
- * 
- * Dao to retrieve scheduled meetings for a member
- * @author Haritha Jayan
- * 
- */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +15,13 @@ import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.ConnectionManager;
 import com.meetingRooms.utility.MemberScheduleDaoFactory;
 
+
+/**
+ * 
+ * Dao to retrieve scheduled meetings for a member
+ * @author Haritha Jayan
+ * 
+ */
 public class MemberScheduleDao implements MemberScheduleDaoInterface {
 	
 	private Connection con;
@@ -40,6 +41,13 @@ public class MemberScheduleDao implements MemberScheduleDaoInterface {
 	
 	
 	
+	/**
+	 * get list of meetings the user is invited for
+	 * 
+	 * @param user logged in
+	 * @return list of meetings of the logged in user
+	 * 
+	 */
 	@Override
 	public List<Meeting> loadMeetingServiceDao(loginUserEntity user) {
 		
