@@ -4,5 +4,5 @@ import com.meetingRooms.entity.ImportUser;
 
 public interface ImportUserDaoInterface {
 
-	void DaoImport(ImportUser iu);
+	int DaoImport(ImportUser iu);
 }

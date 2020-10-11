@@ -17,11 +17,12 @@ private ImportUserDaoInterface di;
 	
 	
 	@Override
-	public void ServiceImport(ImportUser iu) {
+	public int ServiceImport(ImportUser iu) {
 		// TODO Auto-generated method stub
 		
 		
-		di.DaoImport(iu);
+		int j= di.DaoImport(iu);
+		return j;
 		
 	}
 

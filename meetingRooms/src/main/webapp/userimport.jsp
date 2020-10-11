@@ -46,8 +46,9 @@
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">	
-	
+	<link href="css/uploadstyle.css" rel="stylesheet">
 	<link href="css/Footer-with-button-logo.css" rel="stylesheet">
+	
 	
 	<script src="javaScript/jQuery_v3.5.1.js"></script>
 	<script src="javaScript/bootstrap_v4.5.2.js"></script>
@@ -195,23 +196,21 @@ ${Admin_Import_Page_Message}
 	</div>
 
 	<!-- Modal Close -->
-
-
-
-
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-<br /> File: 
-<p>&nbsp;</p>
+	
+	<!-- -form for import user -->
 <form action="userimportserv" method="post"
                         enctype="multipart/form-data">
-<input type="file" name="guru_file" size="50" />
-<br />
-<input type="submit" value="Upload" />
-</form>
-
-
-
-
+            
+            <div class="con">            
+           	
+			<input type="file" name="guru_file"  class="upload-box" />
+			
+		<br />
+		<br>
+	<input type="submit" value="Upload" class="upload-box" />
+	</div>
+	</form>
+<!-- form for import user ended -->
 <!-- Footer -->
 
 <div class="content"> </div>

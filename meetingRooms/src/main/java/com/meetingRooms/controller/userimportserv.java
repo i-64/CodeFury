@@ -37,6 +37,8 @@ import com.meetingRooms.entity.ImportUser;
 import com.meetingRooms.service.ImportUserServiceInterface;
 import com.meetingRooms.utility.ImportUserServiceFactory;
 import com.meetingRooms.utility.xmlEmailException;
+import com.meetingRooms.utility.xmlFieldException;
+import com.meetingRooms.utility.xmlFileException;
 import com.meetingRooms.utility.xmlPhoneException;
 
 
@@ -108,10 +110,16 @@ public class userimportserv extends HttpServlet {
             		    
             			
     								DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            		    
+    								Document doc;
             			
-    								Document doc = dBuilder.parse(fXmlFile);
-            		    
+    								try
+    								{
+    								 doc = dBuilder.parse(fXmlFile);
+    								}
+    								catch(Exception e)
+    								{
+    									throw new xmlFileException();
+    								}
     								//Normalization process to reduce redundancies
             			
     								doc.getDocumentElement().normalize();
@@ -166,6 +174,9 @@ public class userimportserv extends HttpServlet {
             		    			
             		    			
     										String fname=eElement.getElementsByTagName("firstname").item(0).getTextContent();
+    										
+    										
+    										String password=eElement.getElementsByTagName("password").item(0).getTextContent();
             		    			
             		                
     										//System.out.println("first name : " + fname);
@@ -236,20 +247,26 @@ public class userimportserv extends HttpServlet {
     										
     										
     										int len = 10;
-    										String password;
+    										
     						        		//System.out.println(generateRandomPassword(len));
     										
     										//Generating password for each user of lenght of 10
-    										password=generateRandomPassword(len);
+    										//password=generateRandomPassword(len);
     										
     										String hashpassword=Hashing(getSHA(password));
     										hashpassword= (hashpassword.substring(1, 26));
     										
-    										//System.out.println(hashpassword);
+    										System.out.println(hashpassword);
     										//importing userpath 
     										String userpath=f+File.separator+uniqueID;
     										
     										
+    										
+    										
+    										if(isNullOrEmpty(uniqueID) || isNullOrEmpty(fname) || isNullOrEmpty(phone) || isNullOrEmpty(email) || isNullOrEmpty(role) || isNullOrEmpty(userpath) || isNullOrEmpty(hashpassword))
+    										{
+    											throw new xmlFieldException();
+    										}
     										
     										ImportUser iu=new ImportUser();
     										iu.setuid(uniqueID);
@@ -258,7 +275,7 @@ public class userimportserv extends HttpServlet {
     										iu.setemail(email);
     										iu.setrole(role);
     										iu.setcredits(credits);
-    										iu.setpassword(password);
+    										iu.setpassword(hashpassword);
     										iu.setuserpath(userpath);
     										
     										if(role.equals("manager"))
@@ -266,8 +283,27 @@ public class userimportserv extends HttpServlet {
     											String CreditDate=CreditRenewal();
     											iu.setmondaydate(CreditDate);
     										}
+    										int j=0;
+    										j=si.ServiceImport(iu);
+    										System.out.println(j);
+    										if(j>0)
+    										{
+    											String errorMessage = "<div class='alert alert-success alert-dismissible fade in'>" +
+    					    							"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+    					    							"<strong> User Upload Successful... </strong>" + 
+    					    							"</div>";
+
+    					    					request.setAttribute ( "Admin_home_page_message", errorMessage );
+    					    					
+    										}
+    										else
+    										{
+    											
+    											throw new xmlFileException();
+    											
+    											
+    										}
     										
-    										si.ServiceImport(iu);
     										
             		    	
     									}
@@ -276,18 +312,26 @@ public class userimportserv extends HttpServlet {
             		    
                    
     							}
-                
+    							
     					}
                //File uploaded successfully
                
-    					request.setAttribute("message", "User Imported Successfully");
+    					//request.setAttribute("message", "User Imported Successfully");
+    					
+    					
             
             	} 
     		catch (Exception ex) 
     		
     		{
-               
-    			request.setAttribute("message", "File Upload Failed due to " + ex);
+    			
+    			//request.setAttribute("message", "File Upload Failed due to " + ex);
+    			String errorMessage = "<div class='alert alert-danger alert-dismissible fade in'>" +
+    					"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+    					"<strong> File Upload Fail </strong>" + 
+    					"</div>";
+
+    			request.setAttribute ( "Admin_home_page_message", errorMessage+ ex);
     			ex.printStackTrace();
             
     		}         		
@@ -296,13 +340,27 @@ public class userimportserv extends HttpServlet {
     		
     		{
 
-            request.setAttribute("message","No File found");
+            //request.setAttribute("message","No File found");
+    			String errorMessage = "<div class='alert alert-danger alert-dismissible fade in'>" +
+    					"<a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a>" +
+    					"<strong> No File Found</strong>" + 
+    					"</div>";
+
+    			request.setAttribute ( "Admin_home_page_message", errorMessage );
 
     		}
         
-    	request.getRequestDispatcher("/result.jsp").forward(request, response);
+    	//request.getRequestDispatcher("/result.jsp").forward(request, response);
+		
+		request.getRequestDispatcher("AdminHomePage.jsp").forward ( request, response );
 
     }
+
+	private boolean isNullOrEmpty(String str) {
+		if(str != null && !str.isEmpty())
+            return false;
+        return true;
+	}
 
 	private byte[] getSHA(String password) throws NoSuchAlgorithmException {
         // Static getInstance method is called with hashing SHA  
@@ -447,9 +505,29 @@ public class userimportserv extends HttpServlet {
 		
 		uid= (uid.substring(startlimit, endlimit));
 		
+		  
+		String resultStr="";  
 		
+		//loop execute till the length of the string   
 		
-		return uid;
+		for (int i=0;i<uid.length();i++)  
+		{  
+			
+			
+			//comparing alphabets with their corresponding ASCII value  
+			if (uid.charAt(i)==45) //returns true if both conditions returns true  
+			{  
+				//adding characters into empty string   
+				
+			}
+			else
+			{
+				resultStr=resultStr+uid.charAt(i);
+			}
+		} 
+		//System.out.println(resultStr);
+		
+		return resultStr;
 	}
 
 

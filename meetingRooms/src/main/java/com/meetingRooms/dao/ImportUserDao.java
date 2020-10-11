@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.sql.*;
 
 import com.meetingRooms.entity.ImportUser;
 
 public class ImportUserDao implements ImportUserDaoInterface{
 
-	
+	int i=0;
 	private Connection con; // connection object to establish connection
 	
 	
@@ -35,7 +36,7 @@ public class ImportUserDao implements ImportUserDaoInterface{
 
 	
 	@Override
-	public void DaoImport(ImportUser iu) {
+	public int DaoImport(ImportUser iu) {
 		
 		
 		try
@@ -51,13 +52,15 @@ public class ImportUserDao implements ImportUserDaoInterface{
 		ps.setInt(6,iu.getcredits());
 		ps.setString(7,iu.getrole());
 		
-		ps.executeUpdate();
+		i=ps.executeUpdate();
+		
+		
 		
 		
 		//adding user data into log table
 		PreparedStatement p=con.prepareStatement("insert into LOG values(?,?,?)");
 		p.setString(1,iu.getuid());
-		p.setString(2,null);
+		p.setString(2,Timestamp.from(Instant.now()).toString());
 		p.setString(3,iu.getuserpath());
 		
 		p.executeUpdate();
@@ -82,6 +85,7 @@ public class ImportUserDao implements ImportUserDaoInterface{
 		finally {
 			
 		}
+		return i;
 		
 
 	}
