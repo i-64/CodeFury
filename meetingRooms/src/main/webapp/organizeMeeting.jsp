@@ -7,9 +7,14 @@
 <% 
 	//verifying session details and returning to login page if not manager
 	
-	if ( session.getAttribute ( "role" ) == null || !session.getAttribute ( "role" ).toString().equals ( "manager" )) 
-	{
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+
+	response.setHeader("Pragma", "no-cache");
+
+	response.setHeader("Expires", "0");
+
 	
+	if ( session.getAttribute ( "role" ) == null || !session.getAttribute ( "role" ).toString().equals ( "manager" )) {
 		request.getRequestDispatcher("login.jsp").forward ( request, response ); 
 	}
    
@@ -114,7 +119,7 @@
             </div>
         </div>
         <div class='error' id='timeError'></div>
-        <button onclick="filterRooms()" id='filterbtn'>Show Available Rooms</button>
+        <button onclick="getCreditsAndFilterRooms()" id='filterbtn'>Show Available Rooms</button>
         <div class='modal-container inactive'>
             <div class='modal-body'></div>
         </div>

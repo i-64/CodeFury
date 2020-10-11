@@ -38,24 +38,22 @@ public class LogoutListener implements HttpSessionListener {
 	@Override
 	public void sessionDestroyed(HttpSessionEvent session) {
 		HttpSession ctx = session.getSession();
+		
 		String userId=(String) ctx.getAttribute("user_id");
-		System.out.println(userId);
+
 		Date d = new Date(ctx.getLastAccessedTime());  				//.getLastAccessedTime() returns time in milliseconds
 		
 		DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");		//converting milliseconds to date format 
 		
 		df.setTimeZone(TimeZone.getDefault());							//changing timezome from GMT to IST
-		System.out.println(df.format(d));
-		
-		
+	
+			
 		
 		PreparedStatement ps;
 		try {
 			 ps = con.prepareStatement ( "insert into log values(?,?,?)" );
 			
 			 ps.setString(1,userId);
-			 System.out.println("Timestamp feed");
-			 System.out.println(new Timestamp(d.getTime()));
 			 ps.setTimestamp(2,new Timestamp(d.getTime()));
 			 ps.setString(3, null);
 			

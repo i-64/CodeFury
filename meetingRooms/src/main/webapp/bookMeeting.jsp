@@ -1,3 +1,5 @@
+<%@page import="com.meetingRooms.exceptions.NotEnoughCreditsException"%>
+<%@page import="com.meetingRooms.exceptions.MeetingRoomAlreadyBookedException"%>
 <%@page import="com.meetingRooms.entity.User"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.meetingRooms.entity.Meeting"%>
@@ -37,10 +39,22 @@ for (String userId: users) {
 
 response.setContentType("text/html");
 OrganizeMeetingServiceInterface service = OrganizeMeetingServiceFactory.createObject();
-if (service.saveMeetingService(meeting, members)) {
-	out.println("success");
+
+try {
+	if (service.saveMeetingService(meeting, members)) {
+		out.println("success");
+	}
+	else
+		out.println("Could not book meeting :(");
 }
-else
-	out.println("failed");
+catch (MeetingRoomAlreadyBookedException e) {
+	
+	out.println("Meeting Room already booked, any inconvinience caused is deeply regretted :(");
+}
+catch (NotEnoughCreditsException e) {
+	
+	out.println("You do not have enough credits to book this room");
+}
+
 
 %>

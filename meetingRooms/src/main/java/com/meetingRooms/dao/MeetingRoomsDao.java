@@ -9,8 +9,8 @@ import java.util.List;
 
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.User;
-import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.ConnectionManager;
+
 
 public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 	private static Connection con;
@@ -19,7 +19,7 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 
 			try {
 				con = ConnectionManager.getConnection();
-				System.out.println("connection created");
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				throw new RuntimeException("unable to get db connection!");
@@ -75,7 +75,7 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 			try {
 				
 				//meeting_types, meeting_room, meeting
-				ps = con.prepareStatement("select a.id, title, organized_by, meeting_date, start_time, end_time, b.meeting_type, d.unique_name from meeting a INNER JOIN MEETING_TYPES b  ON a.meeting_type_id=b.id INNER JOIN MEETING_ROOM d ON d.created_by = a.organized_by where organized_by=?");
+				ps = con.prepareStatement("select a.id, title, organized_by, meeting_room_id, meeting_date, start_time, end_time, b.meeting_type from meeting a INNER JOIN MEETING_TYPES b ON a.meeting_type_id=b.id where organized_by=?");
 				ps.setString(1, u.getUserId());
 			
 				
@@ -88,11 +88,12 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 					m.setId(res.getInt(1));
 					m.setTitle(res.getString(2));
 					m.setOrganizedBy(res.getString(3));
-					m.setMeetingDateDT(res.getDate(4));
-					m.setStartTimeTM(res.getTime(5));
-					m.setDuration(res.getInt(6));
-					m.setMeetingTypeName(res.getString(7));
-					m.setMeetingRoomName(res.getString(8));
+					m.setMeetingRoomId(res.getString(4));
+					m.setMeetingDate(res.getString(5));
+					m.setStartTime(res.getString(6));
+					m.setEndTime(res.getString(7));
+					m.setMeetingTypeName(res.getString(8));
+					
 					meetingList.add(m);
 				}
 			} 

@@ -5,7 +5,13 @@
 
 <%
 		// check for existing session
+	
+	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
+	response.setHeader("Pragma", "no-cache");
+
+	response.setHeader("Expires", "0");
+		
 	if ( session.getAttribute ( "role" ) == null ) {
 		
 		request.getRequestDispatcher("login.jsp").forward ( request, response );		
