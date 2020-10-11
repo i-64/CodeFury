@@ -2,8 +2,10 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page isELIgnored="false" %>
+
 <%
 		// check for existing session
+		
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
 	response.setHeader("Pragma", "no-cache");
@@ -100,11 +102,6 @@
                     
                     <% } %>
                     
-	      	
-	      		
-	      		
-	      		      		
-	      		
 	    	</ul>
 	    	
 	  	</div>
@@ -140,17 +137,52 @@
     <i class="fa fa-quote-left fa-1x fa-pull-left fa-border"></i>
     Int_Elegance is a 10 member team from WFS-2. 
     They are enthusiastic about coding , and are guided by mentor Rajesh Upadhyay for Code Fury 2020.
+
+
+</div>
+
+<!-- 
+    
+    <div class="row"> <br><br> </div>
     
     <br>
     <br>
     <h4>Meet our Team!</h4>
     
     
-   <div class="row">
+<div class="row">
+
   <div class="columnnew">
     <div class="card" style='text-align:center;'>
-      <img src="images/team/ashutosh.jpg" alt="ashutosh" style="width:50%">
-      <h5>Ashutosh Danwe</h5>
+      <img src="images/team/kunal.jpg" alt="kunal" style="width:50%">
+      <h5>Kunal Rasam</h5>
+      <div class="container">
+      </div>
+    </div>
+  </div>
+   
+   <div class="columnnew">
+    <div class="card" style='text-align:center;'>
+      <img src="images/team/ravi.jpg" alt="ravi" style="width:50%">
+      <h5>Ravi Kachhadiya</h5>
+      <div class="container">
+      </div>
+    </div>
+  </div>
+  
+  <div class="columnnew">
+    <div class="card" style='text-align:center;'>
+      <img src="images/team/mrunal.jpg" alt="mrunal" style="width:50%">
+      <h5>Mrunal Ahire</h5>
+      <div class="container">
+      </div>
+    </div>
+  </div>
+  
+   <div class="columnnew">
+    <div class="card" style='text-align:center;'>
+      <img src="images/team/akspreet.jpg" alt="akspreet" style="width:50%">
+      <h5>Akspreet Kaur</h5>
       <div class="container">
       </div>
     </div>
@@ -165,18 +197,10 @@
     </div>
   </div>
 
-  <div class="columnnew">
-    <div class="card" style='text-align:center;'>
-      <img src="images/team/mrunal.jpg" alt="mrunal" style="width:50%">
-      <h5>Mrunal Ahire</h5>
-      <div class="container">
-      </div>
-    </div>
-  </div>
-  
-  
-  
-  
+</div> 
+
+<div class="row"> 
+    
   <div class="columnnew">
     <div class="card" style='text-align:center;'>
       <img src="images/team/drishika.jpg" alt="drishika" style="width:50%">
@@ -185,47 +209,7 @@
       </div>
     </div>
   </div>
-  
-  <div class="columnnew">
-    <div class="card" style='text-align:center;'>
-      <img src="images/team/ravi.jpg" alt="ravi" style="width:50%">
-      <h5>Ravi Kachhadiya</h5>
-      <div class="container">
-      </div>
-    </div>
-  </div>
-  </div>
-  
-  <div class="row">
-  <div class="columnnew">
-    <div class="card" style='text-align:center;'>
-      <img src="images/team/sophia.jpg" alt="sophia" style="width:50%">
-      <h5>Sophia Tiwari</h5>
-      <div class="container">
-      </div>
-    </div>
-   </div>
  
-  
-  
-  <div class="columnnew">
-    <div class="card" style='text-align:center;'>
-      <img src="images/team/akspreet.jpg" alt="akspreet" style="width:50%">
-      <h5>Akspreet Kaur</h5>
-      <div class="container">
-      </div>
-    </div>
-  </div>
-  
-  <div class="columnnew">
-    <div class="card" style='text-align:center;'>
-      <img src="images/team/kunal.jpg" alt="kunal" style="width:50%">
-      <h5>Kunal Rasam</h5>
-      <div class="container">
-      </div>
-    </div>
-  </div>
-  
  <div class="columnnew">
     <div class="card" style='text-align:center;'>
       <img src="images/team/aishwarya.jpg" alt="aishwarya" style="width:50%">
@@ -244,11 +228,28 @@
     </div>
   </div>
   
+   <div class="columnnew">
+    <div class="card" style='text-align:center;'>
+      <img src="images/team/sophia.jpg" alt="sophia" style="width:50%">
+      <h5>Sophia Tiwari</h5>
+      <div class="container">
+      </div>
+    </div>
+   </div>
   
+   <div class="columnnew">
+    <div class="card" style='text-align:center;'>
+      <img src="images/team/ashutosh.jpg" alt="ashutosh" style="width:50%">
+      <h5>Ashutosh Danwe</h5>
+      <div class="container">
+      </div>
+    </div>
+  </div>
   
 </div>
 
-<!-- DISPLAY MEETING LISTS -->
+
+ -->
 
 
 <!-- Footer -->
@@ -293,8 +294,7 @@
                     <li> <a href="member.jsp"> Home </a> </li>
                     <li> <a href="Logout"> Logout </a> </li>
                     
-                    <% } %>
-                    
+                    <% } %>                    
                     
                 </ul>
                 

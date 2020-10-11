@@ -1,5 +1,9 @@
 package com.meetingRooms.dao;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -119,8 +123,14 @@ public class loginDAO implements loginDAOInterface {
 			
 			PreparedStatement ps = con.prepareStatement ( "select * from users where USER_ID = ? and PASSWORD = ?" );
 			
+			String hashpassword=Hashing(getSHA(user.getPassword ()));
+			hashpassword=(hashpassword.substring(1, 26));
+			
+			System.out.println ( hashpassword);
+			
 			ps.setString ( 1, user.getUser_id () );
-			ps.setString ( 2, user.getPassword () );
+			//ps.setString ( 2, user.getPassword () );
+			ps.setString ( 2, hashpassword );
 			
 			ResultSet rs = ps.executeQuery ();
 			
@@ -142,6 +152,10 @@ public class loginDAO implements loginDAOInterface {
 		} catch ( SQLException sql ) {
 			
 			sql.printStackTrace ();
+			
+		} catch ( NoSuchAlgorithmException e ) {
+			
+			e.printStackTrace ();
 		}
 		finally {
 			
@@ -149,6 +163,41 @@ public class loginDAO implements loginDAOInterface {
 		
 		return null;
 		
-	} // end of logInUser class	
+	} // end of logInUser class
+	
+	
+		// utility functions
+	
+	private byte[] getSHA(String password) throws NoSuchAlgorithmException {
+		
+        	// Static getInstance method is called with hashing SHA
+		
+        MessageDigest md = MessageDigest.getInstance("SHA-256");  
+  
+        // digest() method called  
+        // to calculate message digest of an input  
+        // and return array of byte 
+        return md.digest(password.getBytes(StandardCharsets.UTF_8));
+        
+	} // end of getSHA(String password) function
+
+	
+	private String Hashing(byte[] password) {
+		
+		   // Convert byte array into signum representation  
+        BigInteger number = new BigInteger(1, password);  
+  
+        // Convert message digest into hex value  
+        StringBuilder hexString = new StringBuilder(number.toString(16));  
+  
+        // Pad with leading zeros 
+        while (hexString.length() < 32)  
+        {  
+            hexString.insert(0, '0');  
+        }  
+  
+        return hexString.toString();  
+        
+	} // end of String Hashing functions
 	
 } // end of loginDAO class
