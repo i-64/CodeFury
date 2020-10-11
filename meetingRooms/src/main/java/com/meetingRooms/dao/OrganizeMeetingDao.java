@@ -76,10 +76,12 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				}
 				
 				
-				// finishig off the query
-				String finalQuery = "select * from meeting_room where unique_name in (" + queryString + ")";
+				// finishing off the query
+				String finalQuery = 
+				"select a.unique_name, a.seating_capacity, a.per_hour_cost, b.avg_rating from  (select * from meeting_room where unique_name in (" + queryString + ") ) a "
+				+ "inner join ( select meeting_room_id, avg(rating) as avg_rating from feedback group by meeting_room_id ) b on a.unique_name = b.meeting_room_id ";
 				
-				
+
 				PreparedStatement ps = con.prepareStatement(finalQuery);
 				ps.setString(1, meeting.getStartTime());
 				ps.setString(2, meeting.getStartTime());
@@ -92,16 +94,11 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				
 				while (availableRooms.next()) {
 					
-//					PreparedStatement ratingStatement = con.prepareStatement("");
-//					ResultSet ratingResultSet = ratingStatement.executeQuery();
-					
-					double averageRating = 0.0;
-					
 					MeetingRoom room = new MeetingRoom();
 					room.setRoomName(availableRooms.getString(1));
-					room.setCostPerHour(availableRooms.getInt(3));
 					room.setSeatingCapacity(availableRooms.getInt(2));
-					room.setAverageRating(averageRating);
+					room.setCostPerHour(availableRooms.getInt(3));
+					room.setAverageRating(availableRooms.getInt(4));
 					meetingRoomsList.add(room);
 				}
 				
@@ -145,7 +142,7 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 			while (rs.next()) {
 				
-				if (rs.getString(3).contains(user.getName())) {
+				if (rs.getString(3).toLowerCase().contains(user.getName().toLowerCase())) {
 					
 					User currUser = new User();
 					currUser.setUserId(rs.getString(1));
