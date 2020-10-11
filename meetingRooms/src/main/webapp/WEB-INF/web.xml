@@ -4,6 +4,10 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  	<listener>
+		<listener-class>com.meetingRooms.listeners.LogoutListener</listener-class>
+	</listener>
+  
   <servlet>
   	<servlet-name>Login</servlet-name>
   	<display-name>Login</display-name>
@@ -87,17 +91,10 @@
   	<url-pattern>/Logout</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-
-
   	<servlet-name>userimportserv</servlet-name>
   	<url-pattern>/userimportserv</url-pattern>
   </servlet-mapping>	
 
-<servlet-mapping>
-
-  	<servlet-name>userimportserv</servlet-name>
-  	<url-pattern>/userimportserv</url-pattern>
-</servlet-mapping>
 <servlet-mapping>
   	<servlet-name>GetDataForAdminCreateRoomController</servlet-name>
   	<url-pattern>/GetDataForAdminCreateRoomController</url-pattern>
@@ -128,10 +125,7 @@
   	
   	</servlet-mapping>
   	
-	<listener>
-		<listener-class>com.meetingRooms.listeners.LogoutListener</listener-class>
-	</listener>
-  
+
   
   
 </web-app>
