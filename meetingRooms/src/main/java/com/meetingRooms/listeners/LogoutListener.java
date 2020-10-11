@@ -82,6 +82,9 @@ public class LogoutListener implements HttpSessionListener {
 	public void sessionCreated(HttpSessionEvent se) {
 		// TODO Auto-generated method stub
 		HttpSessionListener.super.sessionCreated(se);
+		HttpSession session = se.getSession();
+		
+	    session.setMaxInactiveInterval(60);//in seconds
 	}
 	
 	
