@@ -10,7 +10,14 @@ import com.meetingRooms.entity.User;
 import com.meetingRooms.entity.UserLog;
 import com.meetingRooms.utility.ConnectionManager;
 
+/**
+ * Implementation for last logged in info feature
+ * 
+ * @author Akspreet Kaur
+ *
+ */
 public class LogDao implements LogDaoInterface{
+	
 	private static Connection con;
 	//creating connection con for the whole class
 	static {
@@ -24,6 +31,13 @@ public class LogDao implements LogDaoInterface{
 			}
 
 	}
+	
+	/**
+	 * get the last logged in time of user
+	 * 
+	 * @param the object of user
+	 * @return the login time of user
+	 */
 	@Override
 	public Time displayLastLoginDao(User u) {
 		

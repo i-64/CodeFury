@@ -18,6 +18,8 @@ import com.meetingRooms.utility.GetDataForAdminCreateRoomFactory;
 
 /**
  * Servlet implementation class AdminCreateRoom
+ * @author Sophia Tiwari
+ * @author Ashutosh Danwe
  */
 public class AdminCreateRoom extends HttpServlet {
 	
@@ -28,17 +30,14 @@ public class AdminCreateRoom extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-			// pojo object
 		
 		MeetingRoomEntity entity = new MeetingRoomEntity ();
 		
 		HttpSession session = request.getSession (false);
 			
 		entity.setUniqueName ( request.getParameter("meeting_name") ); // getting meeting name
-		
 		entity.setSeatingCapacity ( Integer.parseInt ( request.getParameter ( "seating_capacity" ) ) ); // get seating capacity
-		
-		entity.setCreated_by ( session.getAttribute ( "user_id" ).toString() ); // to store who created the meeting
+		entity.setCreatedBy ( session.getAttribute ( "user_id" ).toString() ); // to store who created the meeting
 		
 		
 		// get amenities List

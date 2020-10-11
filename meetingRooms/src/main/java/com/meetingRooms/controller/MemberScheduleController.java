@@ -7,9 +7,15 @@ import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.service.MemberScheduleServiceInterface;
 import com.meetingRooms.utility.MemberScheduleServiceFactory;
 
+/**
+ * Controller class for member page feature
+ * 
+ * @author Haritha Jayan
+ *
+ */
 public class MemberScheduleController implements MemberScheduleControllerInterface{
 
-private MemberScheduleServiceInterface meeting_schedule = null;
+	private MemberScheduleServiceInterface meeting_schedule = null;
 	
 	public MemberScheduleController() {
 		
@@ -17,6 +23,12 @@ private MemberScheduleServiceInterface meeting_schedule = null;
 		
 	}
 	
+	/**
+	 * loads the meeting
+	 * 
+	 * @param user object
+	 * @return list of meetings
+	 */
 	public List<Meeting> loadMeeting(loginUserEntity user) {
 		
 		List<Meeting> meetingList;
@@ -24,26 +36,5 @@ private MemberScheduleServiceInterface meeting_schedule = null;
 		
 		meetingList = meeting_schedule.loadMeetingService(user);
 		return meetingList;
-	}
-	
-	
-	public static void main(String args[]) {
-		
-		List<Meeting> meetingList;
-		
-		loginUserEntity user = new loginUserEntity();
-		user.setUser_id("5001");
-		
-		MemberScheduleController mc= new MemberScheduleController();
-		meetingList = mc.loadMeeting(user);
-		
-		for(Meeting m:meetingList) {
-			System.out.println(m.getId());
-			System.out.println(m.getDuration());
-			System.out.println(m.getTitle());
-			System.out.println(m.getMeetingDate());
-			System.out.println(m.getStartTime());
-			System.out.println(m.getOrganizedBy());
-		}
 	}
 }

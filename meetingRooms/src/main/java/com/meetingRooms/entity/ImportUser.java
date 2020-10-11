@@ -1,5 +1,11 @@
 package com.meetingRooms.entity;
 
+/**
+ * ENtity class for imported user
+ * 
+ * @author Kunal Rasam
+ *
+ */
 public class ImportUser {
 	
 	private String name;
@@ -10,33 +16,51 @@ public class ImportUser {
 	private String password;
 	private int credits;
 	private String userpath;
-	private String mondaydate;
+	private String mondayDate;
 	
 	
 	
 	
+	/**
+	 * @param mondaydate
+	 */
 	public void setmondaydate(String mondaydate)
 	{
-		this.mondaydate=mondaydate;
+		this.mondayDate=mondaydate;
 	}
+	/**
+	 * @return date on monday
+	 */
 	public String getmondaydate()
 	{
-		return mondaydate;
+		return mondayDate;
 	}
 	
 	//---------------------------
+	/**
+	 * @param userpath
+	 */
 	public void setuserpath(String userpath)
 	{
 		this.userpath=userpath;
 	}
+	/**
+	 * @return path for logs of this user
+	 */
 	public String getuserpath()
 	{
 		return userpath;
 	}
+	/**
+	 * @param uid
+	 */
 	public void setuid(String uid)
 	{
 		this.uid=uid;
 	}
+	/**
+	 * @return generated id of the user
+	 */
 	public String getuid()
 	{
 		return uid;
@@ -44,11 +68,17 @@ public class ImportUser {
 	
 	
 	//---------------
+	/**
+	 * @param name
+	 */
 	public void setname(String name)
 	{
 		this.name=name;
 	}
 	
+	/**
+	 * @return name of the user
+	 */
 	public String getname()
 	{
 		return name;
@@ -57,10 +87,16 @@ public class ImportUser {
 	//---------------
 	
 	
+	/**
+	 * @param email
+	 */
 	public void setemail(String email)
 	{
 		this.email=email;
 	}
+	/**
+	 * @return email of the user 
+	 */
 	public String getemail()
 	{
 		return email;
@@ -80,10 +116,16 @@ public class ImportUser {
 	
 	//-------------------
 	
+	/**
+	 * @param role
+	 */
 	public void setrole(String role)
 	{
 		this.role=role;
 	}
+	/**
+	 * @return role of the user
+	 */
 	public String getrole()
 	{
 		return role;
@@ -104,10 +146,16 @@ public class ImportUser {
 	
 	//---------------
 	
+	/**
+	 * @param credits
+	 */
 	public void setcredits(int credits)
 	{
 		this.credits=credits;
 	}
+	/**
+	 * @return credits of the user
+	 */
 	public int getcredits()
 	{
 		return credits;

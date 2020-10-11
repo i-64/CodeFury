@@ -9,6 +9,9 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class Logout
+ * 
+ * @author Ashutosh Danwe
+ * 
  */
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -22,24 +25,19 @@ public class Logout extends HttpServlet {
 		
 		if ( session != null ) {
 			
-				// remove session parameters
-			
-				/*
-				 * session.removeAttribute ( "user_id" ); 
-				 */ 
-				  session.removeAttribute ( "name" );
-				  
-				  session.removeAttribute ( "email" ); 
-				  
-				  session.removeAttribute ( "phone" );
-				  
-				  session.removeAttribute ( "role" );
+			//remove session parameters
+			session.removeAttribute ( "name" );
+			  
+			session.removeAttribute ( "email" ); 
+			  
+			session.removeAttribute ( "phone" );
+			  
+			session.removeAttribute ( "role" );
 				 		
 			session.invalidate();
 		}
 		
 		response.sendRedirect ( "index.jsp" ); // redirect to home page
 		
-	} // end of service class
-
-} // end of Logout class
+	}
+}
