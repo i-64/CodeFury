@@ -19,7 +19,7 @@ public class SortRoomsByAverageRating implements Comparator<MeetingRoom> {
 	@Override
 	public int compare (MeetingRoom room1, MeetingRoom room2) {
 		
-		return Double.compare(room1.getAverageRating(), room2.getAverageRating());
+		return -1 * Double.compare(room1.getAverageRating(), room2.getAverageRating());
 	}
 
 }
