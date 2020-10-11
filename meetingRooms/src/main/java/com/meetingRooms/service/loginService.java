@@ -16,7 +16,6 @@ public class loginService implements loginServiceInterface {
 		login_object = loginUserDAOFactory.createObject ();
 		
 	} // end of constructor
-
 	
 	@Override
 	public loginUserEntity logInUser ( loginUserEntity user ) {
@@ -24,5 +23,12 @@ public class loginService implements loginServiceInterface {
 		return login_object.logInUser ( user );
 		
 	} // end of loginUserEntity
+
+
+	@Override
+	public void renewCredits(String user) {
+		
+		login_object.renewCredits(user);		
+	}
 	
 } // end of loginService

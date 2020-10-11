@@ -1,4 +1,19 @@
-connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=admin'; 
+connect 'jdbc:derby:c:/database/meetingRoomsDB;create=true;user=admin;password=admin';
+
+// log table
+
+DROP TABLE LOG;
+CREATE TABLE LOG (
+
+	user_id varchar (50),
+	
+	last_login_time timestamp,
+	
+	user_file_path varchar (500) default null,
+	
+	foreign key (user_id) references USERS (user_id)
+);
+
 
 // user table
 
@@ -53,8 +68,11 @@ CREATE TABLE MEETING_ROOM (
 	unique_name varchar (30) primary key,
 	
 	seating_capacity int default 0,
+	per_hour_cost int default 0,
+	total_meetings_conducted int default 0,
+	created_by varchar (50),
 	
-	per_hour_cost int default 0
+	foreign key (created_by) references USERS (user_id)
 );
 
 
@@ -105,14 +123,14 @@ CREATE TABLE MEETING (
 	
 	meeting_date date not null,
 	start_time time not null,
-	duration int not null,
+	end_time time not null,
+	meeting_room_id varchar (30),
 	
 	meeting_type_id int,
-	booking_link int,
 	
+	foreign key (meeting_room_id) references MEETING_ROOM (unique_name),
 	foreign key (meeting_type_id) references MEETING_TYPES (id),
-	foreign key (organized_by) references USERS (user_id),
-	foreign key (booking_link) references BOOKING_INFO (unique_id)
+	foreign key (organized_by) references USERS (user_id)
 );
 
 
@@ -139,4 +157,17 @@ CREATE TABLE ATTENDEES  (
 	
 	foreign key (meeting_id) references MEETING (id),
 	foreign key (user_id) references USERS (user_id)
+);
+
+
+//credits renewal table
+DROP TABLE CREDIT_RENEWAL;
+CREATE TABLE CREDIT_RENEWAL (
+
+	user_id varchar (50),
+	
+	next_Renewal_Date timestamp,
+	
+	foreign key (user_id) references USERS (user_id)
+
 );

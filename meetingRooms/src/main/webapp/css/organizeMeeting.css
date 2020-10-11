@@ -1,0 +1,219 @@
+h1{
+    color: #333CFF;
+}
+
+input{
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+}
+
+select{
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 1px solid black;
+}
+
+ul{
+	list-style: none;
+	padding:0;
+	margin:0;
+}
+li{
+	text-align: left;
+	padding-left:10px;
+}
+
+.mycontainer{
+    width: 70%;
+    margin: auto;
+}
+
+.item-container{
+    margin-top: 20px;
+}
+
+
+.title{
+   color: slategray;
+}
+
+.userinput{
+    margin: 5px 0;
+}
+
+.width100{
+    width: 100%;
+}
+
+.width50{
+    width: 50%;
+}
+
+.flex-row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-row .flex-item {
+    flex-grow: 1;
+}
+
+.flex-item{
+    margin-left: 20px;
+}
+.flex-item:first-of-type{
+    margin:0;
+} 
+
+.flex-item input{
+    width: 100%;
+    height: 20px;
+}
+
+#rooms{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.room{
+    width: 48%;
+    border: 1px solid black;
+    margin: 20px 0;
+    display:flex;
+    flex-direction: column;
+}
+
+.room > *{
+    margin: 10px 5px;
+}
+
+.room button{
+    border-radius: 10px;
+}
+
+.roomtitle{
+    font-size: 16px;
+    
+}
+
+.modal-container{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #0009;
+  }
+
+  #modal-title{
+    font-size:24px;
+    font-weight:500;
+    text-align: center;
+  }
+
+ .modal-body{
+    padding: 30px;
+    background-color: #fff;
+    width: 650px;
+    min-height: 450px;
+  }
+  
+  .inactive{
+      display: none;
+  }
+
+
+  .input-container{
+      position: relative;
+  }
+  .content-container{
+	 position: absolute; 
+	top:100%;
+	max-height:100px;
+	overflow:auto;
+	min-width:100%;
+	background: white;
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 10px 0px;
+}
+
+.content-container li:hover{
+    background-color: rgb(94, 35, 220);
+}
+.content-container li{
+    position:relative;
+    cursor: pointer;
+}
+
+.content-container li img{
+    position: absolute;
+    top:2px;
+    right:10px;
+    width: 16px;
+    height: 16px;
+}
+
+.membersList button{
+    border-radius: 10px;
+    margin: 5px 5px;
+}
+
+.membersList button img{
+    width: 10px;
+    height: 10px;
+    margin-left: 5px;
+}
+
+.room-modal-items{
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.room-modal-items > *{
+    margin-right: 10px;
+}
+
+.bold{
+    font-weight: 500;
+}
+
+.modal-confirm{
+    margin-top: 120px;
+    display:flex;
+    justify-content: space-between;
+}
+
+.modal-confirm button{
+    width: 45%;
+}
+
+.error{
+    color: red;
+}
+
+#filterbtn{
+    margin-top: 10px;
+}
+
+/* Suprisingly below doesnt work. Fetching image from browser gives 404 strangely. Maybe tomcat not allowing to get the resource.
+ .content-container li::after{
+        position: absolute;
+        top:2px;
+        right:10px;
+        width: 16px;
+        height: 16px;
+    content: url('/src/main/webapp/images/plus.png');
+}  */
+
+::placeholder { 
+    color: #CACFD2 ;
+    opacity: 1; 
+  }

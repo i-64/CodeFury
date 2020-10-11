@@ -64,6 +64,8 @@ public class Login extends HttpServlet {
 				
 			} else {
 				
+				login_object.renewCredits(user.getUser_id());
+				
 				request.getRequestDispatcher("ManagerHomePage.jsp").forward ( request, response );
 			}
 			

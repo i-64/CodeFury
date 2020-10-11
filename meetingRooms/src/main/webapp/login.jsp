@@ -94,21 +94,19 @@ ${login_page_message}
 
 <!-- Divison Header -->
   
-<div class="row">
+	<div class="row">
 
-	<div class = "col-sm-1"> </div>
+		<div class = "col-sm-5"> </div>
 
-  		<div class = "col-sm-4"> </div>
+		<div class = "col-sm-2">
 
-   			<div class = "col-sm-2">
-  
-    			<div class = "">
-    
-      				<a href="index.jsp"> <img src="images/logo/hsbc-logo-light_2.png" style=" height:70px; width:150px;"  align="left"/> </a>
-        
-      			</div>
-      
-     		</div>
+			<div class = "">
+
+ 					<a href="index.jsp"> <img src="images/logo/hsbc-logo-light_2.png" style=" height:70px; width:150px;"  align="left"/> </a>
+   
+ 			</div>
+ 
+		</div>
      
      	<div class="col-sm-5"> </div>
       
@@ -245,7 +243,16 @@ ${login_page_message}
                 <ul>
                 
                     <li> <a href="index.jsp"> Home </a> </li>
+                    
+                    <% if ( session.getAttribute ( "role" ) == null ) { %>
+                    
                     <li> <a href="login.jsp"> Login </a> </li>
+                    
+                    <% } else { %>
+                    
+                    <li> <a href="Logout"> Logout </a> </li>
+                    
+                    <% } %>
                     
                 </ul>
                 
@@ -257,9 +264,9 @@ ${login_page_message}
                 
                 <ul>
                 
-                    <li> <a href="#"> Information </a> </li>
+                    <li> <a href="about_us.jsp"> Information </a> </li>
                     
-                    <li> <a href="#"> Give Feedback </a> </li>
+                    <li> <a href="feedback.jsp"> Give Feedback </a> </li>
                     
                 </ul>
                 
@@ -281,9 +288,9 @@ ${login_page_message}
             
             <div class="col-sm-3">
             
-              <br>
+            	<br>
             
-             <a href = "#"> <button type="button" class="btn" > Contact us </button> </a>                 
+             <a href = "#"> <button type="button" class="btn" > Contact us </button> </a>	                
          
          </div>
             

@@ -22,16 +22,19 @@ public class Logout extends HttpServlet {
 		
 		if ( session != null ) {
 			
-				// remove session paramaters
+				// remove session parameters
 			
-			session.removeAttribute ( "user_id" );
-			session.removeAttribute ( "name" );
-			
-			session.removeAttribute ( "email" );
-			session.removeAttribute ( "phone" );
-			
-			session.removeAttribute ( "role" );
-			
+				/*
+				 * session.removeAttribute ( "user_id" ); 
+				 */ 
+				  session.removeAttribute ( "name" );
+				  
+				  session.removeAttribute ( "email" ); 
+				  
+				  session.removeAttribute ( "phone" );
+				  
+				  session.removeAttribute ( "role" );
+				 		
 			session.invalidate();
 		}
 		

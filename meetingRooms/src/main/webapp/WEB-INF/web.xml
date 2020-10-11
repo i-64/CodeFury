@@ -22,6 +22,48 @@
   	<description></description>
   	<servlet-class>com.meetingRooms.controller.Logout</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>GetDataForAdminCreateRoomController</servlet-name>
+  	<display-name>GetDataForAdminCreateRoomController</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.GetDataForAdminCreateRoomController</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>GetDataForAdminCreateRoomDao</servlet-name>
+  	<display-name>GetDataForAdminCreateRoomDao</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.dao.GetDataForAdminCreateRoomDao</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AdminCreateRoom</servlet-name>
+  	<display-name>AdminCreateRoom</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminCreateRoom</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AdminEditRoom</servlet-name>
+  	<display-name>AdminEditRoom</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminEditRoom</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AdminDeleteRoom</servlet-name>
+  	<display-name>AdminDeleteRoom</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminDeleteRoom</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AdminDeleteMeetingRoom</servlet-name>
+  	<display-name>AdminDeleteMeetingRoom</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminDeleteMeetingRoom</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>AdminGetData</servlet-name>
+  	<display-name>AdminGetData</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.AdminGetData</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
   	<url-pattern>/Login</url-pattern>
@@ -34,4 +76,36 @@
   	<servlet-name>Logout</servlet-name>
   	<url-pattern>/Logout</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>GetDataForAdminCreateRoomController</servlet-name>
+  	<url-pattern>/GetDataForAdminCreateRoomController</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>GetDataForAdminCreateRoomDao</servlet-name>
+  	<url-pattern>/GetDataForAdminCreateRoomDao</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminCreateRoom</servlet-name>
+  	<url-pattern>/AdminCreateRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminEditRoom</servlet-name>
+  	<url-pattern>/AdminEditRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminDeleteRoom</servlet-name>
+  	<url-pattern>/AdminDeleteRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminDeleteMeetingRoom</servlet-name>
+  	<url-pattern>/AdminDeleteMeetingRoom</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>AdminGetData</servlet-name>
+  	<url-pattern>/AdminGetData</url-pattern>
+  </servlet-mapping>
+  
+  	<listener>
+		<listener-class>com.meetingRooms.listeners.LogoutListener</listener-class>
+	</listener>
 </web-app>
