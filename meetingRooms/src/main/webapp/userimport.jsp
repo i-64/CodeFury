@@ -1,17 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    
+
 <%@ page isELIgnored="false" %>
 
 <%
 		// check for existing session
-	
-	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
-	response.setHeader("Pragma", "no-cache");
-
-	response.setHeader("Expires", "0");
-		
 	if ( session.getAttribute ( "role" ) == null ) {
 		
 		request.getRequestDispatcher("login.jsp").forward ( request, response );		
@@ -34,11 +28,10 @@
 
 %>
 
-<!DOCTYPE html>
+<!DOCTYPE>
 
 <%@page	import="java.util.*,java.sql.Time, com.meetingRooms.entity.User,com.meetingRooms.entity.Meeting, com.meetingRooms.service.MeetingRoomsServiceInterface,com.meetingRooms.service.LogServiceInterface,com.meetingRooms.service.LogService, com.meetingRooms.utility.MeetingServiceFactory,com.meetingRooms.utility.LogServiceFactory"%>
 <%@ page import="com.meetingRooms.utility.ConnectionManager"%>
-
 <html>
 
 <head>
@@ -53,13 +46,14 @@
     <link href="css/animate.css" rel="stylesheet">
 	<link href="css/main.css" rel="stylesheet">
 	<link href="css/responsive.css" rel="stylesheet">	
-	
+	<link href="css/uploadstyle.css" rel="stylesheet">
 	<link href="css/Footer-with-button-logo.css" rel="stylesheet">
+	
 	
 	<script src="javaScript/jQuery_v3.5.1.js"></script>
 	<script src="javaScript/bootstrap_v4.5.2.js"></script>
 	
-	<title> Admin Home Page </title>
+	<title> Import Users Page </title>
 
 </head>
 
@@ -82,9 +76,9 @@
 	    	
 	    	<ul class="nav navbar-nav">
 	      	
-	      		<li class="active"> <a href="AdminHomePage.jsp"> Admin Home </a> </li>
+	      		<li> <a href="AdminHomePage.jsp"> Admin Home </a> </li>
 	      		
-	      		<li> <a href="userimport.jsp"> Import Users </a> </li>
+	      		<li class="active"> <a href="userimport.jsp"> Import Users </a> </li>
 	      		
 	      		<li><a href="#myModal" role="button" data-toggle="modal"> Admin Information </a></li>
 	      	
@@ -104,7 +98,7 @@
 
 <div class="row"> <br> <br> <br> </div>
 
-${Admin_home_page_message}
+${Admin_Import_Page_Message}
 
 	<% 	
 	
@@ -202,82 +196,21 @@ ${Admin_home_page_message}
 	</div>
 
 	<!-- Modal Close -->
-
-
-
-<%@page import = "java.util.ArrayList,java.util.List " %>
-<%@page import = "com.meetingRooms.service.GetDataForAdminCreateRoomServiceInterface" %>
-<%@page import = "com.meetingRooms.utility.GetDataForAdminCreateRoomFactory" %>
-<%@page import = "com.meetingRooms.entity.MeetingRoomEntity" %>
-
-
-<div class="container">
-
-  <h2> Admin Meeting Rooms </h2>
-  
-  <%
 	
-	GetDataForAdminCreateRoomServiceInterface service =  GetDataForAdminCreateRoomFactory.createObjectForService ();
-
-	List<MeetingRoomEntity> list = new ArrayList<MeetingRoomEntity>();
-	
-	list=service.getMeetingRooms(session.getAttribute("user_id").toString());
-	
-	if ( list.size () > 0 ) {
-	
-%>
-          
-  <table class="table table-striped table-hover">
-  
-    <thead>
-    
-      <tr>
-      
-        <th> Meeting Room Name </th>
-        <th> Seating Capacity </th>
-        <th> Per Hour Cost (credits) </th>
-        <th> Total Meeting Conducted </th>
-        <th> &nbsp </th>
-        
-      </tr>
-      
-    </thead>
-    
-    <tbody>
-    
-<%
-	
-	for ( MeetingRoomEntity e : list ) {
-
-%>
-			<tr>
+	<!-- -form for import user -->
+<form action="userimportserv" method="post"
+                        enctype="multipart/form-data">
+            
+            <div class="con">            
+           	
+			<input type="file" name="guru_file"  class="upload-box" />
 			
-			   <td> <%=e.getUniqueName()%> </td>
-			   <td> <%=e.getSeatingCapacity()%> </td>
-			   <td> <%=e.getPerHourCost()%> </td>
-			   <td> <%=e.getTotal_meetings_conducted()%> </td>
-			   <td> <a href="AdminEditRoom.jsp?unique_name=<%=e.getUniqueName()%>"><button type="button" class="btn  btn-success">Edit Room</button></a></td>
-			 
-			</tr>
-			
-<%			
-		}
-
-	} else {
-		
-		%> <h2> No Meetings Found </h2> <%
-		
-	}
-
-%>
-
-    </tbody>
-    
-   </table>
-
-</div>
-
-
+		<br />
+		<br>
+	<input type="submit" value="Upload" class="upload-box" />
+	</div>
+	</form>
+<!-- form for import user ended -->
 <!-- Footer -->
 
 <div class="content"> </div>
@@ -356,11 +289,8 @@ ${Admin_home_page_message}
     
 </footer>
 
+
 <!-- Footer -->
 
 </body>
-
-</html>
-
-
-
+</html></html>
