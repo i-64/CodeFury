@@ -18,8 +18,7 @@ import com.meetingRooms.entity.ImportUser;
 public class ImportUserDao implements ImportUserDaoInterface{
 
 	int i=0;
-	private Connection con; // connection object to establish connection
-	
+	private Connection con; // connection object to establish connection	
 	
 	public ImportUserDao () {
 		
@@ -88,6 +87,8 @@ public class ImportUserDao implements ImportUserDaoInterface{
 			
 		}
 		
+		con.commit(); // commit transactions
+		
 		}
 		catch ( SQLException sql ) 
 		{
@@ -97,6 +98,9 @@ public class ImportUserDao implements ImportUserDaoInterface{
 		finally {
 			
 		}
+		
+		
+		
 		return i;
 		
 

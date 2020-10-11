@@ -60,6 +60,8 @@ public class loginDAO implements loginDAOInterface {
 		
 		try {
 			
+			con.setAutoCommit(false); // initiate transaction
+			
 			// prepare query
 			
 			PreparedStatement ps = con.prepareStatement ( "select next_Renewal_Date from credit_renewal where user_id = ?" );
@@ -83,6 +85,8 @@ public class loginDAO implements loginDAOInterface {
     				
     				if ( ! (ps.executeUpdate() > 0) ) {
     					
+    					con.rollback(); // roll back uncommitted changes
+    					
     					return;
     				}
     				
@@ -93,11 +97,16 @@ public class loginDAO implements loginDAOInterface {
     				ps.setString ( 2, user );
     				
     				if ( !(ps.executeUpdate() > 0) ) {
+    					
+    					con.rollback(); // roll back uncommitted changes
+    					
     					return;
     				}
     				
     			}
     		}
+    		
+    		con.commit(); // commit transactions
     		
 		} catch ( SQLException sql ) {
 			
@@ -126,10 +135,7 @@ public class loginDAO implements loginDAOInterface {
 			String hashpassword=Hashing(getSHA(user.getPassword ()));
 			hashpassword=(hashpassword.substring(1, 26));
 			
-			System.out.println ( hashpassword);
-			
 			ps.setString ( 1, user.getUser_id () );
-			//ps.setString ( 2, user.getPassword () );
 			ps.setString ( 2, hashpassword );
 			
 			ResultSet rs = ps.executeQuery ();
@@ -159,6 +165,7 @@ public class loginDAO implements loginDAOInterface {
 		}
 		finally {
 			
+			ConnectionManager.close();			
 		}
 		
 		return null;
