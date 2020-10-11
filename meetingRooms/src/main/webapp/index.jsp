@@ -140,7 +140,7 @@
 
 						 <% if ( set_1.getString (4) == null ) {
       				
-      						%>0<%
+      						%>No Ratings<%
       					
       					} else {  
       					

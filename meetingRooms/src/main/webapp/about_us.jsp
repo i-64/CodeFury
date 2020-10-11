@@ -2,8 +2,10 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ page isELIgnored="false" %>
+
 <%
 		// check for existing session
+		
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
 	response.setHeader("Pragma", "no-cache");
@@ -100,11 +102,6 @@
                     
                     <% } %>
                     
-	      	
-	      		
-	      		
-	      		      		
-	      		
 	    	</ul>
 	    	
 	  	</div>
@@ -141,6 +138,8 @@
     Int_Elegance is a 10 member team from WFS-2. 
     They are enthusiastic about coding , and are guided by mentor Rajesh Upadhyay for Code Fury 2020.
     
+    <div class="row"> <br><br> </div>
+    
     <br>
     <br>
     <h4>Meet our Team!</h4>
@@ -172,10 +171,7 @@
       <div class="container">
       </div>
     </div>
-  </div>
-  
-  
-  
+  </div>  
   
   <div class="columnnew">
     <div class="card" style='text-align:center;'>
@@ -244,8 +240,8 @@
     </div>
   </div>
   
-  
-  
+</div>
+
 </div>
 
 <!-- DISPLAY MEETING LISTS -->
@@ -293,8 +289,7 @@
                     <li> <a href="member.jsp"> Home </a> </li>
                     <li> <a href="Logout"> Logout </a> </li>
                     
-                    <% } %>
-                    
+                    <% } %>                    
                     
                 </ul>
                 
