@@ -11,7 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
+import java.util.ArrayList;
 
+import com.meetingRooms.entity.DataDisplayForIndex;
 import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.ConnectionManager;
 
@@ -48,6 +51,56 @@ public class loginDAO implements loginDAOInterface {
 		 
 	} // end of constructor
 
+	
+	@Override
+	public List<DataDisplayForIndex> getWelcomePageData () {
+		
+		List<DataDisplayForIndex> list = new ArrayList <DataDisplayForIndex> ();
+		
+		try {
+		
+			PreparedStatement ps = con.prepareStatement ( "select m.unique_name, m.seating_capacity, m.total_meetings_conducted, f.rating from meeting_room m left outer join ( select meeting_room_id, SUM(rating)/COUNT(rating) as rating from feedback group by meeting_room_id ) f on m.unique_name = f.meeting_room_id" );
+		
+			ResultSet set_1 = ps.executeQuery ();
+			
+			while ( set_1.next () ) {
+				
+				DataDisplayForIndex data = new DataDisplayForIndex ();
+				
+				data.setName ( set_1.getString(1));
+				data.setSeating_capacity ( set_1.getString(2));
+				data.setTotal_meetings_conducted ( set_1.getString(3));
+				
+				if ( set_1.getString(4) == null ) {
+					
+					data.setRatings ( "No Ratings" );
+					
+				} else {
+					
+					data.setRatings ( set_1.getString(4));
+				}
+				
+				list.add(data);
+			}
+		
+			return list;
+			
+		}catch ( SQLException sql ) {
+			
+			sql.printStackTrace ();
+			
+		}
+		
+		finally {
+			
+			ConnectionManager.close();			
+		}
+		
+		
+		return null;		
+		
+	} // end of getWelcomePageData function
+	
 	
 	/**
 	 * renew the credits of the manager users
@@ -111,6 +164,11 @@ public class loginDAO implements loginDAOInterface {
 		} catch ( SQLException sql ) {
 			
 			sql.printStackTrace ();
+		} 
+		
+		finally {
+			
+			ConnectionManager.close();			
 		}
 		
 	} // end of renewCredits function

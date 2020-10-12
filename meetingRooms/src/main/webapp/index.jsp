@@ -9,7 +9,10 @@
 <%@ page import = "java.sql.ResultSet" %>
 <%@ page import = "java.sql.SQLException" %>
 <%@ page import = "java.sql.SQLException" %>
+<%@ page import = "java.util.List" %>
 <%@ page import = "com.meetingRooms.utility.ConnectionManager" %>
+<%@ page import = "com.meetingRooms.entity.DataDisplayForIndex" %>
+<%@ page import = "com.meetingRooms.entity.loginUserEntity, com.meetingRooms.service.loginServiceInterface, com.meetingRooms.utility.loginUserServiceFactory" %>
 
 <!DOCTYPE html>
 
@@ -89,24 +92,23 @@
     <!-- DISPLAY MEETING LISTS -->
 
     <%
-
-	//load driver
-
-	Class.forName ( "org.apache.derby.jdbc.EmbeddedDriver" );
-
-	//get connection to database
-
-	try ( Connection con = ConnectionManager.getConnection() ) {
-		
-		// prepare query
-		
-		//select m.unique_name, m.seating_capacity, m.total_meetings_conducted, f.rating from meeting_room m inner join ( select meeting_room_id, SUM(rating)/COUNT(rating) as rating from feedback group by meeting_room_id ) f on m.unique_name = f.meeting_room_id
-	
-		PreparedStatement ps = con.prepareStatement ( "select m.unique_name, m.seating_capacity, m.total_meetings_conducted, f.rating from meeting_room m left outer join ( select meeting_room_id, SUM(rating)/COUNT(rating) as rating from feedback group by meeting_room_id ) f on m.unique_name = f.meeting_room_id" );
-		
-		ResultSet set_1 = ps.executeQuery ();		
+    
+    loginServiceInterface login_object = loginUserServiceFactory.createObject ();
+    
+    List<DataDisplayForIndex> data = login_object.getWelcomePageData();    
+    
+    if ( data == null ) {
+    	
+    %>
+    
+    	<h3>No Meetings To Display</h3>
+    	
+    <%
+    	
+    } else {
+    	
 	%>
-
+	
     <div class="container">
 
         <h2> Meetings </h2>
@@ -127,29 +129,15 @@
             </thead>
 
             <tbody>
-            
-<%            
-            while ( set_1.next () ) {
-%>
+      
+      <% for ( DataDisplayForIndex object : data ) { %>
+    	  
             	<tr>
             	
-            		<td> <%=set_1.getString (1)%> </td>
-                	<td> <%=set_1.getString (2)%> </td>
-                	<td> <%=set_1.getString (3)%> </td>
-                	<td> 
-
-						 <% if ( set_1.getString (4) == null ) {
-      				
-      						%>No Ratings<%
-      					
-      					} else {  
-      					
-      					%> <%=set_1.getString (4)%> <%
-      					}
-      				%>
-                	
-                	
-                	</td>
+            		<td> <%=object.getName()%> </td>
+                	<td> <%=object.getSeating_capacity()%> </td>
+                	<td> <%=object.getTotal_meetings_conducted()%> </td>
+                	<td> <%=object.getRatings()%> </td>
                 
             	</tr>
 <%
@@ -157,11 +145,9 @@
 %>      		
       		</tbody> 
 
-<%		} catch ( SQLException e ) {
-		
-			e.printStackTrace ();
-		}	
-%>		
+<%		    }
+%>	
+	
        </table>
 
     </div>
