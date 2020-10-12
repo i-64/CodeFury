@@ -19,7 +19,7 @@
   	<servlet-name>loginServiceInterface</servlet-name>
   	<display-name>loginServiceInterface</display-name>
   	<description></description>
-  	<servlet-class>com.meetingRooms.service.loginServiceInterface</servlet-class>
+  	<servlet-class>com.meetingRooms.service.LoginServiceInterface</servlet-class>
   </servlet>
   <servlet>
   	<servlet-name>Logout</servlet-name>
