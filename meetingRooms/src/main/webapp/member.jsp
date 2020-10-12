@@ -144,7 +144,7 @@ ${member_message}
 							
 							<th>Role</th>
 							
-							<th>Credits</th>
+
 
 							<th>Last Logged In</th>
 						</tr>
@@ -164,7 +164,7 @@ ${member_message}
 							
 							<td><%=user.getRole()%></td>
 							
-							<td><%=user.getCredits()%></td>
+
 
 							<td><%=t%></td>
 
