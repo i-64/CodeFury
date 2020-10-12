@@ -12,7 +12,7 @@
 <%@ page import = "java.util.List" %>
 <%@ page import = "com.meetingRooms.utility.ConnectionManager" %>
 <%@ page import = "com.meetingRooms.entity.DataDisplayForIndex" %>
-<%@ page import = "com.meetingRooms.entity.loginUserEntity, com.meetingRooms.service.loginServiceInterface, com.meetingRooms.utility.loginUserServiceFactory" %>
+<%@ page import = "com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.LoginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory" %>
 
 <!DOCTYPE html>
 
@@ -65,15 +65,21 @@
 
                         <li> <a href="userimport.jsp"> Import Users </a> </li>
 
-                        <% if ( session.getAttribute ( "role" ) == null ) { %>
+                        <%
+                        	if ( session.getAttribute ( "role" ) == null ) {
+                        %>
 
                         <li> <a href="login.jsp"> Login </a> </li>
 
-                        <% } else { %>
+                        <%
+                        	} else {
+                        %>
 
                         <li> <a href="Logout"> Logout </a> </li>
 
-                        <% } %>
+                        <%
+                        	}
+                        %>
 
                     </ul>
 
@@ -92,13 +98,11 @@
     <!-- DISPLAY MEETING LISTS -->
 
     <%
-    
-    loginServiceInterface login_object = loginUserServiceFactory.createObject ();
-    
-    List<DataDisplayForIndex> data = login_object.getWelcomePageData();    
-    
-    if ( data == null ) {
-    	
+    	LoginServiceInterface login_object = loginUserServiceFactory.createObject ();
+        
+        List<DataDisplayForIndex> data = login_object.getWelcomePageData();    
+        
+        if ( data == null ) {
     %>
     
     	<h3>No Meetings To Display</h3>

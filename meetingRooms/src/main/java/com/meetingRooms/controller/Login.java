@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.meetingRooms.entity.loginUserEntity;
-import com.meetingRooms.service.loginServiceInterface;
+import com.meetingRooms.service.LoginServiceInterface;
 import com.meetingRooms.utility.LoginUserFactory;
 import com.meetingRooms.utility.LoginUserServiceFactory;
 
@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
 			
 			// login variable to handle user data
 		
-			loginServiceInterface login_object = LoginUserServiceFactory.createObject ();
+			LoginServiceInterface login_object = LoginUserServiceFactory.createObject ();
 			
 			user = login_object.logInUser ( user );	// verify user
 			

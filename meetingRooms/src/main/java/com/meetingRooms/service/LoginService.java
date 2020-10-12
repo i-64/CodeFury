@@ -15,13 +15,13 @@ import com.meetingRooms.utility.LoginUserDAOFactory;
  * @author Ashutosh Danwe
  *
  */
-public class loginService implements loginServiceInterface {
+public class LoginService implements LoginServiceInterface {
 	
 	private LoginDAOInterface login_object;
-	
+	 
 	// constructor
 	
-	public loginService () {
+	public LoginService () {
 		
 		login_object = LoginUserDAOFactory.createObject ();
 		

@@ -100,14 +100,14 @@ ${member_message}
 
 	<%
 		String userId=(String)session.getAttribute("user_id");
-		User u=new User();
-		u.setUserId(userId);
+			User u=new User();
+			u.setUserId(userId);
 
-		MeetingRoomsServiceInterface s=MeetingServiceFactory.createObject("admin service");
-		User user=s.managerInfoService(u);
-		
-		LogServiceInterface ls=LogServiceFactory.createObject();
-		Time t=ls.displayLastLoginService(u);
+			MeetingRoomsServiceInterface s=MeetingServiceFactory.createObject("admin service");
+			User user=s.managerInfoService(u);
+			
+			LogServiceInterface ls=LogServiceFactory.createObject();
+			Time t=ls.displayLastLoginService(u);
 	%>
 
 
@@ -150,7 +150,7 @@ ${member_message}
 						</tr>
 						<%
 							if(user!=null){
-							// for getting last accessed time of the manager
+											// for getting last accessed time of the manager
 						%>
 						<tr>
 
@@ -194,7 +194,7 @@ ${member_message}
 	<!-- Modal Close -->
 
 
-<%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.LoginUserServiceFactory"%>
+<%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.LoginServiceInterface,com.meetingRooms.utility.LoginUserServiceFactory"%>
 
 <%
 	/**
@@ -206,7 +206,7 @@ ${member_message}
 String str_userId=request.getParameter("user_id"); // get user id from session
 
 
- loginServiceInterface lsi = LoginUserServiceFactory.createObject();  //factory to creste object
+ LoginServiceInterface lsi = LoginUserServiceFactory.createObject();  //factory to creste object
  loginUserEntity user1= new loginUserEntity();
  user1.setUser_id(str_userId); //user details set in object
  

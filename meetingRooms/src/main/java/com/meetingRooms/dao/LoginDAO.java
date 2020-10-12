@@ -175,10 +175,6 @@ public class LoginDAO implements LoginDAOInterface {
 			
 			ConnectionManager.close();			
 
-		} catch ( SQLException e ) {
-
-			LOGR.error(e.toString());
-
 		}
 		
 	} // end of renewCredits function

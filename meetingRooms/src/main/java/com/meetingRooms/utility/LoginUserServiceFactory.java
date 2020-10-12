@@ -1,6 +1,6 @@
 package com.meetingRooms.utility;
 
-import com.meetingRooms.service.loginService;
+import com.meetingRooms.service.LoginService;
 
 /**
  * loginUserService object creation factory
@@ -19,9 +19,9 @@ public class LoginUserServiceFactory {
 	 * 
 	 * @return object of LoginService class
 	 */
-	public static loginService createObject () {
+	public static LoginService createObject () {
 		
-		return new loginService ();
+		return new LoginService ();
 	}
 
 } // end of loginUserServiceFactory class
