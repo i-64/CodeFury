@@ -8,11 +8,11 @@ import com.meetingRooms.entity.loginUserEntity;
  * @author Ashutosh Danwe
  *
  */
-public class loginUserFactory {
+public class LoginUserFactory {
 	
 		// private constructor 
 	
-	private loginUserFactory () {}
+	private LoginUserFactory () {}
 	
 	/**
 	 * @return loginuser entity

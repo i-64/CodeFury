@@ -1,11 +1,12 @@
 package com.meetingRooms.service;
 
+import com.meetingRooms.dao.LoginDAOInterface;
+
 import java.util.List;
 
-import com.meetingRooms.dao.loginDAOInterface;
 import com.meetingRooms.entity.DataDisplayForIndex;
 import com.meetingRooms.entity.loginUserEntity;
-import com.meetingRooms.utility.loginUserDAOFactory;
+import com.meetingRooms.utility.LoginUserDAOFactory;
 
 
 /**
@@ -14,15 +15,15 @@ import com.meetingRooms.utility.loginUserDAOFactory;
  * @author Ashutosh Danwe
  *
  */
-public class loginService implements loginServiceInterface {
+public class LoginService implements LoginServiceInterface {
 	
-	private loginDAOInterface login_object;
-	
+	private LoginDAOInterface login_object;
+	 
 	// constructor
 	
-	public loginService () {
+	public LoginService () {
 		
-		login_object = loginUserDAOFactory.createObject ();
+		login_object = LoginUserDAOFactory.createObject ();
 		
 	} // end of constructor
 	

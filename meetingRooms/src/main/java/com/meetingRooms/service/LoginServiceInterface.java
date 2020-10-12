@@ -12,7 +12,7 @@ import com.meetingRooms.entity.DataDisplayForIndex;
  * @author Ashutosh Danwe
  *
  */
-public interface loginServiceInterface {
+public interface LoginServiceInterface {
 	
 	public loginUserEntity logInUser ( loginUserEntity user );	// to check for valid users
 	

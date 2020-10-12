@@ -9,14 +9,14 @@
     
 <!DOCTYPE html>
 <%
-		// check for existing session
+	// check for existing session
 
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 
 	response.setHeader("Pragma", "no-cache");
 
 	response.setHeader("Expires", "0");
-			
+	
 	if ( session.getAttribute ( "role" ) == null ) {
 		
 		request.getRequestDispatcher("login.jsp").forward ( request, response );	
@@ -24,19 +24,18 @@
 	} else { // session exists
 		
 		if ( session.getAttribute ( "role" ).toString().equals ( "member" ) ) {
-			
-			//Do nothing
-			
+	
+	//Do nothing
+	
 		} else if ( session.getAttribute ( "role" ).toString().equals ( "admin" ) ) {
-			
-			request.getRequestDispatcher("AdminHomePage.jsp").forward ( request, response );
-			
+	
+	request.getRequestDispatcher("AdminHomePage.jsp").forward ( request, response );
+	
 		} else {
-			
-			request.getRequestDispatcher("ManagerHomePage.jsp").forward ( request, response );
+	
+	request.getRequestDispatcher("ManagerHomePage.jsp").forward ( request, response );
 		}
 	}
-
 %>
     
 <html>
@@ -99,17 +98,16 @@
 
 ${member_message}
 
-	<% 	String userId=(String)session.getAttribute("user_id");
-	User u=new User();
-	u.setUserId(userId);
+	<%
+		String userId=(String)session.getAttribute("user_id");
+			User u=new User();
+			u.setUserId(userId);
 
-	MeetingRoomsServiceInterface s=MeetingServiceFactory.createObject("admin service");
-	User user=s.managerInfoService(u);
-	
-	LogServiceInterface ls=LogServiceFactory.createObject();
-	Time t=ls.displayLastLoginService(u);
-	
-	
+			MeetingRoomsServiceInterface s=MeetingServiceFactory.createObject("admin service");
+			User user=s.managerInfoService(u);
+			
+			LogServiceInterface ls=LogServiceFactory.createObject();
+			Time t=ls.displayLastLoginService(u);
 	%>
 
 
@@ -151,11 +149,9 @@ ${member_message}
 							<th>Last Logged In</th>
 						</tr>
 						<%
-		
-		if(user!=null){
-			// for getting last accessed time of the manager
-			
-%>
+							if(user!=null){
+											// for getting last accessed time of the manager
+						%>
 						<tr>
 
 							<td><%=user.getUserId()%></td>
@@ -170,12 +166,14 @@ ${member_message}
 							
 							<td><%=user.getCredits()%></td>
 
-							<td><%= t %></td>
+							<td><%=t%></td>
 
 
 						</tr>
 
-						<%}%>
+						<%
+							}
+						%>
 					</table>
 
 				</div>
@@ -196,10 +194,10 @@ ${member_message}
 	<!-- Modal Close -->
 
 
-<%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.loginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory"%>
+<%@page import="java.util.*,com.meetingRooms.controller.MemberScheduleControllerInterface,com.meetingRooms.controller.MemberScheduleController, com.meetingRooms.entity.Meeting,com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.LoginServiceInterface,com.meetingRooms.utility.LoginUserServiceFactory"%>
 
 <%
-/**
+	/**
  * 
  * JSP to display current member details
  * @author Drishika Dey
@@ -208,7 +206,7 @@ ${member_message}
 String str_userId=request.getParameter("user_id"); // get user id from session
 
 
- loginServiceInterface lsi = loginUserServiceFactory.createObject();  //factory to creste object
+ LoginServiceInterface lsi = LoginUserServiceFactory.createObject();  //factory to creste object
  loginUserEntity user1= new loginUserEntity();
  user1.setUser_id(str_userId); //user details set in object
  
@@ -216,7 +214,6 @@ String str_userId=request.getParameter("user_id"); // get user id from session
  MemberScheduleControllerInterface memberSchedule= new MemberScheduleController();
  List<Meeting> meetingList = memberSchedule.loadMeeting(user1); 
  Meeting obj =new Meeting();
-
 %>
 <div class="container">
 

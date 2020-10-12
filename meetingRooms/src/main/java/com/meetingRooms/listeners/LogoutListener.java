@@ -76,6 +76,9 @@ public class LogoutListener implements HttpSessionListener {
 
 			LOGR.error(e.toString());
 		
+		} catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception: " + e);
 		}
 	}
 
@@ -88,7 +91,7 @@ public class LogoutListener implements HttpSessionListener {
 		HttpSessionListener.super.sessionCreated(se);
 		HttpSession session = se.getSession();
 		
-	    session.setMaxInactiveInterval(60);//in seconds
+	    session.setMaxInactiveInterval(240);//in seconds
 	}
 	
 	

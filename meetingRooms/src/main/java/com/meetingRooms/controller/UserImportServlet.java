@@ -36,12 +36,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.meetingRooms.entity.ImportUser;
+import com.meetingRooms.exceptions.XmlEmailException;
+import com.meetingRooms.exceptions.XmlFieldException;
+import com.meetingRooms.exceptions.XmlFileException;
+import com.meetingRooms.exceptions.XmlPhoneException;
 import com.meetingRooms.service.ImportUserServiceInterface;
 import com.meetingRooms.utility.ImportUserServiceFactory;
-import com.meetingRooms.utility.xmlEmailException;
-import com.meetingRooms.utility.xmlFieldException;
-import com.meetingRooms.utility.xmlFileException;
-import com.meetingRooms.utility.xmlPhoneException;
 
 /**
  * Servlet implementation class addxml
@@ -49,11 +49,11 @@ import com.meetingRooms.utility.xmlPhoneException;
  * @author Kunal Rasam
  * 
  */
-public class userimportserv extends HttpServlet {
+public class UserImportServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-    private static final Logger LOGR = LoggerFactory.getLogger(userimportserv.class);
-    public userimportserv() {
+    private static final Logger LOGR = LoggerFactory.getLogger(UserImportServlet.class);
+    public UserImportServlet() {
         super();
         
     }
@@ -119,7 +119,7 @@ public class userimportserv extends HttpServlet {
     								}
     								catch(Exception e)
     								{
-    									throw new xmlFileException();
+    									throw new XmlFileException();
     								}
     								//Normalization process to reduce redundancies
             			
@@ -198,7 +198,7 @@ public class userimportserv extends HttpServlet {
     										}
     										else
     										{
-    											  throw new xmlPhoneException();
+    											  throw new XmlPhoneException();
     											//making user defined Exception
     											
     										}
@@ -218,7 +218,7 @@ public class userimportserv extends HttpServlet {
     										{
     											
     											//making user defined Exception
-    											throw new xmlEmailException();
+    											throw new XmlEmailException();
     											
     										}
             		                
@@ -266,7 +266,7 @@ public class userimportserv extends HttpServlet {
     										
     										if(isNullOrEmpty(uniqueID) || isNullOrEmpty(fname) || isNullOrEmpty(phone) || isNullOrEmpty(email) || isNullOrEmpty(role) || isNullOrEmpty(userpath) || isNullOrEmpty(hashpassword))
     										{
-    											throw new xmlFieldException();
+    											throw new XmlFieldException();
     										}
     										
     										ImportUser iu=new ImportUser();
@@ -300,7 +300,7 @@ public class userimportserv extends HttpServlet {
     										else
     										{
     											
-    											throw new xmlFileException();
+    											throw new XmlFileException();
     											
     											
     										}
