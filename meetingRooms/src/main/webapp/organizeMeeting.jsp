@@ -3,6 +3,11 @@
 
 
 <%@ page isELIgnored="false" %>
+<%@page import="java.util.List"%>
+<%@page import="com.meetingRooms.service.GetDataForAdminCreateRoomServiceInterface"%>
+<%@page import="com.meetingRooms.service.GetDataForAdminCreateRoomService"%>
+<%@page import="com.meetingRooms.utility.GetDataForAdminCreateRoomFactory"%>
+<%@page import="com.meetingRooms.entity.MeetingTypes" %>
 
 <% 
 	//verifying session details and returning to login page if not manager
@@ -18,6 +23,13 @@
 		request.getRequestDispatcher("login.jsp").forward ( request, response ); 
 	}
    
+%>
+
+<%
+				
+GetDataForAdminCreateRoomServiceInterface service = GetDataForAdminCreateRoomFactory.createObjectForService ();
+
+List<MeetingTypes>  meetingTypesList= service.getMeetingTypes();
 %>
 
 <!DOCTYPE html>
@@ -91,10 +103,13 @@
         <div class='item-container'>
             <div class='title'> Select meeting type</div>
             <select class='userinput width100' id='meetingType' onchange="resetRooms()">
-                <option value='1000'> Classroom Training</option>
-                <option value='1001'>Online Training</option>
-                <option value='1002'>Conference call</option>
-                <option value='1003'>Business</option>
+                <%
+              		for(MeetingTypes m: meetingTypesList ) {
+            	%>
+                <option value="<%=m.getID()%>"> <%=m.getType()%> </option>
+                <%
+					}
+				%>
             </select>
         </div>
 

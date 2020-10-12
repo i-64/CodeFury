@@ -5,9 +5,13 @@ package com.meetingRooms.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.meetingRooms.entity.Feedback;
+import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.utility.ConnectionManager;
 
 /**
@@ -39,5 +43,43 @@ public class FeedbackDao implements FeedbackDaoInterface {
 			ConnectionManager.close();
 		}
 		return false;
+	}
+
+	@Override
+	public List<MeetingRoomEntity> getAllRooms() {
+		// TODO Auto-generated method stub
+		List<MeetingRoomEntity> meetingRoomList = new ArrayList<MeetingRoomEntity>();
+		
+	   	Connection con = null;
+	    
+    	try {
+			con = ConnectionManager.getConnection();
+			PreparedStatement ps=con.prepareStatement("select * from meeting_room"); 
+			ResultSet res = ps.executeQuery();
+       
+			while(res.next()) {
+			
+				MeetingRoomEntity meetingRoom=new MeetingRoomEntity ();
+				
+				meetingRoom.setUniqueName(res.getString(1));
+				
+				meetingRoom.setSeatingCapacity(res.getInt(2));
+				
+				meetingRoom.setPerHourCost(res.getInt(3));
+				
+				meetingRoom.setTotal_meetings_conducted(res.getInt(4));
+			
+				meetingRoomList.add(meetingRoom);
+			}
+	
+		}
+		
+		catch(SQLException | ClassNotFoundException ee) {
+			ee.printStackTrace();
+		}
+		finally {
+			ConnectionManager.close();
+		}
+    	return meetingRoomList;
 	}
 }

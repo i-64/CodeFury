@@ -4,9 +4,11 @@
 package com.meetingRooms.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import com.meetingRooms.dao.FeedbackDaoInterface;
 import com.meetingRooms.entity.Feedback;
+import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.utility.FeedbackDaoFactory;
 
 /**
@@ -33,6 +35,10 @@ public class FeedbackService implements FeedbackServiceInterface {
 	public boolean saveFeedbackService(Feedback feedback) throws SQLException  {
 		
 		return dao.saveFeedbackDao(feedback);
+	}
+	
+	public List<MeetingRoomEntity> getAllRooms() {
+		return dao.getAllRooms();
 	}
 
 }
