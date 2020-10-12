@@ -91,7 +91,7 @@ public class LogoutListener implements HttpSessionListener {
 		HttpSessionListener.super.sessionCreated(se);
 		HttpSession session = se.getSession();
 		
-	    session.setMaxInactiveInterval(60);//in seconds
+	    session.setMaxInactiveInterval(240);//in seconds
 	}
 	
 	
