@@ -57,7 +57,7 @@ last_login_time timestamp,
 
 user_file_path varchar (500) default null,
 
-foreign key (user_id) references USERS (user_id)
+foreign key (user_id) references USERS (user_id) ON DELETE CASCADE
 
  );
 
@@ -115,7 +115,7 @@ seating_capacity int default 0,
 per_hour_cost int default 0,
 total_meetings_conducted int default 0,
 created_by varchar (50),
-foreign key (created_by) references USERS (user_id)
+foreign key (created_by) references USERS (user_id) ON DELETE CASCADE
 );
 
 insert into meeting_room values ( 'Meeting Room 1', 5, 20, 12, '5005');
@@ -140,8 +140,8 @@ CREATE TABLE ROOM_AMENITIES (
 meeting_room_id varchar (30),
 amenity_id int,
 
-foreign key (meeting_room_id) references MEETING_ROOM (unique_name),
-foreign key (amenity_id) references AMENITIES (id)
+foreign key (meeting_room_id) references MEETING_ROOM (unique_name) ON DELETE CASCADE,
+foreign key (amenity_id) references AMENITIES (id) ON DELETE CASCADE
 );
 
 insert into room_amenities values ( 'Meeting Room 1', 1002 );
@@ -206,8 +206,8 @@ meeting_room_id varchar (30),
 user_id varchar (50),
 rating int default 0,
 
-foreign key (user_id) references USERS (user_id),
-foreign key (meeting_room_id) references MEETING_ROOM (unique_name)
+foreign key (user_id) references USERS (user_id) ON DELETE CASCADE,
+foreign key (meeting_room_id) references MEETING_ROOM (unique_name) ON DELETE CASCADE
 );
 
 insert into feedback ( meeting_room_id, user_id, rating ) values ( 'Meeting Room 1', '5000', 5 );
@@ -274,8 +274,8 @@ booking_date date not null,
 start_time time not null,
 end_time time not null,
 
-foreign key (meeting_room_id) references MEETING_ROOM (unique_name),
-foreign key (booked_by) references USERS (user_id)
+foreign key (meeting_room_id) references MEETING_ROOM (unique_name) ON DELETE CASCADE,
+foreign key (booked_by) references USERS (user_id) ON DELETE CASCADE
 );
 
 
@@ -313,9 +313,9 @@ CREATE TABLE MEETING (
 	
 	meeting_type_id int,
 	
-	foreign key (meeting_room_id) references MEETING_ROOM (unique_name),
-	foreign key (meeting_type_id) references MEETING_TYPES (id),
-	foreign key (organized_by) references USERS (user_id)
+	foreign key (meeting_room_id) references MEETING_ROOM (unique_name) ON DELETE CASCADE,
+	foreign key (meeting_type_id) references MEETING_TYPES (id) ON DELETE CASCADE,
+	foreign key (organized_by) references USERS (user_id) ON DELETE CASCADE
 );
 
 INSERT INTO MEETING (title, organized_by, meeting_date, start_time, end_time, meeting_room_id, meeting_type_id) VALUES ( 'first meeting', '5010' , '2020-10-05', '01:15', '03:00','Meeting Room 1' , 1000 );
@@ -338,8 +338,8 @@ CREATE TABLE ATTENDEES  (
 	meeting_id int,
 	user_id varchar (50),
 	
-	foreign key (meeting_id) references MEETING (id),
-	foreign key (user_id) references USERS (user_id)
+	foreign key (meeting_id) references MEETING (id) ON DELETE CASCADE,
+	foreign key (user_id) references USERS (user_id) ON DELETE CASCADE
 );
 
 insert into attendees values(1000,'5000');
@@ -365,7 +365,7 @@ CREATE TABLE CREDIT_RENEWAL (
 	
 	next_Renewal_Date timestamp,
 	
-	foreign key (user_id) references USERS (user_id)
+	foreign key (user_id) references USERS (user_id) ON DELETE CASCADE
 
 );
 
