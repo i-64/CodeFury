@@ -154,7 +154,7 @@ ${Admin_home_page_message}
 							
 							<th>Role</th>
 							
-							<th>Credits</th>
+
 
 							<th>Last Logged In</th>
 						</tr>
@@ -176,7 +176,7 @@ ${Admin_home_page_message}
 							
 							<td><%=user.getRole()%></td>
 							
-							<td><%=user.getCredits()%></td>
+
 
 							<td><%= t %></td>
 
