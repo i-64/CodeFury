@@ -1,3 +1,5 @@
+<%@page import="com.meetingRooms.service.LoginServiceInterface"%>
+<%@page import="com.meetingRooms.utility.LoginUserServiceFactory"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
@@ -12,7 +14,6 @@
 <%@ page import = "java.util.List" %>
 <%@ page import = "com.meetingRooms.utility.ConnectionManager" %>
 <%@ page import = "com.meetingRooms.entity.DataDisplayForIndex" %>
-<%@ page import = "com.meetingRooms.entity.loginUserEntity,com.meetingRooms.service.LoginServiceInterface,com.meetingRooms.utility.loginUserServiceFactory" %>
 
 <!DOCTYPE html>
 
@@ -98,7 +99,7 @@
     <!-- DISPLAY MEETING LISTS -->
 
     <%
-    	LoginServiceInterface login_object = loginUserServiceFactory.createObject ();
+    	LoginServiceInterface login_object = LoginUserServiceFactory.createObject ();
         
         List<DataDisplayForIndex> data = login_object.getWelcomePageData();    
         
