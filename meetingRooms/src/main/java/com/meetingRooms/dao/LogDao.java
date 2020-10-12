@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.User;
 import com.meetingRooms.entity.UserLog;
 import com.meetingRooms.utility.ConnectionManager;
@@ -18,6 +21,9 @@ import com.meetingRooms.utility.ConnectionManager;
  */
 public class LogDao implements LogDaoInterface{
 	
+	private static final Logger LOGR = LoggerFactory.getLogger(LogDao.class);
+
+	
 	private static Connection con;
 	//creating connection con for the whole class
 	static {
@@ -25,9 +31,8 @@ public class LogDao implements LogDaoInterface{
 			try {
 				con = ConnectionManager.getConnection();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				throw new RuntimeException("unable to get db connection!");
 
+				LOGR.error(e.toString());
 			}
 
 	}
@@ -43,6 +48,7 @@ public class LogDao implements LogDaoInterface{
 		
 		UserLog user=new UserLog();
 		PreparedStatement ps;
+		
 		try {
 			 ps = con.prepareStatement ( "select last_login_time from log where user_id=?" );
 			 ps.setString(1, u.getUserId());
@@ -54,7 +60,8 @@ public class LogDao implements LogDaoInterface{
 		}
 			 
 		catch (SQLException e) {
-			e.printStackTrace();
+
+			LOGR.error(e.toString());
 		}
 		return user.getLogInTime();
 	}

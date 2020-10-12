@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.AmenitiesEntity;
 import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.entity.MeetingTypes;
@@ -24,9 +27,11 @@ import com.meetingRooms.utility.ConnectionManager;
  */
 public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDaoInterface {
 	
-		// function to get meeting name status
+	private static final Logger LOGR = LoggerFactory.getLogger(GetDataForAdminCreateRoomDao.class);
 	
 	/**
+	 * function to get meeting name status
+	 * 
 	 * @param title of the meeting
 	 */
 	@Override
@@ -46,14 +51,14 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			if ( rs.next () ) {
 				
-				return 0; // invalid name				
+				return 0;
 			}
 			
 			return 1;
 			
 		} catch (SQLException | ClassNotFoundException e ) {
 			
-			e.printStackTrace ();
+			LOGR.error(e.toString());
 		}		
 		finally {
 			
@@ -79,6 +84,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	
 		PreparedStatement ps;
 		Connection con;
+		
 		try  { 
 			con = ConnectionManager.getConnection() ; // get connection to database
 			
@@ -112,7 +118,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 		} catch (SQLException | ClassNotFoundException e ) {
 			
-			e.printStackTrace ();
+			LOGR.error(e.toString());
 		}
 		finally {
 			
@@ -246,7 +252,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 		} catch (SQLException | ClassNotFoundException e ) {
 			
-			e.printStackTrace ();
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -314,9 +320,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			return info;
 			
-		} catch (SQLException | ClassNotFoundException ee) {
-			
-			ee.printStackTrace();
+		} catch (SQLException | ClassNotFoundException e) {
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -369,8 +375,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	
 		}
 		
-		catch(SQLException | ClassNotFoundException ee) {
-			ee.printStackTrace();
+		catch(SQLException | ClassNotFoundException e) {
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -493,8 +500,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			
 		} catch (SQLException | ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -538,8 +545,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			return type_list;
 			
 		} catch (SQLException | ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
+
+			LOGR.error(e.toString());
 		}	
 		finally {
 			ConnectionManager.close();
@@ -584,8 +591,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			return amenity_list;
 			
 		} catch (SQLException | ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
