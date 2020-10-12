@@ -96,6 +96,8 @@ List<MeetingRoomEntity>  roomList= feedbackservice.getAllRooms();
     </div>
     <!-- NAVBAR -->
 
+	<div class="row"><br><br><br></div>
+
 
     <div class='mycontainer'>
         <h2> Give your rating </h2>
