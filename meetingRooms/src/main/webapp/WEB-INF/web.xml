@@ -31,7 +31,7 @@
   	<servlet-name>UserImportServlet</servlet-name>
   	<display-name>UserImportServlet</display-name>
   	<description></description>
-  	<servlet-class>com.meetingRooms.controller.userimportserv</servlet-class>
+  	<servlet-class>com.meetingRooms.controller.UserImportServlet</servlet-class>
 </servlet>
 <servlet>
 
@@ -92,7 +92,7 @@
   	<url-pattern>/Logout</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>userimportserv</servlet-name>
+  	<servlet-name>UserImportServlet</servlet-name>
   	<url-pattern>/userimportserv</url-pattern>
   </servlet-mapping>
 
