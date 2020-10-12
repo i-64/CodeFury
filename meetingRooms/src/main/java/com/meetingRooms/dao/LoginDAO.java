@@ -27,14 +27,14 @@ import com.meetingRooms.utility.DateTimeManipulation;
  * @author Ravi Kachhadiya
  *
  */
-public class loginDAO implements loginDAOInterface {
+public class LoginDAO implements LoginDAOInterface {
 	
-	private static final Logger LOGR = LoggerFactory.getLogger(loginDAO.class);
+	private static final Logger LOGR = LoggerFactory.getLogger(LoginDAO.class);
 
 	private Connection con; // connection object to establish connection
 	
 	
-	public loginDAO () {
+	public LoginDAO () {
 		
 		try {
 						

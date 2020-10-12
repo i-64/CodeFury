@@ -77,6 +77,9 @@ public class LogoutListener implements HttpSessionListener {
 
 			LOGR.error(e.toString());
 		
+		} catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception: " + e);
 		}
 	}
 

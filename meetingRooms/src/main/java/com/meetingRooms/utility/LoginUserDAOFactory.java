@@ -1,6 +1,6 @@
 package com.meetingRooms.utility;
 
-import com.meetingRooms.dao.loginDAO;
+import com.meetingRooms.dao.LoginDAO;
 
 /**
  * factory to create object Login
@@ -17,9 +17,9 @@ public class LoginUserDAOFactory {
 	/**
 	 * @return logindao object
 	 */
-	public static loginDAO createObject () {
+	public static LoginDAO createObject () {
 		
-		return new loginDAO ();
+		return new LoginDAO ();
 	}
 
 }

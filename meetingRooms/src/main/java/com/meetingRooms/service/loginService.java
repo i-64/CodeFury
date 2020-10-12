@@ -1,6 +1,6 @@
 package com.meetingRooms.service;
 
-import com.meetingRooms.dao.loginDAOInterface;
+import com.meetingRooms.dao.LoginDAOInterface;
 import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.LoginUserDAOFactory;
 
@@ -13,7 +13,7 @@ import com.meetingRooms.utility.LoginUserDAOFactory;
  */
 public class loginService implements loginServiceInterface {
 	
-	private loginDAOInterface login_object;
+	private LoginDAOInterface login_object;
 	
 	// constructor
 	

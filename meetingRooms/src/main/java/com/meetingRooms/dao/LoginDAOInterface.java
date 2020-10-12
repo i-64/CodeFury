@@ -8,7 +8,7 @@ import com.meetingRooms.entity.loginUserEntity;
  * @author Ashutosh Danwe
  *
  */
-public interface loginDAOInterface {
+public interface LoginDAOInterface {
 
 	public loginUserEntity logInUser ( loginUserEntity user );
 	
