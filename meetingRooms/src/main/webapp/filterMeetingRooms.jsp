@@ -1,3 +1,5 @@
+<%@page import="org.slf4j.LoggerFactory"%>
+<%@page import="org.slf4j.Logger"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -13,43 +15,52 @@
 <%
 
 
-String meetingDate = request.getParameter("meetingDate");
-String startTime = request.getParameter("startTime");
-String endTime = request.getParameter("endTime");
-int meetingTypeId = Integer.parseInt(request.getParameter("meetingType"));
-
-
-Meeting meeting = new Meeting();
-meeting.setStartTime(startTime);
-meeting.setEndTime(endTime);
-meeting.setMeetingDate(meetingDate);
-
-MeetingType meetingType = new MeetingType();
-meetingType.setMeetingTypeId(meetingTypeId);
-
-
-// get suitable meeting rooms according to the criteria
-
-OrganizeMeetingServiceInterface meetingService = OrganizeMeetingServiceFactory.createObject();
-ArrayList<MeetingRoom> meetingRoomsList = meetingService.filterRoomsService(meeting, meetingType);
-
-
-
-//convert arraylist to json string
-
-String meetingRoomsListJson = "[";
-for (int i = 0; i < meetingRoomsList.size(); i++) {
-	if (i != 0)
-		meetingRoomsListJson = meetingRoomsListJson + ",";
-	meetingRoomsListJson = meetingRoomsListJson + meetingRoomsList.get(i).toString();
-}
-meetingRoomsListJson = meetingRoomsListJson + "]";
-
-
-// return json
-
-response.setContentType("application/json");
-response.setCharacterEncoding("UTF-8");
-out.print(meetingRoomsListJson);
+	final Logger LOGR = LoggerFactory.getLogger(page.getClass());
+	
+	try {
+		
+		String meetingDate = request.getParameter("meetingDate");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		int meetingTypeId = Integer.parseInt(request.getParameter("meetingType"));
+		
+		
+		Meeting meeting = new Meeting();
+		meeting.setStartTime(startTime);
+		meeting.setEndTime(endTime);
+		meeting.setMeetingDate(meetingDate);
+		
+		MeetingType meetingType = new MeetingType();
+		meetingType.setMeetingTypeId(meetingTypeId);
+		
+		
+		// get suitable meeting rooms according to the criteria
+		
+		OrganizeMeetingServiceInterface meetingService = OrganizeMeetingServiceFactory.createObject();
+		ArrayList<MeetingRoom> meetingRoomsList = meetingService.filterRoomsService(meeting, meetingType);
+		
+		
+		
+		//convert arraylist to json string
+		
+		String meetingRoomsListJson = "[";
+		for (int i = 0; i < meetingRoomsList.size(); i++) {
+			if (i != 0)
+				meetingRoomsListJson = meetingRoomsListJson + ",";
+			meetingRoomsListJson = meetingRoomsListJson + meetingRoomsList.get(i).toString();
+		}
+		meetingRoomsListJson = meetingRoomsListJson + "]";
+		
+		
+		// return json
+		
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		out.print(meetingRoomsListJson);
+	}
+	catch (Exception e) {
+		
+		LOGR.error("Unhandled Exception: " + e.toString());
+	}
 
 %>

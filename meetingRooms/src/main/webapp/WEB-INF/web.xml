@@ -4,6 +4,11 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  
+  <listener>
+		<listener-class>com.meetingRooms.listeners.LogoutListener</listener-class>
+	</listener>
+	
   <servlet>
   	<servlet-name>Login</servlet-name>
   	<display-name>Login</display-name>
@@ -23,6 +28,13 @@
   	<servlet-class>com.meetingRooms.controller.Logout</servlet-class>
   </servlet>
   <servlet>
+  	<servlet-name>userimportserv</servlet-name>
+  	<display-name>userimportserv</display-name>
+  	<description></description>
+  	<servlet-class>com.meetingRooms.controller.userimportserv</servlet-class>
+</servlet>
+<servlet>
+
   	<servlet-name>GetDataForAdminCreateRoomController</servlet-name>
   	<display-name>GetDataForAdminCreateRoomController</display-name>
   	<description></description>
@@ -33,6 +45,7 @@
   	<display-name>GetDataForAdminCreateRoomDao</display-name>
   	<description></description>
   	<servlet-class>com.meetingRooms.dao.GetDataForAdminCreateRoomDao</servlet-class>
+
   </servlet>
   <servlet>
   	<servlet-name>AdminCreateRoom</servlet-name>
@@ -63,6 +76,8 @@
   	<display-name>AdminGetData</display-name>
   	<description></description>
   	<servlet-class>com.meetingRooms.controller.AdminGetData</servlet-class>
+
+
   </servlet>
   <servlet-mapping>
   	<servlet-name>Login</servlet-name>
@@ -77,9 +92,14 @@
   	<url-pattern>/Logout</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+  	<servlet-name>userimportserv</servlet-name>
+  	<url-pattern>/userimportserv</url-pattern>
+  </servlet-mapping>	
+
+<servlet-mapping>
   	<servlet-name>GetDataForAdminCreateRoomController</servlet-name>
   	<url-pattern>/GetDataForAdminCreateRoomController</url-pattern>
-  </servlet-mapping>
+</servlet-mapping>
   <servlet-mapping>
   	<servlet-name>GetDataForAdminCreateRoomDao</servlet-name>
   	<url-pattern>/GetDataForAdminCreateRoomDao</url-pattern>
@@ -103,9 +123,11 @@
   <servlet-mapping>
   	<servlet-name>AdminGetData</servlet-name>
   	<url-pattern>/AdminGetData</url-pattern>
-  </servlet-mapping>
+  	
+  	</servlet-mapping>
+  	
+
   
-  	<listener>
-		<listener-class>com.meetingRooms.listeners.LogoutListener</listener-class>
-	</listener>
+  
+  	
 </web-app>

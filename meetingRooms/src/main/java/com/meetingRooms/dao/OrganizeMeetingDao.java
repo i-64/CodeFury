@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.MeetingRoom;
 import com.meetingRooms.entity.MeetingType;
@@ -25,6 +28,9 @@ import com.meetingRooms.utility.ConnectionManager;
  */
 public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 
+	
+	private static final Logger LOGR = LoggerFactory.getLogger(OrganizeMeetingDao.class);
+	
 	/**
 	 * filter meeting rooms according to the meeting organised by manager
 	 * 
@@ -70,10 +76,12 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				}
 				
 				
-				// finishig off the query
-				String finalQuery = "select * from meeting_room where unique_name in (" + queryString + ")";
+				// finishing off the query
+				String finalQuery = 
+				"select a.unique_name, a.seating_capacity, a.per_hour_cost, b.avg_rating from  (select * from meeting_room where unique_name in (" + queryString + ") ) a "
+				+ "inner join ( select meeting_room_id, avg(rating) as avg_rating from feedback group by meeting_room_id ) b on a.unique_name = b.meeting_room_id ";
 				
-				
+
 				PreparedStatement ps = con.prepareStatement(finalQuery);
 				ps.setString(1, meeting.getStartTime());
 				ps.setString(2, meeting.getStartTime());
@@ -86,36 +94,25 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 				
 				while (availableRooms.next()) {
 					
-//					PreparedStatement ratingStatement = con.prepareStatement("");
-//					ResultSet ratingResultSet = ratingStatement.executeQuery();
-					
-					double averageRating = 0.0;
-					
 					MeetingRoom room = new MeetingRoom();
 					room.setRoomName(availableRooms.getString(1));
-					room.setCostPerHour(availableRooms.getInt(3));
 					room.setSeatingCapacity(availableRooms.getInt(2));
-					room.setAverageRating(averageRating);
+					room.setCostPerHour(availableRooms.getInt(3));
+					room.setAverageRating(availableRooms.getInt(4));
 					meetingRoomsList.add(room);
 				}
 				
-				return meetingRoomsList;
 			}
-			else {
-				// TODO handle this case
-				// TODO throw
-				System.out.println("Invalid Meeting Type");
-			}
+			return meetingRoomsList;
 			
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			
-			// TODO log exception to error.log
-			e.printStackTrace();
+			LOGR.error(e.toString());
 		}
 		catch (Exception e) {
 			
-			// TODO log
+			LOGR.error("Unhandled Exception: " + e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -145,7 +142,7 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 			while (rs.next()) {
 				
-				if (rs.getString(3).contains(user.getName())) {
+				if (rs.getString(3).toLowerCase().contains(user.getName().toLowerCase())) {
 					
 					User currUser = new User();
 					currUser.setUserId(rs.getString(1));
@@ -158,10 +155,14 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			
-			// TODO log exception to error.log
-			e.printStackTrace();
+			LOGR.error(e.toString());
+		}
+		catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception:" + e.toString());
 		}
 		finally {
+			
 			ConnectionManager.close();
 		}
 		
@@ -186,6 +187,8 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			
 			con = ConnectionManager.getConnection();
 			
+			con.setAutoCommit(false); // initiate transaction
+			
 			/**
 			 * 
 			 *  !! Super Important Check !!
@@ -201,8 +204,12 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			checkRoomNotBookedStatement.setString(5, meeting.getStartTime());
 			checkRoomNotBookedStatement.setString(6, meeting.getMeetingDate());
 			ResultSet checkRoomNotBookedResult = checkRoomNotBookedStatement.executeQuery();
-			if (checkRoomNotBookedResult.next())
+			if (checkRoomNotBookedResult.next()) {
+			
+				con.rollback(); // roll back uncommitted changes
+				
 				throw (new MeetingRoomAlreadyBookedException());
+			}
 			
 			// In an event that the room is already booked, exit this function by raising an exception
 			
@@ -231,6 +238,8 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 						
 						// Manager does not have enough credits to book the meeting
 						// raise an exception and reject the booking request
+						
+						con.rollback(); // roll back uncommitted changes
 						
 						throw (new NotEnoughCreditsException());
 					}
@@ -262,7 +271,11 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 						PreparedStatement psAttendees = con.prepareStatement("insert into ATTENDEES values (?, ?)");
 						psAttendees.setInt(1, meetingId);
 						psAttendees.setString(2, user.getUserId());
-						psAttendees.execute();
+						
+						if (!(psAttendees.executeUpdate() > 0 )) {
+							
+							con.rollback(); // roll back uncommitted changes
+						}
 					}
 					
 					
@@ -271,7 +284,19 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 					PreparedStatement updateCreditsStatement = con.prepareStatement("update USERS set credits=? where user_id=?");
 					updateCreditsStatement.setString(2, meeting.getOrganizedBy());
 					updateCreditsStatement.setInt(1, managerCredits - meetingCost);
-					return (updateCreditsStatement.executeUpdate() == 1);
+					
+					if (updateCreditsStatement.executeUpdate()>0) {
+						
+						con.commit(); // commit transactions
+						
+						return true;
+						
+					} else {
+						
+						con.rollback(); // roll back uncommitted changes
+					}
+					
+					// return (updateCreditsStatement.executeUpdate() == 1);
 				}
 			}
 			else {
@@ -281,12 +306,17 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 		}
 		catch (SQLException | ClassNotFoundException e) {
 			
-			// TODO log exception to error.log
-			e.printStackTrace();
-		} catch (MeetingRoomAlreadyBookedException e) {
+			LOGR.error(e.toString());
+		}
+		catch (MeetingRoomAlreadyBookedException e) {
 			
-			// TODO log
-			throw e;
+			LOGR.error(e.toString());
+			
+			throw e; // rethrow to the calling layers
+		}
+		catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception: " + e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -318,7 +348,12 @@ public class OrganizeMeetingDao implements OrganizeMeetingDaoInterface {
 			}
 		}
 		catch (SQLException | ClassNotFoundException e) {
-			// TODO
+			
+			LOGR.error(e.toString());
+		}
+		catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception: " + e.toString());
 		}
 		finally {
 			ConnectionManager.close();

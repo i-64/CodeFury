@@ -5,6 +5,12 @@ import com.meetingRooms.dao.MemberScheduleDaoInterface;
 import com.meetingRooms.service.MemberScheduleService;
 import com.meetingRooms.service.MemberScheduleServiceInterface;
 
+/**
+ * object factory for member schedule dao
+ * 
+ * @author Haritha Jayan
+ *
+ */
 public class MemberScheduleDaoFactory {
 	
 	
@@ -15,6 +21,12 @@ public class MemberScheduleDaoFactory {
 	
 	}
 
+	/**
+	 * create object of MemberScheduleDao
+	 * 
+	 * @param str
+	 * @return object of MemberScheduleDao
+	 */
 	public static MemberScheduleDaoInterface createObject(String str) {
 				
 		MemberScheduleDaoInterface meeting_schedule= null;

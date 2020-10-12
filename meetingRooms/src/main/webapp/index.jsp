@@ -60,7 +60,7 @@
 
                         <li class="active"> <a href="index.jsp"> Home </a> </li>
 
-                        <li> <a href="#"> Import Users </a> </li>
+                        <li> <a href="userimport.jsp"> Import Users </a> </li>
 
                         <% if ( session.getAttribute ( "role" ) == null ) { %>
 
@@ -140,7 +140,7 @@
 
 						 <% if ( set_1.getString (4) == null ) {
       				
-      						%>0<%
+      						%>No Ratings<%
       					
       					} else {  
       					

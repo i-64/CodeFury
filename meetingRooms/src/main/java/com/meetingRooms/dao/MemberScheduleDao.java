@@ -10,13 +10,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.ConnectionManager;
 import com.meetingRooms.utility.MemberScheduleDaoFactory;
 
+
+/**
+ * 
+ * Dao to retrieve scheduled meetings for a member
+ * @author Haritha Jayan
+ * 
+ */
 public class MemberScheduleDao implements MemberScheduleDaoInterface {
 	
+	private static final Logger LOGR = LoggerFactory.getLogger(MemberScheduleDao.class);
+
 	private Connection con;
 	
 	public MemberScheduleDao() {
@@ -27,13 +39,20 @@ public class MemberScheduleDao implements MemberScheduleDaoInterface {
 			con = ConnectionManager.getConnection();
 			
 			} catch ( SQLException | ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
-		}
+
+				LOGR.error(e.toString());
+			}
 	}
 	
 	
 	
+	/**
+	 * get list of meetings the user is invited for
+	 * 
+	 * @param user logged in
+	 * @return list of meetings of the logged in user
+	 * 
+	 */
 	@Override
 	public List<Meeting> loadMeetingServiceDao(loginUserEntity user) {
 		
@@ -71,9 +90,9 @@ public class MemberScheduleDao implements MemberScheduleDaoInterface {
 			
 
 			
-			}catch(SQLException sql) {
-				
-				sql.printStackTrace();				
+			}catch(SQLException e) {
+
+				LOGR.error(e.toString());			
 			}
 			
 			return meeting_schedule;

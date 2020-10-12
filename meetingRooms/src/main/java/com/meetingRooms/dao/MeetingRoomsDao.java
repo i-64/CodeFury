@@ -7,13 +7,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.User;
 import com.meetingRooms.utility.ConnectionManager;
 
 
+/**
+ * Implementation for meeting rooms display
+ * 
+ * @author Akspreet Kaur
+ * @author Mrunal Ahire
+ *
+ */
 public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
+	
+	private static final Logger LOGR = LoggerFactory.getLogger(MeetingRoomsDao.class);
+	
 	private static Connection con;
+	
 	//creating connection con for the whole class
 	static {
 
@@ -21,13 +35,19 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 				con = ConnectionManager.getConnection();
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				throw new RuntimeException("unable to get db connection!");
-
+				
+				LOGR.error(e.toString());
 			}
 
 	}
 	
+	/**
+	 * get the info of manager
+	 * 
+	 * @param the user with his id
+	 * @return the details of user in user object
+	 * 
+	 */
 	@Override
 	public User managerInfoDao(User u) {
 		// TODO Auto-generated method stub
@@ -37,34 +57,40 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 		//getting manager information
 		
 		PreparedStatement ps;
-			try {
-				 ps = con.prepareStatement ( "select * from users where user_id=?" );
-				
-				ps.setString(1, u.getUserId());
-				
-				ResultSet res=ps.executeQuery();
-				while(res.next()) {
-					//i=true;
-					user =new User();
-					user.setName(res.getString("name"));
-					user.setPhone(res.getString("Phone"));
-					user.setRole(res.getString("role"));
-					user.setUserId(res.getString("user_id"));
-					user.setEmail(res.getString("email"));	
-					user.setCredits(res.getInt("credits"));
-				}
-				
-			} 
-			catch (SQLException e) {
+		try {
+			 ps = con.prepareStatement ( "select * from users where user_id=?" );
 			
-				e.printStackTrace();
+			ps.setString(1, u.getUserId());
 			
+			ResultSet res=ps.executeQuery();
+			while(res.next()) {
+				//i=true;
+				user =new User();
+				user.setName(res.getString("name"));
+				user.setPhone(res.getString("Phone"));
+				user.setRole(res.getString("role"));
+				user.setUserId(res.getString("user_id"));
+				user.setEmail(res.getString("email"));	
+				user.setCredits(res.getInt("credits"));
 			}
+			
+		} 
+		catch (SQLException e) {
+
+			LOGR.error(e.toString());
+		}
 					
 		return user;
 	
 		}
 
+	/**
+	 * get the list of meetingas scheduled by the user
+	 * 
+	 * @param object of user
+	 * @return list of meeting objects sceduled by the user
+	 * 
+	 */
 	@Override
 	public List<Meeting> listOfScheduledMeetingsDao(User u) {
 		
@@ -99,7 +125,8 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 			} 
 			catch (SQLException e)
 			{
-				e.printStackTrace();
+
+				LOGR.error(e.toString());
 			}
 			
 			return meetingList;

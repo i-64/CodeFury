@@ -8,31 +8,49 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.service.GetDataForAdminCreateRoomServiceInterface;
 import com.meetingRooms.utility.GetDataForAdminCreateRoomFactory;
 
 /**
  * Servlet implementation class AdminGetData
+ * 
+ * @author Ashutosh Danwe
+ * 
  */
 public class AdminGetData extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
-
+	private static final Logger LOGR = LoggerFactory.getLogger(AdminGetData.class);
+	
 	/**
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) {
 		
-		PrintWriter out = response.getWriter ();
-		
-		GetDataForAdminCreateRoomServiceInterface service = GetDataForAdminCreateRoomFactory.createObjectForService ();
-		
-		if ( service.getNameStatus(request.getParameter("name")) == 0 ) {
+		try {
+			PrintWriter out = response.getWriter ();
 			
-			out.print("0");
+			GetDataForAdminCreateRoomServiceInterface service = GetDataForAdminCreateRoomFactory.createObjectForService ();
 			
-		} else {
+			if ( service.getNameStatus(request.getParameter("name")) == 0 ) {
+				
+				out.print("0");
+				
+			} else {
+				
+				out.print("1");
+			}
+		}
+		catch (IOException e) {
 			
-			out.print("1");
+			LOGR.error(e.toString());
+		}
+		catch (Exception e) {
+			
+			LOGR.error("Unhandled Exception: " + e);
 		}
 		
 	}

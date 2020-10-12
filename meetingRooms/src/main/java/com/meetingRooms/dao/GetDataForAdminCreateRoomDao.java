@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.AmenitiesEntity;
 import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.entity.MeetingTypes;
@@ -16,11 +19,21 @@ import com.meetingRooms.utility.ConnectionManager;
 
 /**
  * Servlet implementation class GetDataForAdminCreateRoomDao
+ * 
+ * @author Sophia Tiwari
+ * @author Ashutosh Danwe
+ * @author Ravi Kachhadiya
+ * 
  */
 public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDaoInterface {
 	
-		// function to get meeting name status
+	private static final Logger LOGR = LoggerFactory.getLogger(GetDataForAdminCreateRoomDao.class);
 	
+	/**
+	 * function to get meeting name status
+	 * 
+	 * @param title of the meeting
+	 */
 	@Override
 	public int getNameStatus ( String meetingName ) {
 		
@@ -38,37 +51,52 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			if ( rs.next () ) {
 				
-				return 0; // invalid name				
+				return 0;
 			}
+			
+			return 1;
 			
 		} catch (SQLException | ClassNotFoundException e ) {
 			
-			e.printStackTrace ();
+			LOGR.error(e.toString());
 		}		
-		finally{
+		finally {
+			
 			ConnectionManager.close();
 		}
 		
-		return 1; // return on success
+		return 0; // return on success
 		
 	} // end of getNameStatus function
 	
 	
-		// function to delete meeting room 
 	
+	
+	/**
+	 * function to delete meeting room 
+	 * 
+	 * @param name of meeting
+	 * @return if room was deleted
+	 * 
+	 */
 	@Override
 	public int deleteRoom ( String meetingName ) {
 	
 		PreparedStatement ps;
 		Connection con;
+		
 		try  { 
 			con = ConnectionManager.getConnection() ; // get connection to database
+			
+			con.setAutoCommit(false); // initiate transaction
 
 			ps = con.prepareStatement ( "delete from ROOM_AMENITIES where meeting_room_id = ?" );
 			
 			ps.setString ( 1, meetingName );
 			
 			if ( !( ps.executeUpdate () > 0) ) {
+				
+				con.rollback(); // roll back uncommitted changes
 				
 				return 0; // unsuccessful insertion				
 			}
@@ -79,16 +107,21 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			if ( !( ps.executeUpdate () > 0) ) {
 				
+				con.rollback(); // roll back uncommitted changes
+				
 				return 0; // unsuccessful insertion				
 			}
+			
+			con.commit(); // commit transactions
 			
 			return 1; // successful deletion
 			
 		} catch (SQLException | ClassNotFoundException e ) {
 			
-			e.printStackTrace ();
+			LOGR.error(e.toString());
 		}
 		finally {
+			
 			ConnectionManager.close();
 		}
 		
@@ -98,13 +131,23 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	} // end of deleteRoom function
 	
 	
+	/**
+	 * editing room functionality
+	 * 
+	 * @param meeting room object
+	 * @return if room was edited successfully
+	 */
 	@Override
 	public int editRoom ( MeetingRoomEntity entity ) {
 		
 		PreparedStatement ps;
 		Connection con = null;
+		
 		try  { // get connection to database
 			con = ConnectionManager.getConnection();
+			
+			con.setAutoCommit(false); // initiate transaction
+
 			int per_hour_cost = 0; // to calculate per hour cost
 			
 				// edit existing meeting room details
@@ -116,6 +159,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 			if ( !( ps.executeUpdate () > 0) ) {
 				
+				con.rollback(); // roll back uncommitted changes
+				
 				return 0; // unsuccessful insertion				
 			}
 			
@@ -126,6 +171,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			ps.setString ( 1, entity.getUniqueName () );
 			
 			if ( !( ps.executeUpdate () > 0) ) {
+				
+				con.rollback(); // roll back uncommitted changes
 				
 				return 0; // successful insertion				
 			}
@@ -142,6 +189,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				ps.setString (2, temp);	
 				
 				if ( !( ps.executeUpdate () > 0 ) ) {
+					
+					con.rollback(); // roll back uncommitted changes
 					
 					return 0; // return 0 if unsuccessful insertion
 				}
@@ -176,6 +225,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				
 			} else {
 				
+				con.rollback(); // roll back uncommitted changes
+				
 				return 0;
 			}
 			
@@ -194,12 +245,14 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		
 			if ( ps.executeUpdate () > 0 ) {
 				
+				con.commit(); // commit transactions
+				
 				return 1; // return on success
 			}
 			
 		} catch (SQLException | ClassNotFoundException e ) {
 			
-			e.printStackTrace ();
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -209,6 +262,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	} // end of editRoom Function
 	
 	
+	/**
+	 * get the info for editing room
+	 * 
+	 * @param name if the meeting
+	 * @return meeting room object 
+	 * 
+	 */
 	@Override
 	public MeetingRoomEntity getEditRoomInfo ( String meetingName ) {
 		
@@ -217,7 +277,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		try  { 
 			con = ConnectionManager.getConnection() ;// get connection to database
 				// create query for fetching room info
-			
+
 			PreparedStatement ps=con.prepareStatement("select * from meeting_room where unique_name=?");
 			
 			ps.setString(1, meetingName);
@@ -234,7 +294,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				
 				info.setTotal_meetings_conducted ( rs.getInt ( 4 ) );
 				
-				info.setCreated_by ( rs.getString ( 5 ) );
+				info.setCreatedBy ( rs.getString ( 5 ) );
 				
 			} else {
 				
@@ -256,13 +316,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				list.add ( rs.getString ( 1 ) );
 			}
 			
-			info.setAmenityList ( list ); 			
+			info.setAmenityList ( list );
 			
 			return info;
 			
-		} catch (SQLException | ClassNotFoundException ee) {
-			
-			ee.printStackTrace();
+		} catch (SQLException | ClassNotFoundException e) {
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -274,6 +334,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	
 	
 	
+    /**
+     * get the list of meeting rooms
+     *
+     * @param the current user
+     * @return list of meeting rooms
+     * 
+     */
     @Override
     public List<MeetingRoomEntity> getMeetingRooms(String username){
     	
@@ -282,6 +349,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
    
     	try {
 			con = ConnectionManager.getConnection();
+			
 			PreparedStatement ps=con.prepareStatement("select * from meeting_room where created_by=?"); 
 			
 			ps.setString(1, username);
@@ -302,21 +370,31 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			
 				meetingRoomList.add(meetingRoom);
 			}
+			
+	    	return meetingRoomList;
 	
 		}
 		
-		catch(SQLException | ClassNotFoundException ee) {
-			ee.printStackTrace();
+		catch(SQLException | ClassNotFoundException e) {
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
 		}
-
-    	return meetingRoomList;
+    	
+    	return null;
     	    	
     }
     
 
+    /**
+     * creates a new room admin feature
+     * 
+     * @param the meeting room object
+     * @return if the room was successfully created
+     * 
+     */
     @Override
 	public int createRoom ( MeetingRoomEntity entity ) {
 		
@@ -324,6 +402,9 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		Connection con = null;
 		try  { 
 			con = ConnectionManager.getConnection(); // get connection to database
+			
+			con.setAutoCommit(false); // initiate transaction
+			
 			int per_hour_cost = 0; // to calculate per hour cost			
 			
 				// prepare query to enter data into meeting_room database
@@ -336,11 +417,13 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			ps.setInt ( 3, per_hour_cost );
 			ps.setInt ( 4, 0 );
 			
-			ps.setString ( 5, entity.getCreated_by () );			
+			ps.setString ( 5, entity.getCreatedBy () );			
 			
 			if ( !( ps.executeUpdate () > 0) ) {
+				
+				con.rollback(); // roll back uncommitted changes
 			
-				return 0; // successful insertion				
+				return 0; // insertion unsuccessful				
 			}
 			
 				// insert into room_amenities all amenities
@@ -355,6 +438,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				ps.setString (2, temp);	
 				
 				if ( !( ps.executeUpdate () > 0 ) ) {
+					
+					con.rollback(); // roll back uncommitted changes
 					
 					return 0; // return 0 if unsuccessful insertion
 				}
@@ -388,6 +473,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 				
 			} else {
 				
+				con.rollback(); // roll back uncommitted changes
+				
 				return 0;
 			}
 			
@@ -406,13 +493,15 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		
 			if ( ps.executeUpdate () > 0 ) {
 				
+				con.commit(); // commit transactions
+				
 				return 1;
 			}
 			
 			
 		} catch (SQLException | ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();
@@ -421,12 +510,19 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		return 0;
 	}
 	
+	/**
+	 * get the list of meeting types
+	 * 
+	 * @return list of meeting types
+	 * 
+	 */
 	@Override
 	public List<MeetingTypes> getMeetingTypes () {
 		
 		Connection con  = null;
 		try  { // get connection to database
 			con   = ConnectionManager.getConnection() ;
+			
 			// prepare query
 			
 			PreparedStatement ps = con.prepareStatement ( "select * from meeting_types" );
@@ -449,8 +545,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			return type_list;
 			
 		} catch (SQLException | ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
+
+			LOGR.error(e.toString());
 		}	
 		finally {
 			ConnectionManager.close();
@@ -461,11 +557,18 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 	} // end of getMeetingTypes
 	
 	
+	/**
+	 * get the list of amenities
+	 * 
+	 * @return the list of amenities
+	 * 
+	 */
 	@Override
 	public List<AmenitiesEntity> getAmenities() {
 		Connection con = null;
 		try  { // get connection to database
 			con = ConnectionManager.getConnection();
+			
 			// prepare query
 			
 			PreparedStatement ps = con.prepareStatement ( "select * from amenities" );
@@ -488,8 +591,8 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 			return amenity_list;
 			
 		} catch (SQLException | ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			ConnectionManager.close();

@@ -76,7 +76,7 @@
 	      	
 	      		<li> <a href="index.jsp"> Home </a> </li>
 	      	
-	      		<li> <a href="#"> Import Users </a> </li>
+	      		
 	      		
 	      		<li class="active"> <a href="login.jsp"> Login </a> </li>	      		
 	      		

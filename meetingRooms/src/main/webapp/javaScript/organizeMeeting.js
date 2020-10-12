@@ -109,13 +109,31 @@ function getCredits() {
 }
 
 function calculateMeetingDuration(startTime, endTime) {
-	var [startTimeHH, startTimeMM] = startTime.split(':');
-	var [endTimeHH, endTimeMM] = endTime.split(':');
-	var time1 = parseInt(startTimeHH) * 60 + parseInt(startTimeMM);
-	var time2 = parseInt(endTimeHH) * 60 + parseInt(endTimeMM);
+	var [startTimeHH, startTimeMM] = startTime.split(':').map(value => parseInt(value));
+	var [endTimeHH, endTimeMM] = endTime.split(':').map(value => parseInt(value));
+	var time1 = startTimeHH * 60 + startTimeMM;
+	var time2 = endTimeHH * 60 + endTimeMM;
 
 	return (time2 - time1) / 60;
 }
+
+function calculateDurationString(startTime, endTime) {
+	var [startTimeHH, startTimeMM] = startTime.split(':').map(value => parseInt(value));
+	var [endTimeHH, endTimeMM] = endTime.split(':').map(value => parseInt(value));
+
+	var durationString = ``;
+
+	if (endTimeHH > startTimeHH) {
+		durationString += `${endTimeHH - startTimeHH} hour` + `${endTimeHH - startTimeHH > 1 ? `s` : ``}`;
+	}
+
+	if (endTimeMM > startTimeMM) {
+		durationString += `${endTimeMM - startTimeMM} minute` + `${endTimeMM - startTimeMM > 1 ? `s` : ``}`
+	}
+
+	return durationString
+}
+
 function filterRooms() {
 
 	var startTime = document.getElementById("startTime").value;
@@ -269,6 +287,9 @@ function openModal(e) {
 		<div> <span class='bold'>-> End time: </span> ${endTime} </div>
 		</div>
 
+		<div class='flex-row'>
+		<div> <span class='bold'>-> Duration: </span> ${calculateDurationString(startTime, endTime)} </div>
+		</div>
 	
 	<div class='item-container'>
 		<div class='title'> Purpose</div>

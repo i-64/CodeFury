@@ -6,6 +6,12 @@ import com.meetingRooms.entity.AmenitiesEntity;
 import com.meetingRooms.entity.MeetingRoomEntity;
 import com.meetingRooms.entity.MeetingTypes;
 
+/**
+ * Interface for admin features service layer
+ * 
+ * @author Ashutosh Danwe
+ *
+ */
 public interface GetDataForAdminCreateRoomServiceInterface {
 	
 	public List<AmenitiesEntity> getAmenities (); // to get amenities from database
