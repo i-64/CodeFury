@@ -28,6 +28,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -41,17 +43,16 @@ import com.meetingRooms.utility.xmlFieldException;
 import com.meetingRooms.utility.xmlFileException;
 import com.meetingRooms.utility.xmlPhoneException;
 
-
-
-
-
-
 /**
  * Servlet implementation class addxml
+ * 
+ * @author Kunal Rasam
+ * 
  */
 public class userimportserv extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
-   
+    private static final Logger LOGR = LoggerFactory.getLogger(userimportserv.class);
     public userimportserv() {
         super();
         
@@ -332,7 +333,7 @@ public class userimportserv extends HttpServlet {
     					"</div>";
 
     			request.setAttribute ( "Admin_home_page_message", errorMessage+ ex);
-    			ex.printStackTrace();
+    			LOGR.error(ex.toString());
             
     		}         		
         

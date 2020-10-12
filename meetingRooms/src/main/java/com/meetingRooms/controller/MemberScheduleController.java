@@ -2,6 +2,9 @@ package com.meetingRooms.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.service.MemberScheduleServiceInterface;
@@ -16,6 +19,7 @@ import com.meetingRooms.utility.MemberScheduleServiceFactory;
 public class MemberScheduleController implements MemberScheduleControllerInterface{
 
 	private MemberScheduleServiceInterface meeting_schedule = null;
+	private static final Logger LOGR = LoggerFactory.getLogger(MemberScheduleController.class);
 	
 	public MemberScheduleController() {
 		
@@ -32,8 +36,6 @@ public class MemberScheduleController implements MemberScheduleControllerInterfa
 	public List<Meeting> loadMeeting(loginUserEntity user) {
 		
 		List<Meeting> meetingList;
-		
-		
 		meetingList = meeting_schedule.loadMeetingService(user);
 		return meetingList;
 	}

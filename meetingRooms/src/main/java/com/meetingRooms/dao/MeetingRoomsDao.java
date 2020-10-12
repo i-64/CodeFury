@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.Meeting;
 import com.meetingRooms.entity.User;
 import com.meetingRooms.utility.ConnectionManager;
@@ -21,6 +24,7 @@ import com.meetingRooms.utility.ConnectionManager;
  */
 public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 	
+	private static final Logger LOGR = LoggerFactory.getLogger(MeetingRoomsDao.class);
 	
 	private static Connection con;
 	
@@ -31,9 +35,8 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 				con = ConnectionManager.getConnection();
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				throw new RuntimeException("unable to get db connection!");
-
+				
+				LOGR.error(e.toString());
 			}
 
 	}
@@ -54,29 +57,28 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 		//getting manager information
 		
 		PreparedStatement ps;
-			try {
-				 ps = con.prepareStatement ( "select * from users where user_id=?" );
-				
-				ps.setString(1, u.getUserId());
-				
-				ResultSet res=ps.executeQuery();
-				while(res.next()) {
-					//i=true;
-					user =new User();
-					user.setName(res.getString("name"));
-					user.setPhone(res.getString("Phone"));
-					user.setRole(res.getString("role"));
-					user.setUserId(res.getString("user_id"));
-					user.setEmail(res.getString("email"));	
-					user.setCredits(res.getInt("credits"));
-				}
-				
-			} 
-			catch (SQLException e) {
+		try {
+			 ps = con.prepareStatement ( "select * from users where user_id=?" );
 			
-				e.printStackTrace();
+			ps.setString(1, u.getUserId());
 			
+			ResultSet res=ps.executeQuery();
+			while(res.next()) {
+				//i=true;
+				user =new User();
+				user.setName(res.getString("name"));
+				user.setPhone(res.getString("Phone"));
+				user.setRole(res.getString("role"));
+				user.setUserId(res.getString("user_id"));
+				user.setEmail(res.getString("email"));	
+				user.setCredits(res.getInt("credits"));
 			}
+			
+		} 
+		catch (SQLException e) {
+
+			LOGR.error(e.toString());
+		}
 					
 		return user;
 	
@@ -123,7 +125,8 @@ public class MeetingRoomsDao implements MeetingRoomsDaoInterface {
 			} 
 			catch (SQLException e)
 			{
-				e.printStackTrace();
+
+				LOGR.error(e.toString());
 			}
 			
 			return meetingList;

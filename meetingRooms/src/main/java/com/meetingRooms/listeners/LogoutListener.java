@@ -13,6 +13,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.meetingRooms.entity.UserLog;
 import com.meetingRooms.utility.ConnectionManager;
 
@@ -24,6 +27,8 @@ import com.meetingRooms.utility.ConnectionManager;
  */
 public class LogoutListener implements HttpSessionListener {
 	
+	private static final Logger LOGR = LoggerFactory.getLogger(LogoutListener.class);
+	
 	private static Connection con;
 	//creating connection con for the whole class
 	static {
@@ -32,9 +37,8 @@ public class LogoutListener implements HttpSessionListener {
 				con = ConnectionManager.getConnection();
 				System.out.println("connection created");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				throw new RuntimeException("unable to get db connection!");
-
+				
+				LOGR.error(e.toString());
 			}
 	}
 	
@@ -46,6 +50,7 @@ public class LogoutListener implements HttpSessionListener {
 	 */
 	@Override
 	public void sessionDestroyed(HttpSessionEvent session) {
+		
 		HttpSession ctx = session.getSession();
 		
 		String userId=(String) ctx.getAttribute("user_id");
@@ -69,8 +74,8 @@ public class LogoutListener implements HttpSessionListener {
 			 ps.executeUpdate();
 			 }
 		catch (SQLException e) {
-			
-			e.printStackTrace();
+
+			LOGR.error(e.toString());
 		
 		}
 	}
