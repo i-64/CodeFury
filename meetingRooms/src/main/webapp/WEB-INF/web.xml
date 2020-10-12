@@ -28,8 +28,8 @@
   	<servlet-class>com.meetingRooms.controller.Logout</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>userimportserv</servlet-name>
-  	<display-name>userimportserv</display-name>
+  	<servlet-name>UserImportServlet</servlet-name>
+  	<display-name>UserImportServlet</display-name>
   	<description></description>
   	<servlet-class>com.meetingRooms.controller.userimportserv</servlet-class>
 </servlet>
@@ -94,7 +94,7 @@
   <servlet-mapping>
   	<servlet-name>userimportserv</servlet-name>
   	<url-pattern>/userimportserv</url-pattern>
-  </servlet-mapping>	
+  </servlet-mapping>
 
 <servlet-mapping>
   	<servlet-name>GetDataForAdminCreateRoomController</servlet-name>
