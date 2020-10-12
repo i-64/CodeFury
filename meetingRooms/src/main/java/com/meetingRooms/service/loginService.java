@@ -1,6 +1,10 @@
 package com.meetingRooms.service;
 
 import com.meetingRooms.dao.LoginDAOInterface;
+
+import java.util.List;
+
+import com.meetingRooms.entity.DataDisplayForIndex;
 import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.LoginUserDAOFactory;
 
@@ -22,6 +26,21 @@ public class loginService implements loginServiceInterface {
 		login_object = LoginUserDAOFactory.createObject ();
 		
 	} // end of constructor
+	
+		
+	/**
+	 * get the data for display on home page
+	 * 
+	 * @param none
+	 * @return entity with display details for index(welcome) page
+	 *
+	 */
+	@Override
+	public List<DataDisplayForIndex> getWelcomePageData () {
+		
+		return login_object.getWelcomePageData();
+	}
+	
 	
 	/**
 	 * get the user
