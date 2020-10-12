@@ -35,7 +35,6 @@ public class LogoutListener implements HttpSessionListener {
 
 			try {
 				con = ConnectionManager.getConnection();
-				System.out.println("connection created");
 			} catch (Exception e) {
 				
 				LOGR.error(e.toString());
