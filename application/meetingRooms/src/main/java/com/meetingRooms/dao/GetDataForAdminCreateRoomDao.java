@@ -88,18 +88,7 @@ public class GetDataForAdminCreateRoomDao implements GetDataForAdminCreateRoomDa
 		try  { 
 			con = ConnectionManager.getConnection() ; // get connection to database
 			
-			con.setAutoCommit(false); // initiate transaction
-
-			ps = con.prepareStatement ( "delete from ROOM_AMENITIES where meeting_room_id = ?" );
-			
-			ps.setString ( 1, meetingName );
-			
-			if ( !( ps.executeUpdate () > 0) ) {
-				
-				con.rollback(); // roll back uncommitted changes
-				
-				return 0; // unsuccessful insertion				
-			}
+			con.setAutoCommit(false); // initiate transaction	
 			
 			ps = con.prepareStatement ( "delete from MEETING_ROOM where unique_name = ?" );
 			
