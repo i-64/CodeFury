@@ -14,7 +14,13 @@ import java.time.Instant;
 import java.util.List;
 import java.util.ArrayList;
 
+
 import com.meetingRooms.entity.DataDisplayForIndex;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 import com.meetingRooms.entity.loginUserEntity;
 import com.meetingRooms.utility.ConnectionManager;
 
@@ -28,6 +34,8 @@ import com.meetingRooms.utility.DateTimeManipulation;
  *
  */
 public class loginDAO implements loginDAOInterface {
+	
+	private static final Logger LOGR = LoggerFactory.getLogger(loginDAO.class);
 
 	private Connection con; // connection object to establish connection
 	
@@ -35,18 +43,14 @@ public class loginDAO implements loginDAOInterface {
 	public loginDAO () {
 		
 		try {
-			
-			// load driver
-			
-			Class.forName ( "org.apache.derby.jdbc.EmbeddedDriver" );
 						
 			// get connection to database
 						
 			con = ConnectionManager.getConnection();
 			
 		} catch ( SQLException | ClassNotFoundException e ) {
-			
-			e.printStackTrace ();
+
+			LOGR.error(e.toString());
 		}
 		 
 	} // end of constructor
@@ -161,6 +165,7 @@ public class loginDAO implements loginDAOInterface {
     		
     		con.commit(); // commit transactions
     		
+
 		} catch ( SQLException sql ) {
 			
 			sql.printStackTrace ();
@@ -169,6 +174,11 @@ public class loginDAO implements loginDAOInterface {
 		finally {
 			
 			ConnectionManager.close();			
+
+		} catch ( SQLException e ) {
+
+			LOGR.error(e.toString());
+
 		}
 		
 	} // end of renewCredits function
@@ -213,13 +223,13 @@ public class loginDAO implements loginDAOInterface {
 				return user;
 			}
 			
-		} catch ( SQLException sql ) {
-			
-			sql.printStackTrace ();
+		} catch ( SQLException e ) {
+
+			LOGR.error(e.toString());
 			
 		} catch ( NoSuchAlgorithmException e ) {
-			
-			e.printStackTrace ();
+
+			LOGR.error(e.toString());
 		}
 		finally {
 			

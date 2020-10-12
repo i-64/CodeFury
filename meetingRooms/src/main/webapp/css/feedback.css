@@ -1,0 +1,19 @@
+
+
+.mycontainer{
+    width: 70%;
+    margin: auto;
+}
+
+.item-container{
+    margin-top: 20px;
+}
+
+.title{
+   color: slategray;
+}
+
+.userinput{
+    margin: 5px 0;
+    min-width: 200px;
+}
