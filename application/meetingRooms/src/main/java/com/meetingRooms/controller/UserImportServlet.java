@@ -257,7 +257,6 @@ public class UserImportServlet extends HttpServlet {
     										String hashpassword=Hashing(getSHA(password));
     										hashpassword= (hashpassword.substring(1, 26));
     										
-    										System.out.println(hashpassword);
     										//importing userpath 
     										String userpath=f+File.separator+uniqueID;
     										
@@ -286,7 +285,6 @@ public class UserImportServlet extends HttpServlet {
     										}
     										int j=0;
     										j=si.ServiceImport(iu);
-    										System.out.println(j);
     										if(j>0)
     										{
     											String errorMessage = "<div class='alert alert-success alert-dismissible fade in'>" +
