@@ -8,11 +8,11 @@ import com.meetingRooms.dao.loginDAO;
  * @author Ashutosh Danwe
  *
  */
-public class loginUserDAOFactory {
+public class LoginUserDAOFactory {
 	
 	// private constructor
 	
-	private loginUserDAOFactory () {}	
+	private LoginUserDAOFactory () {}	
 	
 	/**
 	 * @return logindao object

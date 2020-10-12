@@ -8,11 +8,11 @@ import com.meetingRooms.service.loginService;
  * @author Ashutosh Danwe
  *
  */
-public class loginUserServiceFactory {
+public class LoginUserServiceFactory {
 	
 	// private constructor
 	
-	private loginUserServiceFactory () {}
+	private LoginUserServiceFactory () {}
 	
 	/**
 	 * loginService create object

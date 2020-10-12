@@ -2,7 +2,7 @@ package com.meetingRooms.service;
 
 import com.meetingRooms.dao.loginDAOInterface;
 import com.meetingRooms.entity.loginUserEntity;
-import com.meetingRooms.utility.loginUserDAOFactory;
+import com.meetingRooms.utility.LoginUserDAOFactory;
 
 
 /**
@@ -19,7 +19,7 @@ public class loginService implements loginServiceInterface {
 	
 	public loginService () {
 		
-		login_object = loginUserDAOFactory.createObject ();
+		login_object = LoginUserDAOFactory.createObject ();
 		
 	} // end of constructor
 	

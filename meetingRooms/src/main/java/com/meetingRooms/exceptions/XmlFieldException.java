@@ -1,6 +1,6 @@
-package com.meetingRooms.utility;
+package com.meetingRooms.exceptions;
 
-public class xmlFieldException extends Exception{
+public class XmlFieldException extends Exception{
 	
 	public String toString()
 	{
