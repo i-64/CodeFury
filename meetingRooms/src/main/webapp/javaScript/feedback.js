@@ -19,7 +19,7 @@ function submitRating() {
 
     x.onreadystatechange = function () {
         if (x.readyState == 4) {
-            alert(x.responseText);
+            alert(x.responseText.trim());
         }
     }
 }
